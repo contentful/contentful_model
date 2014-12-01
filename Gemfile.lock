@@ -1,0 +1,24 @@
+PATH
+  remote: .
+  specs:
+    contentful_model (0.0.1)
+      contentful
+      redcarpet
+
+GEM
+  remote: https://rubygems.org/
+  specs:
+    contentful (0.4.0)
+      http (~> 0.6)
+      multi_json (~> 1)
+    http (0.6.3)
+      http_parser.rb (~> 0.6.0)
+    http_parser.rb (0.6.0)
+    multi_json (1.10.1)
+    redcarpet (3.2.1)
+
+PLATFORMS
+  ruby
+
+DEPENDENCIES
+  contentful_model!
