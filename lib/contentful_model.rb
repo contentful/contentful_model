@@ -2,6 +2,7 @@ require 'contentful'
 require "contentful_model/chainable_queries"
 require "contentful_model/base"
 require "contentful_model/query"
+require "active_support"
 
 module ContentfulModel
   class << self
