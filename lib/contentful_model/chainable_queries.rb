@@ -26,6 +26,8 @@ module ContentfulModel
         self
       end
 
+      alias_method :skip, :offset
+
       def search(parameters)
         @query ||= ContentfulModel::Query.new(self)
         if parameters.is_a?(Hash)
