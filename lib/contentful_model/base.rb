@@ -19,14 +19,14 @@ module ContentfulModel
     class << self
       attr_accessor :content_type_id, :coercions
 
-      def inherited(subclass)
-        unless ContentfulModel.configuration.entry_mapping.has_key?(@content_type_id)
-          ContentfulModel.configuration.entry_mapping[@content_type_id] = Object.const_get(subclass.to_s.to_sym)
-        end
-      end
-
       def descendents
         ObjectSpace.each_object(Class).select { |klass| klass < self }
+      end
+
+      def add_entry_mapping
+        unless ContentfulModel.configuration.entry_mapping.has_key?(@content_type_id)
+          ContentfulModel.configuration.entry_mapping[@content_type_id] = Object.const_get(self.to_s.to_sym)
+        end
       end
 
       def client
