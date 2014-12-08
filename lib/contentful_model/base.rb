@@ -30,6 +30,7 @@ module ContentfulModel
       end
 
       def client
+        self.add_entry_mapping
         @@client ||= Contentful::Client.new(ContentfulModel.configuration.to_hash)
       end
 
