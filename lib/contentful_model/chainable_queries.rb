@@ -17,7 +17,7 @@ module ContentfulModel
       def first
         @query ||= ContentfulModel::Query.new(self)
         @query << {'limit' => 1}
-        self
+        @query.execute.first
       end
 
       def offset(n)
