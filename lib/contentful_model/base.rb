@@ -5,13 +5,18 @@ module ContentfulModel
     def initialize(*args)
       super
       self.class.coercions ||= {}
-      fields.each do |k,v|
-        field_name = k.to_s.underscore
-        self.class.send(:attr_accessor, field_name)
-        if self.class.coercions[k].nil?
-          instance_variable_set(:"@#{field_name}", v)
+    end
+
+    #use method_missing to call fields on the model
+    def method_missing(method)
+      result = fields[:"#{method}"]
+      if result.nil?
+        raise NoMethodError, "No method or attribute #{method} for #{self}"
+      else
+        if self.class.coercions[method].nil?
+          return result
         else
-          instance_variable_set(:"@#{field_name}", self.class::COERCIONS[self.class.coercions[k]].call(v))
+          return self.class::COERCIONS[self.class.coercions[method]].call(result)
         end
       end
     end
