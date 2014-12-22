@@ -21,6 +21,15 @@ module ContentfulModel
       end
     end
 
+    def cache_key(*timestamp_names)
+      if timestamp_names.present?
+        raise ArgumentError, "ContentfulModel::Base models don't support named timestamps."
+      end
+
+      "#{self.class.to_s.underscore}/#{self.id}-#{self.updated_at.utc.to_s(:number)}"
+
+    end
+
     class << self
       attr_accessor :content_type_id, :coercions
 
