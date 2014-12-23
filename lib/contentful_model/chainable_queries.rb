@@ -28,6 +28,14 @@ module ContentfulModel
 
       alias_method :skip, :offset
 
+      def find_by(*args)
+        @query ||= ContentfulModel::Query.new(self)
+        args.each do |query|
+          @query << {"fields.#{query.keys.first}" => query.values.first}
+        end
+        self
+      end
+
       def search(parameters)
         @query ||= ContentfulModel::Query.new(self)
         if parameters.is_a?(Hash)
