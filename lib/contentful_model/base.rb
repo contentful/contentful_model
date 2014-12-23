@@ -62,6 +62,10 @@ module ContentfulModel
         @query.execute.first
       end
 
+      def query
+        @query
+      end
+
     end
 
 
