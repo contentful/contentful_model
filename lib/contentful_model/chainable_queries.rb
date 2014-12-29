@@ -31,7 +31,12 @@ module ContentfulModel
       def find_by(*args)
         @query ||= ContentfulModel::Query.new(self)
         args.each do |query|
-          @query << {"fields.#{query.keys.first}" => query.values.first}
+          #query is a hash
+          if query.values.first.is_a?(Array) #we need to do an 'in' query
+            @query << {"fields.#{query.keys.first}[in]" => query.values.first.join(",")}
+          else
+            @query << {"fields.#{query.keys.first}" => query.values.first}
+          end
         end
         self
       end
