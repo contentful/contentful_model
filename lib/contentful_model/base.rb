@@ -56,16 +56,6 @@ module ContentfulModel
         self.coercions = coercions_hash
       end
 
-      def find(id)
-        @query ||= ContentfulModel::Query.new(self)
-        @query << {'sys.id' => id}
-        @query.execute.first
-      end
-
-      def query
-        @query
-      end
-
     end
 
 

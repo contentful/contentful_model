@@ -3,25 +3,30 @@ module ContentfulModel
     def self.included(base)
       base.extend ClassMethods
       base.class_eval do
-        attr_accessor :query
+        cattr_accessor :query
       end
     end
 
     module ClassMethods
-      def all
-        raise ArgumentError, "You need to set self.content_type in your model class" if @content_type_id.nil?
+      def get_query
         @query ||= ContentfulModel::Query.new(self)
+      end
+
+      def all
+        get_query
+        raise ArgumentError, "You need to set self.content_type in your model class" if @content_type_id.nil?
         self
       end
 
       def first
-        @query ||= ContentfulModel::Query.new(self)
+        get_query
         @query << {'limit' => 1}
         @query.execute.first
       end
 
       def offset(n)
-        @query ||= ContentfulModel::Query.new(self)
+        get_query
+        puts @query.inspect
         @query << {'skip' => n}
         self
       end
@@ -29,7 +34,7 @@ module ContentfulModel
       alias_method :skip, :offset
 
       def find_by(*args)
-        @query ||= ContentfulModel::Query.new(self)
+        get_query
         args.each do |query|
           #query is a hash
           if query.values.first.is_a?(Array) #we need to do an 'in' query
@@ -42,7 +47,7 @@ module ContentfulModel
       end
 
       def search(parameters)
-        @query ||= ContentfulModel::Query.new(self)
+        get_query
         if parameters.is_a?(Hash)
           parameters.each do |field, search|
             @query << {"fields.#{field}[match]" => search}
@@ -56,6 +61,13 @@ module ContentfulModel
       def load
         @query.execute
       end
+
+      def find(id)
+        get_query
+        @query << {'sys.id' => id}
+        @query.execute.first
+      end
+
     end
 
   end
