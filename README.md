@@ -83,3 +83,13 @@ There are quite a few outstanding tasks:
 * Some tests :-)
 * Expose the query object to allow an arbitrary query against the Contentful API
 * Hook in the Contentful Management API gem to allow saves: https://github.com/contentful/contentful-management.rb
+
+# Licence
+MIT - please see MIT-LICENCE in this repo.
+
+# Contributing
+Please feel free to contribute. We would love your input.
+
+* Fork the repo
+* Make changes
+* Commit and make a PR :-)
