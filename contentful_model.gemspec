@@ -9,7 +9,7 @@ Gem::Specification.new do |s|
   s.version     = ContentfulModel::VERSION
   s.authors     = ["Error Creative Studio"]
   s.email       = ["hosting@errorstudio.co.uk"]
-  s.homepage    = "http://www.errorstudio.co.uk"
+  s.homepage    = "https://github.com/errorstudio/contentful_model"
   s.summary     = "A thin wrapper for Contentful gem"
   s.description = "A wrapper around the Contentful gem to give you a base class to inherit your models from"
   s.license     = "MIT"
