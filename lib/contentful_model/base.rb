@@ -30,6 +30,12 @@ module ContentfulModel
 
     end
 
+    def save
+      raise NotImplementedError, "Saving models isn't implemented; we need to use the Contentful Management API for that. Pull requests welcome!"
+    end
+
+    alias_method :create, :save
+
     class << self
       attr_accessor :content_type_id, :coercions
 
