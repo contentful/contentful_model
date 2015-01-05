@@ -1,5 +1,6 @@
 require 'contentful'
 require "contentful_model/query"
+require "contentful_model/queries"
 require "contentful_model/chainable_queries"
 require "contentful_model/base"
 require "active_support"
