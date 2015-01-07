@@ -22,6 +22,20 @@ module ContentfulModel
         self
       end
 
+      def order(args)
+        prefix = ''
+        if args.is_a?(Hash)
+          column = args.first.first.to_s
+          prefix = '-' if args.first.last == :desc
+        elsif args.is_a?(Symbol)
+          column = args.to_s
+          prefix = ''
+        end
+        @query << {'order' => "#{prefix}fields.#{column.camelize(:lower)}"}
+        puts @query.inspect
+        self
+      end
+
       alias_method :skip, :offset
 
       def find_by(*args)
