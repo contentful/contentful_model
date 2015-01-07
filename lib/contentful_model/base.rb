@@ -9,7 +9,7 @@ module ContentfulModel
 
     #use method_missing to call fields on the model
     def method_missing(method)
-      result = fields[:"#{method}"]
+      result = fields[:"#{method.to_s.camelize(:lower)}"]
       if result.nil?
         raise NoMethodError, "No method or attribute #{method} for #{self}"
       else
