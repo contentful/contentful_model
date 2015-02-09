@@ -3,7 +3,7 @@ require "contentful_model/query"
 require "contentful_model/queries"
 require "contentful_model/chainable_queries"
 require "contentful_model/base"
-require "active_support"
+require "active_support/all"
 
 module ContentfulModel
   class << self
