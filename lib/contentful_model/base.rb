@@ -8,16 +8,24 @@ module ContentfulModel
     end
 
     #use method_missing to call fields on the model
-    def method_missing(method)
+    def method_missing(method, *args, &block)
       result = fields[:"#{method.to_s.camelize(:lower)}"]
       if result.nil?
-        raise NoMethodError, "No method or attribute #{method} for #{self}"
+        super
       else
         if self.class.coercions[method].nil?
           return result
         else
           return self.class::COERCIONS[self.class.coercions[method]].call(result)
         end
+      end
+    end
+
+    def respond_to_missing?(method, private=false)
+      if fields[:"#{method.to_s.camelize(:lower)}"].nil?
+         super
+      else
+        true
       end
     end
 
