@@ -7,10 +7,10 @@ module ContentfulModel
     module ClassMethods
 
       def inherited(subclass)
-        instanciate_query(subclass)
+        instantiate_query(subclass)
       end
 
-      def instanciate_query(klass)
+      def instantiate_query(klass)
         klass.instance_variable_set(:"@query",ContentfulModel::Query.new(klass))
       end
 
