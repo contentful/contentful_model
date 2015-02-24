@@ -15,6 +15,8 @@ module ContentfulModel
       # class Foo
       #   has_many :bars
       # end
+      # TODO this breaks down in situations where the has_many end doesn't respond to
+      # bars because the association is really the other way around
       # @param classname [Symbol] the name of the child model, as a plural symbol
       def has_many(classname)
         #define an instance method called the same as the arg passed in
