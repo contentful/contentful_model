@@ -1,6 +1,7 @@
 module ContentfulModel
   class Base < Contentful::Entry
     include ContentfulModel::ChainableQueries
+    include ContentfulModel::Associations
 
     def initialize(*args)
       super
