@@ -14,10 +14,20 @@ module ContentfulModel
       if result.nil?
         super
       else
+        # if there's no coercion specified, return the result
         if self.class.coercions[method].nil?
           return result
-        else
+
+        #if there's a coercion specified for the field and it's a proc, pass the result
+        #to the proc
+        elsif self.class.coercions[method].is_a?(Proc)
+          return self.class.coercions[method].call(result)
+        #provided the coercion is in the COERCIONS constant, call the proc on that
+        elsif !self.class::COERCIONS[self.class.coercions[method]].nil?
           return self.class::COERCIONS[self.class.coercions[method]].call(result)
+        else
+          #... or just return the result
+          return result
         end
       end
     end
@@ -67,8 +77,12 @@ module ContentfulModel
         client.content_type(@content_type_id)
       end
 
-      def coerce_field(coercions_hash)
-        self.coercions = coercions_hash
+      def coerce_field(*coercions)
+        @coercions ||= {}
+        coercions.each do |coercions_hash|
+          @coercions.merge!(coercions_hash)
+        end
+        @coercions
       end
 
     end
