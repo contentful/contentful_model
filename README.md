@@ -69,13 +69,40 @@ Foo.find("someidfromcontentful")
 ```
 
 ### `find_by([hash])`
-Accepts a hash of options to include in the search, as similar as possible to ActiveRecord version.
+Accepts a hash of options to include in the search, as similar as possible to ActiveRecord version. __Note__ that this doesn't work (and will throw an error) on fields which need the full-text search. This needs fixing.
 
 ```
 Foo.find_by(someField: [searchquery1, searchquery2], someOtherField: "bar")
 ```
 
 You'll see from the example above that it accepts an array of search terms which will invoke an 'in' query.
+
+## Associations
+You can specify associations between models which allows the child end of the relationship to know about its parents. There is no `belongs_to()` method because Contentful can't enforce that a child only has one parent.
+
+Instead, use `belongs_to_many`.
+
+```
+class Foo
+    has_many :special_bars, class_name: "Bar"
+end
+
+class Bar
+    belongs_to_many :foos, inverse_of: :special_bars
+end
+```
+
+This will allow you to make calls like this:
+
+```
+f = Foo.first
+f.special_bars #returns a collection of Bar objects
+b = f.special_bars.first #returns the first from the collection
+
+b.foos #returns a collection of Foo objects for which this Bar is a child.
+```
+
+
 
 # To Do
 There are quite a few outstanding tasks:
