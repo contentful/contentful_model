@@ -70,7 +70,7 @@ module ContentfulModel
 
       def client
         self.add_entry_mapping
-        @@client ||= Contentful::Client.new(ContentfulModel.configuration.to_hash)
+        @client ||= Contentful::Client.new(ContentfulModel.configuration.to_hash)
       end
 
       def content_type
