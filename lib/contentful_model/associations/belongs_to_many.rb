@@ -25,6 +25,24 @@ module ContentfulModel
             inverse_of: self.to_s.underscore.to_sym
           }
           options = default_options.merge(opts)
+          # Set up the association name for the instance which loaded this object
+          # This is useful in situations where, primarily, it's a 1:* relationship (i.e. belongs_to)
+          # even though this isn't actually supported by Contentful
+          #
+          # f = Foo.first
+          # b = f.bars.first
+          # b.foo #would return the instance of Foo which loaded it
+
+          define_method association_names.to_s.singularize do
+            instance_variable_get(:"@#{association_names.to_s.singularize}")
+          end
+
+          define_method "#{association_names.to_s.singularize}=" do |parent|
+            instance_variable_set(:"@#{association_names.to_s.singularize}",parent)
+            return self
+          end
+
+          # Set up the association name (plural)
           if self.respond_to?(association_names)
             self.send(association_names)
           else

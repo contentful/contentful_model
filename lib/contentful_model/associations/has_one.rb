@@ -17,14 +17,17 @@ module ContentfulModel
         # @param options [Hash] a hash, the only key of which is important is class_name.
         def has_one(association_name, options = {})
           default_options = {
-            class_name: association_name.to_s.classify
+            class_name: association_name.to_s.classify,
+            inverse_of: self.to_s.underscore.to_sym
           }
           options = default_options.merge(options)
           # Define a method which matches the association name
           define_method association_name do
             begin
-              # Start by calling the association name as a method on the superclass. This will probably end up at ContentfulModel::Base#method_missing
-              super()
+              # Start by calling the association name as a method on the superclass.
+              # this will end up in ContentfulModel::Base#method_missing and return the value from Contentful.
+              # We set the singular of the association name on this object to allow easy recursing.
+              super().send(:"#{options[:inverse_of]}=",self)
             rescue ContentfulModel::AttributeNotFoundError
               # If method_missing returns an error, the field doesn't exist. If a class is specified, try that.
               if options[:class_name].underscore.to_sym != association_name

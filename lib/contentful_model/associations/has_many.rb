@@ -18,14 +18,19 @@ module ContentfulModel
         # @param association_names [Symbol] the name of the child model, as a plural symbol
         def has_many(association_names, options = {})
           default_options = {
-            class_name: association_names.to_s.singularize.classify
+            class_name: association_names.to_s.singularize.classify,
+            inverse_of: self.to_s.underscore.to_s
           }
           options = default_options.merge(options)
           define_method association_names do
             begin
-              # try calling the association name directly on the superclass - will be picked up by
-              # ContentfulModel::Base#method_missing and return a value if there is one for the attribute
-              super()
+              # Start by calling the association name as a method on the superclass.
+              # this will end up in ContentfulModel::Base#method_missing and return the value from Contentful.
+              # We set the singular of the association name on each object in the collection to allow easy
+              # reverse recursion without another API call (i.e. finding the Foo which called .bars())
+              super().collect do |child|
+                child.send(:"#{options[:inverse_of]}=",self)
+              end
             rescue ContentfulModel::AttributeNotFoundError
               # If AttributeNotFoundError is raised, that means that the association name isn't available on the object.
               # We try to call the class name (pluralize) instead, or give up and return an empty collection
