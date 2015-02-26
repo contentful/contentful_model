@@ -42,9 +42,9 @@ module ContentfulModel
         args.each do |query|
           #query is a hash
           if query.values.first.is_a?(Array) #we need to do an 'in' query
-            @query << {"fields.#{query.keys.first}[in]" => query.values.first.join(",")}
+            @query << {"fields.#{query.keys.first.to_s.camelize(:lower)}[in]" => query.values.first.join(",")}
           elsif query.values.first.is_a?(String)
-            @query << {"fields.#{query.keys.first}" => query.values.first}
+            @query << {"fields.#{query.keys.first.to_s.camelize(:lower)}" => query.values.first}
           end
         end
         self
@@ -53,7 +53,7 @@ module ContentfulModel
       def search(parameters)
         if parameters.is_a?(Hash)
           parameters.each do |field, search|
-            @query << {"fields.#{field}[match]" => search}
+            @query << {"fields.#{field.to_s.camelize(:lower)}[match]" => search}
           end
         elsif parameters.is_a?(String)
           @query << {"query" => parameters}
