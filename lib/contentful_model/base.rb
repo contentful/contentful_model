@@ -12,7 +12,7 @@ module ContentfulModel
     def method_missing(method, *args, &block)
       result = fields[:"#{method.to_s.camelize(:lower)}"]
       if result.nil?
-        super
+        raise ContentfulModel::AttributeNotFoundError, "no attribute #{method} found"
       else
         # if there's no coercion specified, return the result
         if self.class.coercions[method].nil?
