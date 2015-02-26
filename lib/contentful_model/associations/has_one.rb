@@ -6,15 +6,34 @@ module ContentfulModel
       end
 
       module ClassMethods
-        # has_one is called on the parent model, and sets a single instance var on the child
-        # which is named the singular of the class this module is mixed into
-        # it's conceptually identical to `has_many()`
-        def has_one(classname, *opts)
-          define_method "#{classname}" do
-            if super().respond_to?(:"#{self.class.to_s.singularize.underscore}=")
-              super().send(:"#{self.class.to_s.singularize.underscore}=",self)
+        #has_one defines a method on the parent which wraps around the superclass's implementation. In most cases this
+        #will end up at ContentfulModel::Base#method_missing and look at the fields on a content object.
+        #We wrap around it like this so we can specify a class_name option to call a different method from the association
+        #name.
+        # class Foo
+        #   has_one :special_bar, class_name: "Bar"
+        # end
+        # @param association_name [Symbol] the name of the association. In this case Foo.special_bar.
+        # @param options [Hash] a hash, the only key of which is important is class_name.
+        def has_one(association_name, options = {})
+          default_options = {
+            class_name: association_name.to_s.classify
+          }
+          options = default_options.merge(options)
+          # Define a method which matches the association name
+          define_method association_name do
+            begin
+              # Start by calling the association name as a method on the superclass. This will probably end up at ContentfulModel::Base#method_missing
+              super()
+            rescue ContentfulModel::AttributeNotFoundError
+              # If method_missing returns an error, the field doesn't exist. If a class is specified, try that.
+              if options[:class_name].underscore.to_sym != association_name
+                self.send(options[:class_name].underscore.to_sym)
+              else
+                #otherwise give up and return nil
+                nil
+              end
             end
-            super()
           end
         end
       end

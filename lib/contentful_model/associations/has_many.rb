@@ -6,24 +6,35 @@ module ContentfulModel
       end
 
       module ClassMethods
-        # has_many is called on the parent model, and sets an instance var on the child
-        # which is named the plural of the class this module is mixed into.
+        # has_many is called on the parent model
         #
         # e.g
         # class Foo
-        #   has_many :bars
+        #   has_many :bars, class_name: "Something"
         # end
-        # TODO this breaks down in situations where the has_many end doesn't respond to bars because the association is really the other way around
-        # @param classname [Symbol] the name of the child model, as a plural symbol
-        def has_many(classname, *opts)
-          #define an instance method called the same as the arg passed in
-          #e.g. bars()
-          define_method "#{classname}" do
-            # call bars() on super, and for each, call bar=(self)
-            super().collect do |instance|
-              instance.send(:"#{self.class.to_s.singularize.underscore}=",self)
-              #return the instance to the collect() method
-              instance
+        # The only reason for this method is that we might want to specify a relationship which is different
+        # from the name of the model we're calling. If you specify a class_name, the method called on the parent will
+        # be that. e.g. .somethings in this example
+        # @param association_names [Symbol] the name of the child model, as a plural symbol
+        def has_many(association_names, options = {})
+          default_options = {
+            class_name: association_names.to_s.singularize.classify
+          }
+          options = default_options.merge(options)
+          define_method association_names do
+            begin
+              # try calling the association name directly on the superclass - will be picked up by
+              # ContentfulModel::Base#method_missing and return a value if there is one for the attribute
+              super()
+            rescue ContentfulModel::AttributeNotFoundError
+              # If AttributeNotFoundError is raised, that means that the association name isn't available on the object.
+              # We try to call the class name (pluralize) instead, or give up and return an empty collection
+              if options[:class_name].pluralize.underscore.to_sym != association_names
+                self.send(options[:class_name].pluralize.underscore.to_sym)
+              else
+                #return an empty collection if the class name was the same as the association name and there's no attribute on the object.
+                []
+              end
             end
           end
         end

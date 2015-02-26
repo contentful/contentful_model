@@ -5,31 +5,59 @@ module ContentfulModel
         base.extend ClassMethods
       end
       module ClassMethods
-        #belongs_to_many is really the same as has_many but from the other end of the relationship.
-        #Contentful doesn't store 2-way relationships so we need to call the API for the parent classname, and
-        #iterate through it, finding this class. All the entries will be put in an array.
-        # @param classnames [Symbol] plural name of the class we need to search through, to find this class
-        def belongs_to_many(classnames, *opts)
-          if self.respond_to?(:"@#{classnames}")
-            self.send(classnames)
+        # belongs_to_many implements a has_many association from the opposite end, and allows a call to the association name
+        # to return all instances for which this object is a child.
+        #
+        # It's moderately expensive because we have to iterate over every parent, checking whether this instance
+        # is in the children. It requires one API call.
+
+        # class Bar
+        #   belongs_to_many :foos, class_name: Foo, inverse_of: :special_bars
+        # end
+
+        # In this example, children on the parent are accessed through an association called special_bars.
+
+        # @param association_names [Symbol] plural name of the class we need to search through, to find this class
+        # @param options [true, Hash] options
+        def belongs_to_many(association_names, opts = {})
+          default_options = {
+            class_name: association_names.to_s.singularize.classify,
+            inverse_of: self.to_s.underscore.to_sym
+          }
+          options = default_options.merge(opts)
+          if self.respond_to?(association_names)
+            self.send(association_names)
           else
-            define_method "#{classnames}" do
-              parents = self.instance_variable_get(:"@#{classnames}")
+            define_method "#{association_names}" do
+              parents = instance_variable_get(:"@#{association_names}")
               if parents.nil?
                 #get the parent class objects as an array
-                parent_objects = classnames.to_s.singularize.classify.constantize.send(:all).send(:load)
+                parent_objects = options[:class_name].constantize.send(:all).send(:load)
                 #iterate through parent objects and see if any of the children include the same ID as the method
                 parents = parent_objects.select do |parent_object|
-                  #check to see if the parent object responds to the plural or singular
-                  if parent_object.respond_to?(:"#{self.class.to_s.pluralize.underscore}")
-                    #if it responds to the plural, check if the ids in the collection include the id of this child
-                    parent_object.send(:"#{self.class.to_s.pluralize.underscore}").collect(&:id).include?(self.id)
+                  #check to see if the parent object responds to the plural or singular.
+                  if parent_object.respond_to?(:"#{options[:inverse_of].to_s.pluralize}")
+                    collection_of_children_on_parent = parent_object.send(:"#{options[:inverse_of].to_s.pluralize}")
+                    #get the collection of children from the parent. This *might* be nil if the parent doesn't have
+                    # any children, in which case, just skip over this parent item and move on to the next.
+                    if collection_of_children_on_parent.nil?
+                      next
+                    else
+                      collection_of_children_on_parent.collect(&:id).include?(id)
+                    end
                   else
                     #if it doesn't respond to the plural, assume singular
-                    parent_object.send(:"#{self.class.to_s.underscore}").id == self.id
+                    child_on_parent = parent_object.send(:"#{options[:inverse_of]}")
+                    # Do the same skipping routine on nil.
+                    if child_on_parent.nil?
+                      next
+                    else
+                      child_on_parent.send(:id) == id
+                    end
+
                   end
                 end
-                self.instance_variable_set(:"@#{classnames}",parents)
+                instance_variable_set(:"@#{association_names}",parents)
               end
               parents
             end
