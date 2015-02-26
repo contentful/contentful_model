@@ -84,7 +84,7 @@ Instead, use `belongs_to_many`.
 
 ```
 class Foo
-    has_many :special_bars, class_name: "Bar"
+    has_many :special_bars, class_name: "Bar" #you can specify an inverse here, too
 end
 
 class Bar
