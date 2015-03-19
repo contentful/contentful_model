@@ -29,7 +29,7 @@ Create a class which inherits from `ContentfulModel::Base`.
 
 ```
 class Foo < ContentfulModel::Base
-   self.content_type = "content type id for this model"
+   self.content_type_id = "content type id for this model"
 end
 ```
 
