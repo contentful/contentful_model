@@ -8,7 +8,7 @@ module ContentfulModel
       base.include HasOne
       base.include BelongsTo
       base.include BelongsToMany
-      base.include Nested
+      base.include HasManyNested
     end
   end
 end
