@@ -41,8 +41,12 @@ module ContentfulModel
           # @return [Enumerable] which you can iterate over
           define_method :find_ancestors do |&block|
             return enum_for(:find_ancestors) unless block
+            if parent.nil?
+              #this *is* the parent
+              return self
+            end
             block.call(parent)
-            unless parent.root?
+            unless parent && parent.root?
               parent.find_ancestors {|a| block.call(a)}
             end
           end
