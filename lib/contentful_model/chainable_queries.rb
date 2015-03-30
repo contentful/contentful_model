@@ -45,6 +45,14 @@ module ContentfulModel
             @query << {"fields.#{query.keys.first.to_s.camelize(:lower)}[in]" => query.values.first.join(",")}
           elsif query.values.first.is_a?(String)
             @query << {"fields.#{query.keys.first.to_s.camelize(:lower)}" => query.values.first}
+          elsif query.values.first.is_a?(Hash)
+            # if the search is a hash, use the key to specify the search field operator
+            # For example
+            # Model.search(start_date: {gte: DateTime.now}) => "fields.start_date[gte]" => DateTime.now
+            query_conditions = *query.values.first
+            query_conditions.each do |condition|
+              @query << {"fields.#{query.keys.first.to_s.camelize(:lower)}[#{condition[0]}]" => condition[1]}
+            end
           end
         end
         self
