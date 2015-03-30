@@ -49,9 +49,9 @@ module ContentfulModel
             # if the search is a hash, use the key to specify the search field operator
             # For example
             # Model.search(start_date: {gte: DateTime.now}) => "fields.start_date[gte]" => DateTime.now
-            query_conditions = *query.values.first
-            query_conditions.each do |condition|
-              @query << {"fields.#{query.keys.first.to_s.camelize(:lower)}[#{condition[0]}]" => condition[1]}
+            query.each do |field, condition|
+              search_predicate, search_value = *condition.flatten
+              @query << {"fields.#{field.to_s.camelize(:lower)}[#{search_predicate}]" => search_value}
             end
           end
         end
