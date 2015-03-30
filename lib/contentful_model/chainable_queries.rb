@@ -53,7 +53,15 @@ module ContentfulModel
       def search(parameters)
         if parameters.is_a?(Hash)
           parameters.each do |field, search|
-            @query << {"fields.#{field.to_s.camelize(:lower)}[match]" => search}
+            # if the search is a hash, use the key to specify the search field operator
+            # For example
+            # Model.search(start_date: {gte: DateTime.now}) => "fields.start_date[gte]" => DateTime.now
+            if search.is_a?(Hash)
+              search_key, search_value = *search.flatten
+              @query << {"fields.#{field.to_s.camelize(:lower)}[#{search_key}]" => search_value}
+            else
+              @query << {"fields.#{field.to_s.camelize(:lower)}[match]" => search}
+            end
           end
         elsif parameters.is_a?(String)
           @query << {"query" => parameters}
