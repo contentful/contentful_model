@@ -69,8 +69,14 @@ module ContentfulModel
       end
 
       def client
+        # add an entry mapping for this content type
         self.add_entry_mapping
-        @client ||= ContentfulModel::Client.new(ContentfulModel.configuration.to_hash)
+        if ContentfulModel.use_preview_api
+          @preview_client ||= ContentfulModel::Client.new(ContentfulModel.configuration.to_hash)
+        else
+          @client ||= ContentfulModel::Client.new(ContentfulModel.configuration.to_hash)
+        end
+
       end
 
       def content_type
