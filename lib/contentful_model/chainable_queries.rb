@@ -48,7 +48,7 @@ module ContentfulModel
           #query is a hash
           if query.values.first.is_a?(Array) #we need to do an 'in' query
             @query << {"fields.#{query.keys.first.to_s.camelize(:lower)}[in]" => query.values.first.join(",")}
-          elsif query.values.first.is_a?(String)
+          elsif query.values.first.is_a?(String) || [TrueClass,FalseClass].member?(query.values.first.class)
             @query << {"fields.#{query.keys.first.to_s.camelize(:lower)}" => query.values.first}
           elsif query.values.first.is_a?(Hash)
             # if the search is a hash, use the key to specify the search field operator
