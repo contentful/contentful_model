@@ -3,7 +3,6 @@ module ContentfulModel
     attr_accessor :parameters
     def initialize(referenced_class, parameters=nil)
       @parameters = parameters || {}
-      @client = referenced_class.send(:client)
       @referenced_class = referenced_class
     end
 
@@ -17,7 +16,7 @@ module ContentfulModel
 
     def execute
       query = @parameters.merge!(default_parameters)
-      return @client.entries(query)
+      return @referenced_class.send(:client).send(:entries,query)
     end
 
     def reset
