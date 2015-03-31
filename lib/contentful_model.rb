@@ -6,6 +6,9 @@ require "active_support/all"
 
 module ContentfulModel
   class << self
+    #accessor to set the preview API for use instead of the production one
+    attr_accessor :use_preview_api
+
     #access the configuration class as ContentfulModel.configuration
     attr_accessor :configuration
 
@@ -17,7 +20,10 @@ module ContentfulModel
   end
 
   class Configuration
-    attr_accessor :access_token, :space, :entry_mapping
+    attr_accessor :access_token,
+                  :preview_access_token,
+                  :space,
+                  :entry_mapping
 
     def initialize
       @entry_mapping ||= {}
