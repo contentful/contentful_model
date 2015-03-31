@@ -37,7 +37,6 @@ module ContentfulModel
           prefix = ''
         end
         @query << {'order' => "#{prefix}fields.#{column.camelize(:lower)}"}
-        puts @query.inspect
         self
       end
 
