@@ -22,6 +22,11 @@ module ContentfulModel
         self
       end
 
+      def limit(n)
+        @query << {'limit' => n}
+        self
+      end
+
       def order(args)
         prefix = ''
         if args.is_a?(Hash)
