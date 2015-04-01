@@ -12,7 +12,13 @@ module ContentfulModel
     def method_missing(method, *args, &block)
       result = fields[:"#{method.to_s.camelize(:lower)}"]
       if result.nil?
-        raise ContentfulModel::AttributeNotFoundError, "no attribute #{method} found"
+        # if self.class.rescue_from_no_attribute_fields.member?()
+        # end
+        if self.class.return_nil_for_empty_attribute_fields.include?(method)
+          return nil
+        else
+          raise ContentfulModel::AttributeNotFoundError, "no attribute #{method} found"
+        end
       else
         # if there's no coercion specified, return the result
         if self.class.coercions[method].nil?
@@ -56,7 +62,7 @@ module ContentfulModel
     alias_method :create, :save
 
     class << self
-      attr_accessor :content_type_id, :coercions
+      attr_accessor :content_type_id, :coercions, :return_nil_for_empty_attribute_fields
 
       def descendents
         ObjectSpace.each_object(Class).select { |klass| klass < self }
@@ -89,6 +95,14 @@ module ContentfulModel
           @coercions.merge!(coercions_hash)
         end
         @coercions
+      end
+
+      def return_nil_for_empty(*fields)
+        @return_nil_for_empty_attribute_fields ||= []
+
+        fields.each do |field|
+          @return_nil_for_empty_attribute_fields.push(field)
+        end
       end
 
     end
