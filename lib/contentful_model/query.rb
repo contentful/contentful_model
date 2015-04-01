@@ -16,7 +16,11 @@ module ContentfulModel
 
     def execute
       query = @parameters.merge!(default_parameters)
-      return @referenced_class.send(:client).send(:entries,query)
+      return client.send(:entries,query)
+    end
+
+    def client
+      @client ||= @referenced_class.send(:client)
     end
 
     def reset
