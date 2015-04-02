@@ -14,7 +14,7 @@ module ContentfulModel
       if result.nil?
         # if self.class.rescue_from_no_attribute_fields.member?()
         # end
-        if self.class.return_nil_for_empty_attribute_fields.include?(method)
+        if self.class.return_nil_for_empty_attribute_fields && self.class.return_nil_for_empty_attribute_fields.include?(method)
           return nil
         else
           raise ContentfulModel::AttributeNotFoundError, "no attribute #{method} found"
