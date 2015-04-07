@@ -60,7 +60,7 @@ module ContentfulModel
           # Return the last member of the enumerable, which is the root
           # @return the root instance of this object
           define_method :root do
-            find_ancestors.last
+            find_ancestors.to_a.last
           end
 
           # @return [Boolean] whether or not this instance has children
