@@ -101,6 +101,14 @@ module ContentfulModel
         @return_nil_for_empty_attribute_fields ||= []
 
         fields.each do |field|
+          define_method field do 
+            begin
+              super()
+            rescue ContentfulModel::AttributeNotFoundError
+              nil
+            end
+          end
+
           @return_nil_for_empty_attribute_fields.push(field)
         end
       end
