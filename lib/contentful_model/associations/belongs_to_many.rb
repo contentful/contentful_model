@@ -39,7 +39,12 @@ module ContentfulModel
 
           define_method "#{association_names.to_s.singularize}=" do |parent|
             instance_variable_set(:"@#{association_names.to_s.singularize}",parent)
+            instance_variable_set(:"@loaded_with_parent", true)
             return self
+          end
+
+          define_method "loaded_with_parent?" do
+            instance_variable_get(:"@loaded_with_parent") ? true : false
           end
 
           # Set up the association name (plural)
