@@ -73,6 +73,40 @@ module ContentfulModel
             self.send(association_name)
           end
 
+          # Return a nested hash of children, returning the field specified
+          # @param field [Symbol] the field you want to return, nested for each child
+          # @return [Hash] of nested children, by that field
+          define_method :nested_children_by do |field|
+            self.children.inject({}) do |h,c|
+              children = c.has_children? ? c.nested_children_by(field) : nil
+              h[c.send(field)] = children
+              h
+            end
+          end
+
+          # Return a flattened hash of children by the specified field
+          define_method :all_child_paths_by do |field, opts = {}|
+            options = {prefix: nil}.merge!(opts)
+            flatten_hash(nested_children_by(field)).keys.collect do |path|
+              options[:prefix] ? path.unshift(options[:prefix]) : path
+            end
+          end
+
+          # Search for a child by a certain field. This is called on the parent(s).
+          # e.g. Page.root.find_child_path_by(:slug, "some-slug"). Accepts a prefix if you want to
+          # prefix the children with the parent
+          define_method :find_child_path_by do |field, value, opts = {}|
+            all_child_paths_by(field,opts).select {|child| child.include?(value)}
+          end
+
+          # Private method to flatten a hash. Courtesy Cary Swoveland http://stackoverflow.com/a/23861946
+          define_method :flatten_hash do |h,f=[],g={}|
+            return g.update({ f=>h }) unless h.is_a? Hash
+            h.each { |k,r| flatten_hash(r,f+[k],g) }
+            g
+          end
+          self.send(:private, :flatten_hash)
+
         end
       end
     end
