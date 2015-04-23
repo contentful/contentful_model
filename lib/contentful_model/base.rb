@@ -11,6 +11,14 @@ module ContentfulModel
     #use method_missing to call fields on the model
     def method_missing(method, *args, &block)
       result = fields[:"#{method.to_s.camelize(:lower)}"]
+      # we need to pull out any Contentful::Link references
+      if result.is_a?(Array)
+        result.reject! {|r| r.is_a?(Contentful::Link)}
+      end
+      if result.is_a?(Contentful::Link)
+        result = nil
+      end
+
       if result.nil?
         # if self.class.rescue_from_no_attribute_fields.member?()
         # end
@@ -23,7 +31,6 @@ module ContentfulModel
         # if there's no coercion specified, return the result
         if self.class.coercions[method].nil?
           return result
-
         #if there's a coercion specified for the field and it's a proc, pass the result
         #to the proc
         elsif self.class.coercions[method].is_a?(Proc)

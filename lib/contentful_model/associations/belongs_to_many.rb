@@ -25,6 +25,7 @@ module ContentfulModel
             inverse_of: self.to_s.underscore.to_sym
           }
           options = default_options.merge(opts)
+
           # Set up the association name for the instance which loaded this object
           # This is useful in situations where, primarily, it's a 1:* relationship (i.e. belongs_to)
           # even though this isn't actually supported by Contentful
