@@ -2,6 +2,7 @@ module ContentfulModel
   class Base < Contentful::Entry
     include ContentfulModel::ChainableQueries
     include ContentfulModel::Associations
+    include ContentfulModel::Validations
 
     def initialize(*args)
       super
@@ -11,13 +12,19 @@ module ContentfulModel
     #use method_missing to call fields on the model
     def method_missing(method, *args, &block)
       result = fields[:"#{method.to_s.camelize(:lower)}"]
-      # we need to pull out any Contentful::Link references
+      # we need to pull out any Contentful::Link references, and also things which don't have any fields at all
+      # because they're newly created (we think exposing these in the Contentful API is a bug, actually)
       if result.is_a?(Array)
-        result.reject! {|r| r.is_a?(Contentful::Link)}
-      end
-      if result.is_a?(Contentful::Link)
+        result.reject! {|r| r.is_a?(Contentful::Link) || r.invalid?}
+      elsif result.is_a?(Contentful::Link)
+        result = nil
+      elsif result.respond_to?(:fields) && result.send(:fields).empty?
+        result = nil
+      elsif result.respond_to?(:invalid?) && result.invalid?
         result = nil
       end
+
+
 
       if result.nil?
         # if self.class.rescue_from_no_attribute_fields.member?()
