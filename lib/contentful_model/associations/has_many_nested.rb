@@ -13,7 +13,7 @@ module ContentfulModel
         # To set this up in contentful, add a multi-entry field validated to the same model
         # as the parent, and give it a name. For example, Page might have a field called childPages:
         #
-        # has_many_nested :child_pages
+        # has_many_nested :child_pages, root: -> { Page.find("some_id")}
         #
         # would setup up an instance attribute called parent_pages which lists all the direct
         # parents of this page. It would also create methods to find a page based on an array
@@ -21,9 +21,22 @@ module ContentfulModel
         # ancestors which called the object; because 'many' associations in Contentful are actually
         # 'belongs_to_many' from the child end, we might have several ancestors to a page. You will need
         # to write your own recursion for this, because it's probably an implementation-specific problem.
-        def has_many_nested(association_name)
+        def has_many_nested(association_name, options = {})
           has_many association_name, inverse_of: :"parent_#{self.to_s.underscore}"
           belongs_to_many :"parent_#{self.to_s.underscore.pluralize}", class_name: self.to_s, inverse_of: association_name
+          if options[:root].is_a?(Proc)
+            @root_method = options[:root]
+          end
+
+          # If there's a root method defined, set up a class method called root_[class name]. In our example this would be
+          # Page.root_page.
+          # @return [Object] the root entity returned from the proc defined in has_many_nested
+          if defined?(@root_method) && @root_method.is_a?(Proc)
+            # @return [Object] the root entity
+            define_singleton_method :"root_#{self.to_s.underscore}" do
+              @root_method.call
+            end
+          end
 
           # A utility method which returns the parent object; saves passing around interpolated strings
           define_method :parent do
@@ -71,6 +84,15 @@ module ContentfulModel
           # @return [Array] a collection of child objects, based on the association name
           define_method :children do
             self.send(association_name)
+          end
+
+          # @return [Hash] a hash of nested child objects
+          define_method :nested_children do
+            self.children.inject({}) do |h,c|
+              children = c.has_children? ? c.nested_children : nil
+              h[c] = children
+              h
+            end
           end
 
           # Return a nested hash of children, returning the field specified
