@@ -15,7 +15,7 @@ module ContentfulModel
       # we need to pull out any Contentful::Link references, and also things which don't have any fields at all
       # because they're newly created (we think exposing these in the Contentful API is a bug, actually)
       if result.is_a?(Array)
-        result.reject! {|r| r.is_a?(Contentful::Link) || r.invalid?}
+        result.reject! {|r| r.is_a?(Contentful::Link) || (r.respond_to?(:invalid) && r.invalid?)}
       elsif result.is_a?(Contentful::Link)
         result = nil
       elsif result.respond_to?(:fields) && result.send(:fields).empty?
