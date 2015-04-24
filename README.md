@@ -15,6 +15,7 @@ Configure ContentfulModel with a block. In a Rails app this is best done in an i
 ```
 ContentfulModel.configure do |config|
   config.access_token = "your access token in here"
+  config.preview_access_token = "your access token in here"
   config.space = "your space id in here"
   config.options = {
     #extra options to send to the Contentful::Client
@@ -161,15 +162,60 @@ This calls `has_many` and `belongs_to_many` on the Page model, and gives you som
 * `root?()` - returns `true` or `false` depending on whether this Page is a root page (i.e. no parents)
 * `root()` - returns the root page, from this page's point of view
 * `ancestors()` - an `Enumerable` you can iterate over to get all the ancestors. Surprisingly quick.
+* `nested_children` - returns a nested hash of children
+* `nested_children_by(:field)` - takes the name of the field you want to return, and returns a hash of nested children by the field you specify. E.g. `nested_children_by(:slug)`.
+* `find_child_path_by(:field, "thing-to-search")` - returns an array of the child's parents. Useful for determining the ancestors of an entity you've called directly.
+* `all_child_paths_by(:field)` - return a 2d array of paths for all children. One of a couple of ways you can set up navigation.
 
 From this, you can:
 
 * Build up a tree from calls to the top-level entity (e.g. a navigation tree)
 * Reverse-iterate up the tree from a given page (e.g. breadcrumbs)
 
+#### Defining a root page
+You can pass an optional second parameter into `has_many_nested` which means the class knows how to find its root:
+
+```
+class Page < ContentfulModel::Base
+    has_many_nested :child_pages, root: -> { Page.find("some_id").first }
+end
+```
+
+Adding this second parameter defines a method called `root_page` on the class, so you can get the root easily. Your proc needs to return one object.
+
 #### An aside on the Contentful UI
 There isn't a way to see the parent of a child entity, when you're looking at the child entity. This is something the Contentful gang are thinking about solving, we hear.
 
+## Preview mode
+You might want to hit the preview API. Our [contentful_rails](https://github.com/errorstudio/contentful_rails) gem uses it, for example.
+
+Provided you've set a `preview_api_token` in the configuration block, it's dead easy. Just set `ContentfulModel.use_preview_api = true` before making calls.
+
+## Suppressing unvalidated content in preview
+There's a slightly weird piece of logic in the Contentful API when you're using preview mode. It returns content which has _failed_ its own validation!
+
+This is something Contentful are planning to address, but for now, we need to filter these out to avoid breaking stuff on the client side. We've added a validator for 'required', using syntax similar to ActiveRecord:
+
+```
+class Page
+    validates_presence_of :slug, :title, :some_other_vital_field
+end
+```
+
+If you've defined this in a class, any queries to the API will filter out entities which aren't valid. This applies to both relations (where you might get a collection), or searches.
+
+## Returning nil for fields which aren't defined
+If an object is valid, but has content missing from a field, the Contentful API simply doesn't return the field, which is frustrating. That means that you have to check manually for its existence to avoid raising a `ContentfulModel::AttributeNotFoundError`.
+
+We decided it would be nice to be able to declare that certain fields should return nil, rather than raising an error. You can do that as follows:
+
+```
+class Page
+    return_nil_for_empty :content, :excerpt
+end
+```
+
+This means you can check for `content.nil?` instead of rescueing from an error. Much nicer.
 
 # To Do
 There are quite a few outstanding tasks:
