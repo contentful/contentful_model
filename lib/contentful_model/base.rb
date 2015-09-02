@@ -84,7 +84,7 @@ module ContentfulModel
 
       def add_entry_mapping
         unless ContentfulModel.configuration.entry_mapping.has_key?(@content_type_id)
-          ContentfulModel.configuration.entry_mapping[@content_type_id] = Object.const_get(self.to_s.to_sym)
+          ContentfulModel.configuration.entry_mapping[@content_type_id] = Object.const_get(self.to_s)
         end
       end
 
@@ -115,7 +115,7 @@ module ContentfulModel
         @return_nil_for_empty_attribute_fields ||= []
 
         fields.each do |field|
-          define_method field do 
+          define_method field do
             begin
               super()
             rescue ContentfulModel::AttributeNotFoundError
