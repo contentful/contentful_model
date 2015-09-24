@@ -1,4 +1,4 @@
 module ContentfulModel
   class AssociationError < StandardError; end
-  class AttributeNotFoundError < StandardError; end
+  class AttributeNotFoundError < NoMethodError; end
 end
