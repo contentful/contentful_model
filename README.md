@@ -38,7 +38,7 @@ ContentfulModel takes care of setting instance variables for each field in your 
 
 ```
 class Foo < ContentfulModel::Base
-   self.content_type = "content type id for this model"
+   self.content_type_id = "content type id for this model"
 
    coerce_field birthday: :date
    coerce_field store_id: :integer
