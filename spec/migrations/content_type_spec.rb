@@ -110,6 +110,44 @@ describe ContentfulModel::Migrations::ContentType do
     end
 
     describe '#fields' do
+      describe 'from a new content type' do
+        it 'starts empty' do
+          expect(subject.fields).to eq([])
+        end
+
+        it 'adds fields when you call :field' do
+          expect(subject.fields.size).to eq(0)
+
+          subject.field('foo', :text)
+
+          expect(subject.fields.size).to eq(1)
+          expect(subject.fields[0]).to be_a(Contentful::Management::Field)
+        end
+      end
+
+      describe 'from an existing content type' do
+        before do
+          @mock_ct = Object.new
+          allow(@mock_ct).to receive(:id) { 'foo' }
+          allow(@mock_ct).to receive(:fields) { [Contentful::Management::Field.new] }
+        end
+
+        it 'returns previously existing fields' do
+          subject = described_class.new(nil, @mock_ct)
+
+          expect(subject.fields.size).to eq(1)
+        end
+
+        it 'appends fields to existing fields' do
+          subject = described_class.new(nil, @mock_ct)
+
+          expect(subject.fields.size).to eq(1)
+
+          subject.field('foo', :text)
+
+          expect(subject.fields.size).to eq(2)
+        end
+      end
     end
   end
 end
