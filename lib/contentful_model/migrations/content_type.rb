@@ -8,7 +8,11 @@ module ContentfulModel
 
       def save
         if new?
-          @management_content_type = management.content_types.create(name: @name, fields: @fields)
+          @management_content_type = management.content_types.create(
+            ContentfulModel.configuration.space,
+            name: @name,
+            fields: fields
+          )
         else
           @management_content_type.fields = @fields
           @management_content_type.save
@@ -18,7 +22,11 @@ module ContentfulModel
       end
 
       def publish
+        return self if new?
+
         @management_content_type.publish
+
+        self
       end
 
       def field(name, type)
@@ -33,13 +41,17 @@ module ContentfulModel
         new_field.items = management_items(type) if array?(type)
 
         fields << new_field
+
+        new_field
       end
 
       def remove_field(field_id)
         @management_content_type.fields.destroy(field_id)
       end
 
-      private
+      def new?
+        @management_content_type.nil? || @management_content_type.id.nil?
+      end
 
       def fields
         if new?
@@ -48,6 +60,8 @@ module ContentfulModel
           return @fields ||= fields_from_management_type
         end
       end
+
+      private
 
       def fields_from_management_type
         @management_content_type.fields
@@ -61,6 +75,8 @@ module ContentfulModel
           :location, :object
         ].include?(type.to_sym)
           return type.capitalize
+        elsif type == 'string'
+          return 'Symbol'
         elsif link?(type)
           return 'Link'
         elsif array?(type)
@@ -88,10 +104,6 @@ module ContentfulModel
         else
           raise_field_type_error(type)
         end
-      end
-
-      def new?
-        @management_content_type.nil? || @management_content_type.id.nil?
       end
 
       def link?(type)
