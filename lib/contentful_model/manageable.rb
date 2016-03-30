@@ -1,14 +1,25 @@
 module ContentfulModel
   module Manageable
-    def initialize(*args)
-      super
+    attr_reader :dirty
 
+    def initialize(*args)
       @dirty = false
       define_setters
     end
 
     def to_management
       update_management_entry_fields(management_entry)
+    end
+
+    def save
+      result = to_management.save
+      @dirty = false
+      self
+    end
+
+    def publish
+      to_management.publish
+      self
     end
 
     protected
@@ -62,6 +73,12 @@ module ContentfulModel
     end
 
     module ClassMethods
+      def management(options = {})
+        @management ||= ContentfulModel::Management.new(
+          options.merge(default_locale: ContentfulModel.configuration.default_locale)
+        )
+      end
+
       def create(values = {}, publish = false)
         entry = management.entries.create(
           management.content_types.find(

@@ -10,8 +10,6 @@ module ContentfulModel
       self.class.coercions ||= {}
     end
 
-    attr_reader :dirty
-
     #use method_missing to call fields on the model
     def method_missing(method, *args, &block)
       result = fields[:"#{method.to_s.camelize(:lower)}"]
@@ -69,16 +67,6 @@ module ContentfulModel
       "#{self.class.to_s.underscore}/#{self.id}-#{self.updated_at.utc.to_s(:number)}"
     end
 
-    def save
-      result = to_management.save
-      @dirty = false
-      result
-    end
-
-    def publish
-      to_management.publish
-    end
-
     class << self
       attr_accessor :content_type_id, :coercions, :return_nil_for_empty_attribute_fields
 
@@ -100,12 +88,6 @@ module ContentfulModel
         else
           @client ||= ContentfulModel::Client.new(ContentfulModel.configuration.to_hash)
         end
-      end
-
-      def management(options = {})
-        @management ||= ContentfulModel::Management.new(
-          options.merge(default_locale: ContentfulModel.configuration.default_locale)
-        )
       end
 
       def content_type
