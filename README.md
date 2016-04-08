@@ -132,7 +132,7 @@ Our Page class above has a method called template. This returns a PageTemplate c
 
 ```
 class PageTemplate < ContentfulModel::Base
-    belongs_to_many :pages, inverse_of :template
+    belongs_to_many :pages, inverse_of: :template
 end
 ```
 
