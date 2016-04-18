@@ -27,6 +27,7 @@ describe ContentfulModel::Manageable do
     ContentfulModel.configure do |c|
       c.default_locale = 'en-US'
       c.management_token = 'foo'
+      c.access_token = 'foobar'
       c.space = 'bar'
     end
   end
@@ -70,10 +71,13 @@ describe ContentfulModel::Manageable do
 
   describe 'instance methods' do
     it '#to_management' do
-      mock_client = Object.new
-      allow(MockManageable).to receive(:management) { mock_client }
-      allow(mock_client).to receive(:spaces) { mock_client }
-      allow(mock_client).to receive(:find) { space }
+      mock_management_client = Object.new
+      mock_entry = Object.new
+      allow_any_instance_of(ContentfulModel::Client).to receive(:space)
+      allow_any_instance_of(ContentfulModel::Client).to receive(:entry) { mock_entry }
+      allow(MockManageable).to receive(:management) { mock_management_client }
+      allow(mock_management_client).to receive(:spaces) { mock_management_client }
+      allow(mock_management_client).to receive(:find) { space }
       allow(space).to receive(:entries) { space }
       allow(space).to receive(:find).with('entry_id') { Contentful::Management::Entry.new({'sys' => {'id' => 'entry_id'}}) }
 
@@ -121,6 +125,54 @@ describe ContentfulModel::Manageable do
         subject.save
 
         expect(subject.dirty).to be_falsey
+      end
+
+      it 'refetches management entry if conflict occurs' do
+        subject = MockManageable.new('entry_id', space, {foo: 1})
+        mock_management = Object.new
+        new_management_entry = Object.new
+        allow(subject).to receive(:to_management) { mock_management }
+
+        dummy_http = Object.new
+        allow(dummy_http).to receive(:request) { dummy_http }
+        allow(dummy_http).to receive(:endpoint) { dummy_http }
+        allow(dummy_http).to receive(:error_message)
+        allow(dummy_http).to receive(:raw) { dummy_http }
+        allow(dummy_http).to receive(:body)
+
+        expect(mock_management).to receive(:save).and_raise(Contentful::Management::Conflict.new(dummy_http))
+        expect(subject).to receive(:refetch_management_entry) { new_management_entry }
+
+        expect(subject).to receive(:to_management) { mock_management }
+        expect(subject).to receive(:to_management).with(new_management_entry) { new_management_entry }
+
+        expect(new_management_entry).to receive(:save)
+
+        subject.save
+      end
+
+      it 'raises error if conflict happens after refetch' do
+        subject = MockManageable.new('entry_id', space, {foo: 1})
+        mock_management = Object.new
+        new_management_entry = Object.new
+        allow(subject).to receive(:to_management) { mock_management }
+
+        dummy_http = Object.new
+        allow(dummy_http).to receive(:request) { dummy_http }
+        allow(dummy_http).to receive(:endpoint) { dummy_http }
+        allow(dummy_http).to receive(:error_message)
+        allow(dummy_http).to receive(:raw) { dummy_http }
+        allow(dummy_http).to receive(:body)
+
+        expect(mock_management).to receive(:save).and_raise(Contentful::Management::Conflict.new(dummy_http))
+        expect(subject).to receive(:refetch_management_entry) { new_management_entry }
+
+        expect(subject).to receive(:to_management) { mock_management }
+        expect(subject).to receive(:to_management).with(new_management_entry) { new_management_entry }
+
+        expect(new_management_entry).to receive(:save).and_raise(Contentful::Management::Conflict.new(dummy_http))
+
+        expect { subject.save }.to raise_error ContentfulModel::VersionMismatchError
       end
     end
 

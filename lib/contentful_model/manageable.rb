@@ -4,28 +4,54 @@ module ContentfulModel
 
     def initialize(*args)
       @dirty = false
+      @changed_fields = []
       define_setters
     end
 
-    def to_management
-      update_management_entry_fields(management_entry)
+    def to_management(entry_to_update = management_entry)
+      published_entry = self.class.client.entry(id)
+      fields.each do |field, value|
+        entry_to_update.send(
+          "#{field.to_s.underscore}=",
+          management_field_value(
+            @changed_fields.include?(field) ? value : published_entry.send(field.to_s.underscore)
+          )
+        )
+      end
+
+      entry_to_update
+    end
+
+    def refetch_management_entry
+      @management_entry = fetch_management_entry
     end
 
     def save
-      result = to_management.save
+      begin
+        to_management.save
+      rescue Contentful::Management::Conflict
+        # Retries with re-fetched entry
+        to_management(refetch_management_entry).save
+      end
+
       @dirty = false
+      @changed_fields = []
+
       self
+    rescue Contentful::Management::Conflict
+      fail ContentfulModel::VersionMismatchError, "Version Mismatch persisting after refetch attempt, use :refetch_management_entry and try again later."
     end
 
     def publish
-      to_management.publish
+      begin
+        to_management.publish
+      rescue Contentful::Management::Conflict
+        to_management(refetch_management_entry).save
+      end
+
       self
-    end
-
-    protected
-
-    def update_management_entry_fields(management_entry)
-      map_management_fields(management_entry, fields)
+    rescue Contentful::Management::Conflict
+      fail ContentfulModel::VersionMismatchError, "Version Mismatch persisting after refetch attempt, use :refetch_management_entry and try again later."
     end
 
     private
@@ -34,29 +60,23 @@ module ContentfulModel
       @management_space ||= self.class.management(default_locale: locale).spaces.find(space.id)
     end
 
+    def fetch_management_entry
+      management_space.entries.find(id)
+    end
+
     def management_entry
       # Fetches always in case of Version changes to avoid Validation errors
-      management_space.entries.find(id)
+      @management_entry ||= fetch_management_entry
     end
 
     def define_setters
       fields.keys.each do |f|
         define_singleton_method "#{f.to_s.underscore}=" do |value|
           @dirty = true
+          @changed_fields << f
           fields[f] = value
         end
       end
-    end
-
-    def map_management_fields(management_entry, fields)
-      fields.each do |field, value|
-        management_entry.send(
-          "#{field.to_s.underscore}=",
-          management_field_value(value)
-        )
-      end
-
-      management_entry
     end
 
     def management_field_value(entry_value)
