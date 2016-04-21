@@ -11,7 +11,7 @@ module ContentfulModel
 
     #use method_missing to call fields on the model
     def method_missing(method, *args, &block)
-      result = fields[:"#{method.to_s.camelize(:lower)}"]
+      result = fields[:"#{method.to_s}"]
       # we need to pull out any Contentful::Link references, and also things which don't have any fields at all
       # because they're newly created (we think exposing these in the Contentful API is a bug, actually)
       if result.is_a?(Array)
@@ -23,8 +23,6 @@ module ContentfulModel
       elsif result.respond_to?(:invalid?) && result.invalid?
         result = nil
       end
-
-
 
       if result.nil?
         # if self.class.rescue_from_no_attribute_fields.member?()
@@ -66,7 +64,6 @@ module ContentfulModel
       end
 
       "#{self.class.to_s.underscore}/#{self.id}-#{self.updated_at.utc.to_s(:number)}"
-
     end
 
     def save
@@ -128,11 +125,6 @@ module ContentfulModel
       end
 
     end
-
-
-
-
-
 
   end
 end
