@@ -24,8 +24,6 @@ module ContentfulModel
         result = nil
       end
 
-
-
       if result.nil?
         # if self.class.rescue_from_no_attribute_fields.member?()
         # end
@@ -66,7 +64,6 @@ module ContentfulModel
       end
 
       "#{self.class.to_s.underscore}/#{self.id}-#{self.updated_at.utc.to_s(:number)}"
-
     end
 
     def save
@@ -128,11 +125,6 @@ module ContentfulModel
       end
 
     end
-
-
-
-
-
 
   end
 end
