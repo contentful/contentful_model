@@ -8,7 +8,7 @@ module ContentfulModel
         configuration[:api_url] = PREVIEW_API_URL
         configuration[:access_token] = configuration[:preview_access_token]
       end
-      super(configuration)
+      super({ raise_errors: true }.merge(configuration))
     end
   end
 end

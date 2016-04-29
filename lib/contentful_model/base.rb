@@ -3,6 +3,7 @@ module ContentfulModel
     include ContentfulModel::ChainableQueries
     include ContentfulModel::Associations
     include ContentfulModel::Validations
+    include ContentfulModel::Manageable
 
     def initialize(*args)
       super
@@ -23,8 +24,6 @@ module ContentfulModel
       elsif result.respond_to?(:invalid?) && result.invalid?
         result = nil
       end
-
-
 
       if result.nil?
         # if self.class.rescue_from_no_attribute_fields.member?()
@@ -66,14 +65,7 @@ module ContentfulModel
       end
 
       "#{self.class.to_s.underscore}/#{self.id}-#{self.updated_at.utc.to_s(:number)}"
-
     end
-
-    def save
-      raise NotImplementedError, "Saving models isn't implemented; we need to use the Contentful Management API for that. Pull requests welcome!"
-    end
-
-    alias_method :create, :save
 
     class << self
       attr_accessor :content_type_id, :coercions, :return_nil_for_empty_attribute_fields
@@ -96,7 +88,6 @@ module ContentfulModel
         else
           @client ||= ContentfulModel::Client.new(ContentfulModel.configuration.to_hash)
         end
-
       end
 
       def content_type
@@ -126,13 +117,6 @@ module ContentfulModel
           @return_nil_for_empty_attribute_fields.push(field)
         end
       end
-
     end
-
-
-
-
-
-
   end
 end

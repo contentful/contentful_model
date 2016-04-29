@@ -1,4 +1,5 @@
 require 'require_all'
+require 'contentful/management'
 require 'contentful'
 require_rel '.'
 
@@ -23,7 +24,9 @@ module ContentfulModel
     attr_accessor :access_token,
                   :preview_access_token,
                   :space,
-                  :entry_mapping
+                  :entry_mapping,
+                  :management_token,
+                  :default_locale
 
     def initialize
       @entry_mapping ||= {}
