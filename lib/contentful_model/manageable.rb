@@ -3,6 +3,7 @@ module ContentfulModel
     attr_reader :dirty
 
     def initialize(*args)
+      super
       @dirty = false
       @changed_fields = []
       define_setters
