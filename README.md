@@ -70,10 +70,10 @@ Foo.find("someidfromcontentful")
 ```
 
 ### `find_by([hash])`
-Accepts a hash of options to include in the search, as similar as possible to ActiveRecord version. __Note__ that this doesn't work (and will throw an error) on fields which need the full-text search. This needs fixing.
+Accepts a hash of options to include in the search, as similar as possible to ActiveRecord version. __Note__ that this doesn't work (and will throw an error) on fields which need the full-text search. This needs fixing. Requires load() to be called at the end of the chain.
 
 ```
-Foo.find_by(someField: [searchquery1, searchquery2], someOtherField: "bar")
+Foo.find_by(someField: [searchquery1, searchquery2], someOtherField: "bar").load
 ```
 
 You'll see from the example above that it accepts an array of search terms which will invoke an 'in' query.
