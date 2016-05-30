@@ -1,10 +1,14 @@
 # ContentfulModel
 
-This is a thin wrapper around the [Contentful.rb](https://github.com/contentful/contentful.rb) api client library.
+This is a thin wrapper around the [Contentful Delivery SDK](https://github.com/contentful/contentful.rb) and [Contentful Management SDK](https://github.com/contentful/contentful-management.rb) api client libraries.
 
 It allows you to inherit from `ContentfulModel::Base` and specify the content type id, and optionally, fields to coerce in a specific way.
 
 Note that this library doesn't allow you to save changes to your models back to Contentful. We need to use the Contentful Management API for that. Pull requests welcome!
+
+## What is Contentful?
+
+[Contentful](https://www.contentful.com) is a content management platform for web applications, mobile apps and connected devices. It allows you to create, edit & manage content in the cloud and publish it anywhere via powerful API. Contentful offers tools for managing editorial teams and enabling cooperation between organizations.
 
 # Usage
 
@@ -15,7 +19,8 @@ Configure ContentfulModel with a block. In a Rails app this is best done in an i
 ```
 ContentfulModel.configure do |config|
   config.access_token = "your access token in here"
-  config.preview_access_token = "your access token in here"
+  config.preview_access_token = "your preview token in here"
+  config.management_token = "your management token in here"
   config.space = "your space id in here"
   config.options = {
     #extra options to send to the Contentful::Client
@@ -217,12 +222,66 @@ end
 
 This means you can check for `content.nil?` instead of rescueing from an error. Much nicer.
 
+## Updating Content
+
+With the newly introduced support for Contentful's CMA, you can now create and update entries
+
+### Creating entries
+
+You can create entries by doing:
+
+```ruby
+MyModel.create(my_field: 'some value')
+```
+
+### Saving entries
+
+Just call the `#save` method on your entries and it will get updated on Contentful
+
+```ruby
+my_model.my_field = 'other value'
+
+my_model.save
+```
+
+### Publishing entries
+
+You can also publish directly by calling `#publish` on your models.
+
+```ruby
+my_model.publish
+```
+
+## Content Migrations
+
+You can also create and alter Content Types with the Migrations module.
+
+You can use it as follows:
+
+```ruby
+class CreateFooContentType < ActiveRecord::Migration
+  include ContentfulModel::Migrations::Migration
+
+  def up
+    create_content_type('foo') do |ct|
+      ct.field('bar', :symbol)
+      ct.field('baz', :date)
+    end
+
+    add_content_type_field 'foo', 'foobar', :integer
+  end
+
+  def down
+    remove_content_type_field 'foo', 'foobar'
+  end
+end
+```
+
 # To Do
 There are quite a few outstanding tasks:
 
 * Some tests :-)
 * Expose the query object to allow an arbitrary query against the Contentful API
-* Hook in the Contentful Management API gem to allow saves: https://github.com/contentful/contentful-management.rb
 
 # Licence
 MIT - please see MIT-LICENCE in this repo.
