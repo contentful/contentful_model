@@ -5,13 +5,12 @@ module ContentfulModel
     end
 
     module ClassMethods
-
       def inherited(subclass)
         instantiate_query(subclass)
       end
 
       def instantiate_query(klass)
-        klass.instance_variable_set(:"@query",ContentfulModel::Query.new(klass))
+        klass.instance_variable_set(:"@query", ContentfulModel::Query.new(klass))
       end
 
       def load
@@ -24,7 +23,6 @@ module ContentfulModel
         @query << {'sys.id' => id}
         load.first
       end
-
     end
   end
 end

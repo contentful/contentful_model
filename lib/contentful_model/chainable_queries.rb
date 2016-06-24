@@ -8,7 +8,7 @@ module ContentfulModel
     module ClassMethods
 
       def all
-        raise ArgumentError, "You need to set self.content_type in your model class" if @content_type_id.nil?
+        raise ArgumentError, 'You need to set self.content_type in your model class' if @content_type_id.nil?
         self
       end
 
@@ -35,6 +35,8 @@ module ContentfulModel
         elsif args.is_a?(Symbol)
           column = args.to_s
           prefix = ''
+        else
+          column = args.to_s
         end
         @query << {'order' => "#{prefix}fields.#{column.camelize(:lower)}"}
         self
@@ -47,7 +49,7 @@ module ContentfulModel
           #query is a hash
           if query.values.first.is_a?(Array) #we need to do an 'in' query
             @query << {"fields.#{query.keys.first.to_s.camelize(:lower)}[in]" => query.values.first.join(",")}
-          elsif query.values.first.is_a?(String) || [TrueClass,FalseClass].member?(query.values.first.class)
+          elsif query.values.first.is_a?(String) || query.values.first.is_a?(Numeric) || [TrueClass,FalseClass].member?(query.values.first.class)
             @query << {"fields.#{query.keys.first.to_s.camelize(:lower)}" => query.values.first}
           elsif query.values.first.is_a?(Hash)
             # if the search is a hash, use the key to specify the search field operator

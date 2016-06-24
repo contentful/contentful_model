@@ -17,7 +17,7 @@ module ContentfulModel
     end
 
     def validate
-      @errors ||= []
+      @errors = []
       unless self.respond_to?(:fields)
         @errors.push("Entity doesn't respond to the fields() method")
         return false
@@ -25,26 +25,12 @@ module ContentfulModel
 
       validations = self.class.send(:validations)
       unless validations.nil?
-        validations.each do |type, fields|
-          case type
-            # validates_presence_of
-            when :presence
-              fields.each do |field|
-                unless self.respond_to?(field)
-                  @errors << "#{field} is required"
-                end
-              end
-          end
+        validations.each do |validation|
+          @errors += validation.validate(self)
         end
       end
 
-
-      if @errors.empty?
-        return true
-      else
-        return false
-      end
-
+      @errors.empty?
     end
 
     module ClassMethods
