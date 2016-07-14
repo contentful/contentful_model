@@ -71,12 +71,22 @@ module ContentfulModel
     end
 
     def define_setters
-      fields.keys.each do |f|
-        define_singleton_method "#{f.to_s.underscore}=" do |value|
-          @dirty = true
-          @changed_fields << f
-          fields[f] = value
+      fields.each do |k, v|
+        if Contentful::Constants::KNOWN_LOCALES.include?(k.to_s)
+          v.keys.each do |name|
+            define_setter(name)
+          end
+        else
+          define_setter(k)
         end
+      end
+    end
+
+    def define_setter(name)
+      define_singleton_method "#{name.to_s.underscore}=" do |value|
+        @dirty = true
+        @changed_fields << name
+        fields[default_locale][name] = value
       end
     end
 

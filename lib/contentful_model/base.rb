@@ -7,14 +7,35 @@ module ContentfulModel
 
     def initialize(*args)
       super
+      define_getters
       self.class.coercions ||= {}
+    end
+
+    private
+
+    def define_getters
+      fields.each do |k, v|
+        if Contentful::Constants::KNOWN_LOCALES.include?(k.to_s)
+          v.keys.each do |name|
+            define_getter(name)
+          end
+        else
+          define_getter(k)
+        end
+      end
+    end
+
+    def define_getter(name)
+      define_singleton_method "#{name.to_s.underscore}" do
+        fields[default_locale][name]
+      end
     end
 
     #use method_missing to call fields on the model
     def method_missing(method, *args, &block)
       result = fields[:"#{method.to_s.camelize(:lower)}"]
       # we need to pull out any Contentful::Link references, and also things which don't have any fields at all
-      # because they're newly created (we think exposing these in the Contentful API is a bug, actually)
+      # because they're newly created
       if result.is_a?(Array)
         result.reject! {|r| r.is_a?(Contentful::Link) || (r.respond_to?(:invalid) && r.invalid?)}
       elsif result.is_a?(Contentful::Link)
