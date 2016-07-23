@@ -1,5 +1,5 @@
 module ContentfulModel
-  class Base < Contentful::Entry
+  class Base < Contentful::DynamicEntry
     include ContentfulModel::ChainableQueries
     include ContentfulModel::Associations
     include ContentfulModel::Validations
@@ -27,7 +27,7 @@ module ContentfulModel
 
     def define_getter(name)
       define_singleton_method "#{name.to_s.underscore}" do
-        fields[default_locale][name]
+        fields(default_locale)[name]
       end
     end
 

@@ -6,7 +6,7 @@ describe ContentfulModel::Manageable do
       c.default_locale = 'en-US'
       c.management_token = 'foo'
       c.access_token = 'foobar'
-      c.space = 'bar'
+      c.space = 'cfexampleapi'
     end
   end
 
@@ -26,7 +26,7 @@ describe ContentfulModel::Manageable do
         allow(MockBase).to receive(:management) { @mock_client }
         allow(@mock_client).to receive(:entries) { @mock_client }
         allow(@mock_client).to receive(:content_types) { @mock_client }
-        allow(@mock_client).to receive(:find).with('bar', 'ct_id') { @mock_ct }
+        allow(@mock_client).to receive(:find).with('cfexampleapi', 'ct_id') { @mock_ct }
         @values = {'foo' => 'bar'}
       end
 
@@ -49,18 +49,20 @@ describe ContentfulModel::Manageable do
 
   describe 'instance methods' do
     it '#to_management' do
-      mock_management_client = Object.new
-      mock_entry = Object.new
-      allow_any_instance_of(ContentfulModel::Client).to receive(:space)
-      allow_any_instance_of(ContentfulModel::Client).to receive(:entry) { mock_entry }
-      allow(MockBase).to receive(:management) { mock_management_client }
-      allow(mock_management_client).to receive(:spaces) { mock_management_client }
-      allow(mock_management_client).to receive(:find) { space }
-      allow(space).to receive(:entries) { space }
-      allow(space).to receive(:find).with('entry_id') { Contentful::Management::Entry.new({'sys' => {'id' => 'entry_id'}}) }
+      vcr('client') {
+        mock_management_client = Object.new
+        mock_entry = Object.new
+        allow_any_instance_of(ContentfulModel::Client).to receive(:space)
+        allow_any_instance_of(ContentfulModel::Client).to receive(:entry) { mock_entry }
+        allow(MockBase).to receive(:management) { mock_management_client }
+        allow(mock_management_client).to receive(:spaces) { mock_management_client }
+        allow(mock_management_client).to receive(:find) { space }
+        allow(space).to receive(:entries) { space }
+        allow(space).to receive(:find).with('entry_id') { Contentful::Management::Entry.new({'sys' => {'id' => 'entry_id'}}) }
 
-      expect(subject.to_management).to be_a(Contentful::Management::Entry)
-      expect(subject.to_management.id).to eq('entry_id')
+        expect(subject.to_management).to be_a(Contentful::Management::Entry)
+        expect(subject.to_management.id).to eq('entry_id')
+      }
     end
 
     it 'creates setters for fields' do
