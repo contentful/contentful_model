@@ -2,6 +2,11 @@ require 'contentful_model'
 require 'rspec'
 require 'vcr'
 
+RSpec.configure do |config|
+  config.filter_run :focus => true
+  config.run_all_when_everything_filtered = true
+end
+
 VCR.configure do |c|
   c.cassette_library_dir = 'spec/fixtures/vcr_cassettes'
   c.ignore_localhost = true
@@ -24,13 +29,17 @@ end
 class MockBase < ContentfulModel::Base
   self.content_type_id = 'ct_id'
 
-  attr_reader :id, :fields, :space, :locale
+  attr_reader :id, :space, :locale
 
   def initialize(id, space, fields = {})
     @locale = 'en-US'
     super('fields' => fields)
     @id = id
     @space = space
+  end
+
+  def fields(locale = default_locale)
+    super || {}
   end
 end
 

@@ -86,7 +86,7 @@ module ContentfulModel
       define_singleton_method "#{name.to_s.underscore}=" do |value|
         @dirty = true
         @changed_fields << name
-        fields[default_locale][name] = value
+        fields(default_locale)[name] = value
       end
     end
 
