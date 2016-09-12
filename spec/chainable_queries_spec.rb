@@ -60,6 +60,11 @@ describe ContentfulModel::ChainableQueries do
       expect(subject.query.parameters).to include('limit' => 4)
     end
 
+    it '::locale' do
+      expect(subject.locale('en-US')).to eq subject
+      expect(subject.query.parameters).to include('locale' => 'en-US')
+    end
+
     describe '::order' do
       describe 'when parameter is a hash' do
         it 'ascending' do

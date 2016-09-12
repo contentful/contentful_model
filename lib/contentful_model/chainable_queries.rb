@@ -27,6 +27,11 @@ module ContentfulModel
         self
       end
 
+      def locale(locale_code)
+        @query << {'locale' => locale_code}
+        self
+      end
+
       def order(args)
         prefix = ''
         if args.is_a?(Hash)
