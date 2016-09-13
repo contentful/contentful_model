@@ -86,6 +86,13 @@ You'll see from the example above that it accepts an array of search terms which
 ### `locale([string])`
 Fetches the entries for a specific locale code, or all if `'*'` is sent.
 
+### `load_children([integer])`
+Fetches nested links to the specified level.
+
+```
+Foo.load_children(3).load
+```
+
 ## Associations
 You can specify associations between models in a similar way to ActiveRecord. There are some differences, though, so read on.
 
