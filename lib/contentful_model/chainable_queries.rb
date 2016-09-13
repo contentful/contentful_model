@@ -12,6 +12,11 @@ module ContentfulModel
         self
       end
 
+      def params(options)
+        @query << options
+        self
+      end
+
       def first
         @query << {'limit' => 1}
         load.first

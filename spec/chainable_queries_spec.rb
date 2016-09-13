@@ -39,6 +39,11 @@ describe ContentfulModel::ChainableQueries do
       end
     end
 
+    it '::params' do
+      expect(subject.params({'include' => 1})).to eq subject
+      expect(subject.query.parameters).to include('include' => 1)
+    end
+
     it '::first' do
       allow(subject).to receive(:load) { ['first'] }
       expect(subject.first).to eq 'first'
