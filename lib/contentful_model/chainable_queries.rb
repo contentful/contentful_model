@@ -31,6 +31,11 @@ module ContentfulModel
         @query << {'locale' => locale_code}
         self
       end
+      
+      def load_children(n)
+        @query << {'include' => n}
+        self
+      end
 
       def order(args)
         prefix = ''
