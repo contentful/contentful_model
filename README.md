@@ -83,6 +83,13 @@ Foo.find_by(someField: [searchquery1, searchquery2], someOtherField: "bar").load
 
 You'll see from the example above that it accepts an array of search terms which will invoke an 'in' query.
 
+### `params({object})`
+Includes the specified parameters in the Contentful API call.
+
+```
+Foo.all.params({"include" => 3}).load
+```
+
 ### `locale([string])`
 Fetches the entries for a specific locale code, or all if `'*'` is sent.
 
@@ -284,7 +291,6 @@ end
 There are quite a few outstanding tasks:
 
 * Some tests :-)
-* Expose the query object to allow an arbitrary query against the Contentful API
 
 # Licence
 MIT - please see MIT-LICENCE in this repo.
