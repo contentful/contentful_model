@@ -10,6 +10,7 @@ changes from that point onwards.
 * Added CMA Integration
 * Added Specs for all major components
 * Added Content Model Migrations
+* Added Locale Search [#27](https://github.com/contentful/contentful_model/issues/27)
 
 ### Fixed
 * Fixed getter method resolution

@@ -67,7 +67,7 @@ Foo.all.load
 Foo.all.offset(2).load
 ```
 
-### `find([id]`
+### `find([id])`
 Returns the entry of the content type you've called, matching the id you passed into the `find()` method. _Does not_ require `load()`.
 
 ```
@@ -82,6 +82,9 @@ Foo.find_by(someField: [searchquery1, searchquery2], someOtherField: "bar").load
 ```
 
 You'll see from the example above that it accepts an array of search terms which will invoke an 'in' query.
+
+### `locale([string])`
+Fetches the entries for a specific locale code, or all if `'*'` is sent.
 
 ## Associations
 You can specify associations between models in a similar way to ActiveRecord. There are some differences, though, so read on.
