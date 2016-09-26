@@ -6,6 +6,8 @@ changes from that point onwards.
 
 ## Master
 
+## 0.2.0
+
 ### Added
 * Added CMA Integration
 * Added Specs for all major components
