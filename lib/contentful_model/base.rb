@@ -11,6 +11,14 @@ module ContentfulModel
       self.class.coercions ||= {}
     end
 
+    def cache_key(*timestamp_names)
+      if timestamp_names.present?
+        raise ArgumentError, "ContentfulModel::Base models don't support named timestamps."
+      end
+
+      "#{self.class.to_s.underscore}/#{self.id}-#{self.updated_at.utc.to_s(:usec)}"
+    end
+
     private
 
     def define_getters
@@ -78,14 +86,6 @@ module ContentfulModel
       else
         true
       end
-    end
-
-    def cache_key(*timestamp_names)
-      if timestamp_names.present?
-        raise ArgumentError, "ContentfulModel::Base models don't support named timestamps."
-      end
-
-      "#{self.class.to_s.underscore}/#{self.id}-#{self.updated_at.utc.to_s(:number)}"
     end
 
     class << self
