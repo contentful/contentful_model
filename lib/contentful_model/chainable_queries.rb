@@ -53,7 +53,11 @@ module ContentfulModel
         else
           column = args.to_s
         end
-        @query << {'order' => "#{prefix}fields.#{column.camelize(:lower)}"}
+        property_name = column.camelize(:lower).to_sym
+        sys_properties = Contentful::Resource::SystemProperties::SYS_COERCIONS.keys
+        property_type = sys_properties.include?(property_name) ? 'sys' : 'fields'
+
+        @query << {'order' => "#{prefix}#{property_type}.#{property_name}"}
         self
       end
 
