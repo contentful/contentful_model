@@ -30,8 +30,9 @@ module ContentfulModel
               super().send(:"#{options[:inverse_of]}=",self)
             rescue ContentfulModel::AttributeNotFoundError
               # If method_missing returns an error, the field doesn't exist. If a class is specified, try that.
-              if options[:class_name].underscore.to_sym != association_name
-                self.send(options[:class_name].underscore.to_sym)
+              possible_field_name = options[:class_name].underscore.to_sym
+              if possible_field_name != association_name && self.respond_to?(possible_field_name)
+                self.send(possible_field_name)
               else
                 #otherwise give up and return nil
                 nil

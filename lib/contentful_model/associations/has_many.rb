@@ -34,8 +34,9 @@ module ContentfulModel
             rescue ContentfulModel::AttributeNotFoundError
               # If AttributeNotFoundError is raised, that means that the association name isn't available on the object.
               # We try to call the class name (pluralize) instead, or give up and return an empty collection
-              if options[:class_name].pluralize.underscore.to_sym != association_names
-                self.send(options[:class_name].pluralize.underscore.to_sym)
+              possible_field_name = options[:class_name].pluralize.underscore.to_sym
+              if possible_field_name != association_names && respond_to?(possible_field_name)
+                self.send(possible_field_name)
               else
                 #return an empty collection if the class name was the same as the association name and there's no attribute on the object.
                 []
