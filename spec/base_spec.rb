@@ -37,6 +37,50 @@ describe ContentfulModel::Base do
     end
   end
 
+  describe "coercion" do
+    it "applies to the getters created for each field" do
+      klass = new_contentful_model{ coerce_field published_at: :date }
+      entry = klass.new('entry_id', space, {
+        'published_at' => {'en-US' => '2016-12-06T11:00+00:00'}
+      })
+
+      vcr('client') {
+        expect(entry.published_at).to be_instance_of(DateTime)
+      }
+    end
+  end
+
+  describe "#coerce_field" do
+    let(:klass) {
+      new_contentful_model do
+        coerce_field view_count: ->(original) { original.to_i * 100 }
+        coerce_field published_at: :date
+      end
+    }
+
+    subject(:entry) { klass.new('entry_id', space, fields) }
+
+    it "returns the value for fields that have no coercion" do
+      title = 'CMS of the future'
+      expect(klass.coerce_value(:title, title)).to eq(title)
+    end
+
+    context "the fields coercion is a Proc" do
+      it "call the proc with the value and returns the result" do
+        count = '2'
+        expect(klass.coerce_value(:view_count, count)).to eq(200)
+      end
+    end
+
+    context "the fields coercion is a Symbol" do
+      it "calls the builtin coercion with the value and returns the result" do
+        date = '2016-12-06T11:00+00:00'
+        expect(klass.coerce_value(:published_at, date))
+          .to be_instance_of(DateTime)
+      end
+    end
+  end
+
   describe "#cache_key" do
     subject(:contentful_object) { MockBase.new('entry_id', space, {'updated_at' => {'en-US' => Time.now}}) }
 
