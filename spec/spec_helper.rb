@@ -26,22 +26,32 @@ class MockSpace
   end
 end
 
-class MockBase < ContentfulModel::Base
-  self.content_type_id = 'ct_id'
+def new_contentful_model
+  klass = Class.new(ContentfulModel::Base) do
+    self.content_type_id = 'ct_id'
 
-  attr_reader :id, :space, :locale
+    attr_reader :id, :space, :locale
 
-  def initialize(id, space, fields = {})
-    @locale = 'en-US'
-    super('fields' => fields)
-    @id = id
-    @space = space
+    def initialize(id, space, fields = {})
+      @locale = 'en-US'
+      super('fields' => fields)
+      @id = id
+      @space = space
+    end
+
+    def fields(locale = default_locale)
+      super || {}
+    end
   end
 
-  def fields(locale = default_locale)
-    super || {}
+  if block_given?
+    klass.class_eval(&Proc.new)
   end
+
+  klass
 end
+
+MockBase = new_contentful_model()
 
 class MockClient
   attr_accessor :response
