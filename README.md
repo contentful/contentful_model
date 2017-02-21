@@ -22,12 +22,15 @@ ContentfulModel.configure do |config|
   config.preview_access_token = "your preview token in here"
   config.management_token = "your management token in here"
   config.space = "your space id in here"
+  config.default_locale = "en-US"
   config.options = {
     #extra options to send to the Contentful::Client
   }
 end
 
 ```
+
+It is important to set the `default_locale` to match the one set in your Contentful settings, otherwise the fields will have no content.
 
 ## Create a model class
 
