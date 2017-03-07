@@ -17,7 +17,8 @@ module ContentfulModel
     def execute
       query = @parameters.merge(default_parameters)
       result = client.send(:entries,query)
-      return result.to_a.reject {|entity| entity.is_a?(Contentful::Link) || entity.invalid?}
+      result.items.reject! { |entity| entity.is_a?(Contentful::Link) || entity.invalid? }
+      result
     end
 
     def client
