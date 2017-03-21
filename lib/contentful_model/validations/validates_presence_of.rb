@@ -24,7 +24,7 @@ module Contentful
         errors = []
 
         fields.each do |field|
-          errors << "#{field} is required" unless entry.respond_to?(field)
+          errors << "#{field} is required" unless entry.respond_to?(field) && (entry.send(field) rescue nil).present?
         end
 
         errors
