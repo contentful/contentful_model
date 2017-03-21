@@ -1,3 +1,6 @@
+require 'simplecov'
+SimpleCov.start
+
 require 'contentful_model'
 require 'rspec'
 require 'vcr'
