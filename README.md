@@ -78,7 +78,7 @@ Foo.find("someidfromcontentful")
 ```
 
 ### `find_by([hash])`
-Accepts a hash of options to include in the search, as similar as possible to ActiveRecord version. __Note__ that this doesn't work (and will throw an error) on fields which need the full-text search. This needs fixing. Requires load() to be called at the end of the chain.
+Accepts a hash of options to include in the search, as similar as possible to ActiveRecord version. __Note__ that this doesn't work (and will throw an error) on fields which need the full-text search. This needs fixing. Also the value of the hash has to be a string regardless of the field type in Contentful. Requires load() to be called at the end of the chain.
 
 ```
 Foo.find_by(someField: [searchquery1, searchquery2], someOtherField: "bar").load
