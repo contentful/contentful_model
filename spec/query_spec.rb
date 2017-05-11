@@ -1,36 +1,9 @@
 require 'spec_helper'
 
-class MockClient
-  attr_accessor :response
-
-  def initialize(response = [])
-    @response = response
-  end
-
-  def entries(query = {})
-    response
-  end
-end
-
-class MockEntry
-  attr_reader :client, :content_type_id
-
-  def initialize(client, content_type_id, invalid = false)
-    @client = client
-    @content_type_id = content_type_id
-    @invalid = invalid
-  end
-
-  def invalid?
-    @invalid
-  end
-end
-
 describe ContentfulModel::Query do
   let(:parameters) { { 'sys.id' => 'foo' } }
-  let(:client) { MockClient.new }
-  let(:entry) { MockEntry.new(client, 'foo_ct') }
-  subject { described_class.new(entry, parameters) }
+  let(:entry) { vcr('nyancat') { Cat.find('nyancat') } }
+  subject { described_class.new(Cat, parameters) }
 
   describe 'attributes' do
     it ':parameters' do
@@ -39,6 +12,16 @@ describe ContentfulModel::Query do
   end
 
   describe 'instance_methods' do
+    before :each do
+      ContentfulModel.configure do |config|
+        config.space = 'cfexampleapi'
+        config.access_token = 'b4c0n73n7fu1'
+        config.entry_mapping = {}
+      end
+
+      Cat.client = nil
+    end
+
     it '#<< updates parameters' do
       expect(subject.parameters).to eq parameters
 
@@ -48,11 +31,13 @@ describe ContentfulModel::Query do
     end
 
     it '#default_parameters' do
-      expect(subject.default_parameters).to eq('content_type' => 'foo_ct')
+      expect(subject.default_parameters).to eq('content_type' => 'cat')
     end
 
     it '#client' do
-      expect(subject.client).to eq client
+      vcr('client') {
+        expect(subject.client).to eq Cat.client
+      }
     end
 
     it '#reset' do
@@ -63,16 +48,20 @@ describe ContentfulModel::Query do
       expect(subject.parameters).to eq subject.default_parameters
     end
 
-    it '#execute' do
-      expect(subject.execute).to eq []
+    describe '#execute' do
+      it 'when response is empty' do
+        vcr('query/empty') {
+          expect(subject.execute.items).to eq []
+        }
+      end
 
-      client.response = [MockEntry.new(client, 'foo_ct', true)]
-
-      expect(subject.execute).to eq []
-
-      client.response = [entry]
-
-      expect(subject.execute).to eq [entry]
+      it 'when response contains items' do
+        query = described_class.new(Cat, 'sys.id' => 'nyancat')
+        vcr('nyancat') {
+          entries = query.execute
+          expect(entries.first.id).to eq 'nyancat'
+        }
+      end
     end
   end
 end

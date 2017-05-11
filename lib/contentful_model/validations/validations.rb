@@ -8,25 +8,30 @@ module ContentfulModel
       attr_reader :errors
     end
 
-    def valid?
-      validate
+    def valid?(save = false)
+      validate(save)
     end
 
-    def invalid?
-      !valid?
+    def invalid?(save = false)
+      !valid?(save)
     end
 
-    def validate
+    def validate(save = false)
       @errors = []
       unless self.respond_to?(:fields)
         @errors.push("Entity doesn't respond to the fields() method")
         return false
       end
 
-      validations = self.class.send(:validations)
-      unless validations.nil?
-        validations.each do |validation|
-          @errors += validation.validate(self)
+      validation_kinds = [:validations]
+      validation_kinds << :save_validations if save
+
+      validation_kinds.each do |validation_kind|
+        validations = self.class.send(validation_kind)
+        unless validations.nil?
+          validations.each do |validation|
+            @errors += validation.validate(self)
+          end
         end
       end
 
@@ -36,6 +41,44 @@ module ContentfulModel
     module ClassMethods
       def validations
         @validations
+      end
+
+      def save_validations
+        @save_validations
+      end
+
+      def validate_with(validation, on_load: false)
+        if validation.is_a?(Class)
+          validation = validation.new
+        elsif validation.respond_to?(:validate)
+          validation = validation
+        else
+          fail '::validate_with requires a Class or object that responds to #validate(entry)'
+        end
+
+        if on_load
+          @validations ||= []
+          @validations << validation
+        else
+          @save_validations ||= []
+          @save_validations << validation
+        end
+      end
+
+      def validate(name, fn = nil, on_load: false, &block)
+        vs = []
+        fail '::validate requires either a function or a block sent as a validation' if fn.nil? && block.nil?
+
+        vs << ::Contentful::Validations::LambdaValidation.new(name, fn) unless fn.nil?
+        vs << ::Contentful::Validations::LambdaValidation.new(name, block) unless block.nil?
+
+        if on_load
+          @validations ||= []
+          @validations += vs
+        else
+          @save_validations ||= []
+          @save_validations += vs
+        end
       end
     end
   end

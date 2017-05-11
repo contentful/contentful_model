@@ -29,33 +29,6 @@ class MockSpace
   end
 end
 
-def new_contentful_model
-  klass = Class.new(ContentfulModel::Base) do
-    self.content_type_id = 'ct_id'
-
-    attr_reader :id, :space, :locale
-
-    def initialize(id, space, fields = {})
-      @locale = 'en-US'
-      super('fields' => fields)
-      @id = id
-      @space = space
-    end
-
-    def fields(locale = default_locale)
-      super || {}
-    end
-  end
-
-  if block_given?
-    klass.class_eval(&Proc.new)
-  end
-
-  klass
-end
-
-MockBase = new_contentful_model()
-
 class MockClient
   attr_accessor :response
 
@@ -66,4 +39,16 @@ class MockClient
   def entries(query = {})
     response
   end
+end
+
+class Cat < ContentfulModel::Base
+  self.content_type_id = 'cat'
+end
+
+class CoercedCat < ContentfulModel::Base
+  self.content_type_id = 'cat'
+
+  coerce_field name: -> (name) { name.gsub('Nyan', 'Fat') }
+  coerce_field created_at: 'String'
+  coerce_field updated_at: 'Date'
 end
