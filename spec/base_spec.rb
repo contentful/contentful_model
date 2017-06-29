@@ -31,8 +31,8 @@ describe ContentfulModel::Base do
       vcr('client') {
         expect(MockBase.new('entry_id', space).respond_to?(:foo)).to be_falsey
 
-        expect(MockBase.new('entry_id', space, {'foo' => {'en-US' => 'bar'}}).respond_to?(:foo)).to be_truthy
-        expect(MockBase.new('entry_id', space, {'foo' => {'en-US' => 'bar'}}).foo).to eq 'bar'
+        expect(MockBase.new('entry_id', space, {'fields' => {'foo' => {'en-US' => 'bar'}}}).respond_to?(:foo)).to be_truthy
+        expect(MockBase.new('entry_id', space, {'fields' => {'foo' => {'en-US' => 'bar'}}}).foo).to eq 'bar'
       }
     end
   end
@@ -41,7 +41,7 @@ describe ContentfulModel::Base do
     it "applies to the getters created for each field" do
       klass = new_contentful_model{ coerce_field published_at: :date }
       entry = klass.new('entry_id', space, {
-        'published_at' => {'en-US' => '2016-12-06T11:00+00:00'}
+        'fields' => { 'publishedAt' => {'en-US' => '2016-12-06T11:00+00:00'} }
       })
 
       vcr('client') {
@@ -57,8 +57,6 @@ describe ContentfulModel::Base do
         coerce_field published_at: :date
       end
     }
-
-    subject(:entry) { klass.new('entry_id', space, fields) }
 
     it "returns the value for fields that have no coercion" do
       title = 'CMS of the future'
@@ -82,7 +80,7 @@ describe ContentfulModel::Base do
   end
 
   describe "#cache_key" do
-    subject(:contentful_object) { MockBase.new('entry_id', space, {'updated_at' => {'en-US' => Time.now}}) }
+    subject(:contentful_object) { MockBase.new('entry_id', space, {'sys' => {'updatedAt' => Time.now.to_s}, 'fields' => []}) }
 
     it "can be found by #responds_to?" do
       expect(contentful_object).to respond_to(:cache_key)

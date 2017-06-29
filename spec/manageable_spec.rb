@@ -66,13 +66,13 @@ describe ContentfulModel::Manageable do
     end
 
     it 'creates setters for fields' do
-      subject = MockBase.new('entry_id', space, {'foo' => {'en-US' => 1 }})
+      subject = MockBase.new('entry_id', space, {'fields' => {'foo' => {'en-US' => 1 }}})
 
       expect(subject.respond_to?(:foo=)).to be_truthy
     end
 
     it 'allows to override values' do
-      subject = MockBase.new('entry_id', space, {'foo' =>  {'en-US' => 1 }})
+      subject = MockBase.new('entry_id', space, {'fields' => {'foo' => {'en-US' => 1 }}})
 
       expect(subject.foo).to eq(1)
 
@@ -91,7 +91,7 @@ describe ContentfulModel::Manageable do
       end
 
       it 'sets dirty to false' do
-        subject = MockBase.new('entry_id', space, {'foo' =>  {'en-US' => 1 }})
+        subject = MockBase.new('entry_id', space, {'fields' => {'foo' => {'en-US' => 1 }}})
         mock_management = Object.new
         allow(subject).to receive(:to_management) { mock_management }
         allow(mock_management).to receive(:save)
@@ -108,7 +108,7 @@ describe ContentfulModel::Manageable do
       end
 
       it 'refetches management entry if conflict occurs' do
-        subject = MockBase.new('entry_id', space, {'foo' =>  {'en-US' => 1 }})
+        subject = MockBase.new('entry_id', space, {'fields' => {'foo' =>  {'en-US' => 1}}})
         mock_management = Object.new
         new_management_entry = Object.new
         allow(subject).to receive(:to_management) { mock_management }
@@ -132,7 +132,7 @@ describe ContentfulModel::Manageable do
       end
 
       it 'raises error if conflict happens after refetch' do
-        subject = MockBase.new('entry_id', space, {'foo' =>  {'en-US' => 1 }})
+        subject = MockBase.new('entry_id', space, {'fields' => {'foo' =>  {'en-US' => 1}}})
         mock_management = Object.new
         new_management_entry = Object.new
         allow(subject).to receive(:to_management) { mock_management }
