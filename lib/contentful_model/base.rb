@@ -7,7 +7,6 @@ module ContentfulModel
 
     def initialize(*args)
       super
-      define_getters
       self.class.coercions ||= {}
     end
 
@@ -20,26 +19,6 @@ module ContentfulModel
     end
 
     private
-
-    def define_getters
-      fields.each do |k, v|
-        if Contentful::Constants::KNOWN_LOCALES.include?(k.to_s)
-          v.keys.each do |name|
-            define_getter(name)
-          end
-        else
-          define_getter(k)
-        end
-      end
-    end
-
-    def define_getter(field_name)
-      method_name = field_name.to_s.underscore.to_sym
-
-      define_singleton_method(method_name) do
-        self.class.coerce_value(method_name, fields(default_locale)[field_name])
-      end
-    end
 
     #use method_missing to call fields on the model
     def method_missing(method, *args, &block)

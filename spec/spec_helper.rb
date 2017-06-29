@@ -35,9 +35,9 @@ def new_contentful_model
 
     attr_reader :id, :space, :locale
 
-    def initialize(id, space, fields = {})
+    def initialize(id, space, data = {'fields' => {}})
       @locale = 'en-US'
-      super('fields' => fields)
+      super(data)
       @id = id
       @space = space
     end
