@@ -10,7 +10,7 @@ module ContentfulModel
 
         content_type.field(name, type)
 
-        content_type.save
+        content_type.save.publish
       end
 
       def remove_content_type_field(content_type_id, field_id)
@@ -18,7 +18,7 @@ module ContentfulModel
 
         content_type.remove_field(field_id)
 
-        content_type.save
+        content_type.save.publish
       end
     end
   end
