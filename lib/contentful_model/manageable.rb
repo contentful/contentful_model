@@ -106,7 +106,7 @@ module ContentfulModel
       when Contentful::Asset
         Contentful::Management::Entry.hash_with_link_object('Asset', entry_value)
       when Contentful::Link
-        Contentful::Management::Entry.hash_with_link_object(entry_value.sys[:linkType], entry_value)
+        Contentful::Management::Entry.hash_with_link_object(entry_value.sys[:link_type], entry_value)
       else
         entry_value
       end

@@ -31,12 +31,9 @@ module ContentfulModel
               super().each do |child|
                 child.send(:"#{options[:inverse_of]}=",self) if child.respond_to?(:"#{options[:inverse_of]}=")
               end
-
-            rescue NoMethodError => e
+            rescue NoMethodError
               []
-
             rescue ContentfulModel::AttributeNotFoundError
-
               # If AttributeNotFoundError is raised, that means that the association name isn't available on the object.
               # We try to call the class name (pluralize) instead, or give up and return an empty collection
               possible_field_name = options[:class_name].pluralize.underscore.to_sym
