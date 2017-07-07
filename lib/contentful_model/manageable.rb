@@ -117,7 +117,9 @@ module ContentfulModel
         @management ||= ContentfulModel::Management.new(
           options.merge(
             default_locale: ContentfulModel.configuration.default_locale,
-            raise_errors: true
+            raise_errors: true,
+            integration_name: 'contentful_model',
+            integration_version: ::ContentfulModel::VERSION
           )
         )
       end
