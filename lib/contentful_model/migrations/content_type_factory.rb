@@ -6,8 +6,8 @@ module ContentfulModel
 
         yield(content_type) if block_given?
 
-        fields.each do |name, type|
-          content_type.field(name, type)
+        fields.each do |field_name, type|
+          content_type.field(field_name, type)
         end
 
         content_type.save

@@ -17,7 +17,8 @@ describe ContentfulModel::Migrations::Migration do
     mock_ct = Object.new
     allow(ContentfulModel::Migrations::ContentTypeFactory).to receive(:find).with('ct_id') { mock_ct }
     expect(mock_ct).to receive(:field).with('name', :type)
-    expect(mock_ct).to receive(:save)
+    expect(mock_ct).to receive(:save) { mock_ct }
+    expect(mock_ct).to receive(:publish)
 
     subject.add_content_type_field('ct_id', 'name', :type)
   end
@@ -26,7 +27,8 @@ describe ContentfulModel::Migrations::Migration do
     mock_ct = Object.new
     allow(ContentfulModel::Migrations::ContentTypeFactory).to receive(:find).with('ct_id') { mock_ct }
     expect(mock_ct).to receive(:remove_field).with('field_id')
-    expect(mock_ct).to receive(:save)
+    expect(mock_ct).to receive(:save) { mock_ct }
+    expect(mock_ct).to receive(:publish)
 
     subject.remove_content_type_field('ct_id', 'field_id')
   end

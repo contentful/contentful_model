@@ -6,6 +6,23 @@ changes from that point onwards.
 
 ## Master
 
+### Added
+
+* Added `::validate_with` and `::validate` methods for more complex validations
+* Added `#hash` and `#eql?` to `ContentfulModel::Base` for equality and set operations [#65](https://github.com/contentful/contentful_model/issues/65)
+
+### Fixed
+
+* Setters and Getters now work for current locale instead of only default locale
+* Management SDK now properly raises errors and works properly with localized content
+* Queries now properly returns `::Contentful::Array` instead of `::Array` instances [#67](https://github.com/contentful/contentful_model/issues/67)
+
+### Changed
+
+* Updated to CDA SDK 2.x
+* Updated Specs to run mostly against real data instead of mocks
+* Validations are now run by default before `#save`
+
 ## 0.2.0
 
 ### Added

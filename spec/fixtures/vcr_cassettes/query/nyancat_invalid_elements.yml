@@ -1,0 +1,247 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: https://cdn.contentful.com/spaces/cfexampleapi/entries?content_type=cat&sys.id%5Bin%5D=nyancat,happycat
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - RubyContentfulGem/2.0.1
+      Authorization:
+      - Bearer b4c0n73n7fu1
+      Content-Type:
+      - application/vnd.contentful.delivery.v1+json
+      Connection:
+      - close
+      Host:
+      - cdn.contentful.com
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Access-Control-Allow-Headers:
+      - Accept,Accept-Language,Authorization,Cache-Control,Content-Length,Content-Range,Content-Type,DNT,Destination,Expires,If-Match,If-Modified-Since,If-None-Match,Keep-Alive,Last-Modified,Origin,Pragma,Range,User-Agent,X-Http-Method-Override,X-Mx-ReqToken,X-Requested-With,X-Contentful-Version,X-Contentful-Content-Type,X-Contentful-Organization,X-Contentful-Skip-Transformation,X-Contentful-User-Agent
+      Access-Control-Allow-Methods:
+      - GET,HEAD,OPTIONS
+      Access-Control-Allow-Origin:
+      - "*"
+      Access-Control-Expose-Headers:
+      - Etag
+      Access-Control-Max-Age:
+      - '86400'
+      Cache-Control:
+      - max-age=0
+      Content-Type:
+      - application/vnd.contentful.delivery.v1+json
+      Etag:
+      - W/"b6853fe965d052f70ab6f6dfc6642965"
+      Server:
+      - Contentful
+      X-Content-Type-Options:
+      - nosniff
+      X-Contentful-Request-Id:
+      - 4c0a234eeee60e5f3b0e62cae291dfdf
+      Content-Length:
+      - '4086'
+      Accept-Ranges:
+      - bytes
+      Date:
+      - Thu, 04 May 2017 18:50:27 GMT
+      Via:
+      - 1.1 varnish
+      Age:
+      - '69'
+      Connection:
+      - close
+      X-Served-By:
+      - cache-lax8629-LAX
+      X-Cache:
+      - HIT
+      X-Cache-Hits:
+      - '1'
+      X-Timer:
+      - S1493923828.930258,VS0,VE1
+      Vary:
+      - Accept-Encoding
+    body:
+      encoding: UTF-8
+      string: |
+        {
+          "sys": {
+            "type": "Array"
+          },
+          "total": 2,
+          "skip": 0,
+          "limit": 100,
+          "items": [
+            {
+              "sys": {
+                "space": {
+                  "sys": {
+                    "type": "Link",
+                    "linkType": "Space",
+                    "id": "cfexampleapi"
+                  }
+                },
+                "id": "happycat",
+                "type": "Entry",
+                "createdAt": "2013-06-27T22:46:20.171Z",
+                "updatedAt": "2013-11-18T15:58:02.018Z",
+                "revision": 8,
+                "contentType": {
+                  "sys": {
+                    "type": "Link",
+                    "linkType": "ContentType",
+                    "id": "cat"
+                  }
+                },
+                "locale": "en-US"
+              },
+              "fields": {
+                "name": "Happy Cat",
+                "likes": [
+                  "cheezburger"
+                ],
+                "color": "gray",
+                "bestFriend": {
+                  "sys": {
+                    "type": "Link",
+                    "linkType": "Entry",
+                    "id": "nyancat"
+                  }
+                },
+                "birthday": "2003-10-28T23:00:00+00:00",
+                "lives": 1,
+                "image": {
+                  "sys": {
+                    "type": "Link",
+                    "linkType": "Asset",
+                    "id": "happycat"
+                  }
+                }
+              }
+            },
+            {
+              "sys": {
+                "space": {
+                  "sys": {
+                    "type": "Link",
+                    "linkType": "Space",
+                    "id": "cfexampleapi"
+                  }
+                },
+                "id": "nyancat",
+                "type": "Entry",
+                "createdAt": "2013-06-27T22:46:19.513Z",
+                "updatedAt": "2013-09-04T09:19:39.027Z",
+                "revision": 5,
+                "contentType": {
+                  "sys": {
+                    "type": "Link",
+                    "linkType": "ContentType",
+                    "id": "cat"
+                  }
+                },
+                "locale": "en-US"
+              },
+              "fields": {
+                "name": "Nyan Cat",
+                "likes": [
+                  "rainbows",
+                  "fish"
+                ],
+                "color": "rainbow",
+                "bestFriend": {
+                  "sys": {
+                    "type": "Link",
+                    "linkType": "Entry",
+                    "id": "happycat"
+                  }
+                },
+                "birthday": "2011-04-04T22:00:00+00:00",
+                "lives": 1337,
+                "image": {
+                  "sys": {
+                    "type": "Link",
+                    "linkType": "Asset",
+                    "id": "nyancat"
+                  }
+                }
+              }
+            }
+          ],
+          "includes": {
+            "Asset": [
+              {
+                "sys": {
+                  "space": {
+                    "sys": {
+                      "type": "Link",
+                      "linkType": "Space",
+                      "id": "cfexampleapi"
+                    }
+                  },
+                  "id": "happycat",
+                  "type": "Asset",
+                  "createdAt": "2013-09-02T14:56:34.267Z",
+                  "updatedAt": "2013-09-02T15:11:24.361Z",
+                  "revision": 2,
+                  "locale": "en-US"
+                },
+                "fields": {
+                  "title": "Happy Cat",
+                  "file": {
+                    "url": "//images.contentful.com/cfexampleapi/3MZPnjZTIskAIIkuuosCss/382a48dfa2cb16c47aa2c72f7b23bf09/happycatw.jpg",
+                    "details": {
+                      "size": 59939,
+                      "image": {
+                        "width": 273,
+                        "height": 397
+                      }
+                    },
+                    "fileName": "happycatw.jpg",
+                    "contentType": "image/jpeg"
+                  }
+                }
+              },
+              {
+                "sys": {
+                  "space": {
+                    "sys": {
+                      "type": "Link",
+                      "linkType": "Space",
+                      "id": "cfexampleapi"
+                    }
+                  },
+                  "id": "nyancat",
+                  "type": "Asset",
+                  "createdAt": "2013-09-02T14:56:34.240Z",
+                  "updatedAt": "2013-09-02T14:56:34.240Z",
+                  "revision": 1,
+                  "locale": "en-US"
+                },
+                "fields": {
+                  "title": "Nyan Cat",
+                  "file": {
+                    "url": "//images.contentful.com/cfexampleapi/4gp6taAwW4CmSgumq2ekUm/9da0cd1936871b8d72343e895a00d611/Nyan_cat_250px_frame.png",
+                    "details": {
+                      "size": 12273,
+                      "image": {
+                        "width": 250,
+                        "height": 250
+                      }
+                    },
+                    "fileName": "Nyan_cat_250px_frame.png",
+                    "contentType": "image/png"
+                  }
+                }
+              }
+            ]
+          }
+        }
+    http_version: 
+  recorded_at: Thu, 04 May 2017 18:50:28 GMT
+recorded_with: VCR 3.0.3
