@@ -1,73 +1,57 @@
 module ContentfulModel
-  class Base < Contentful::DynamicEntry
+  class Base < Contentful::Entry
     include ContentfulModel::ChainableQueries
     include ContentfulModel::Associations
     include ContentfulModel::Validations
     include ContentfulModel::Manageable
 
-    def initialize(*args)
+    def initialize(*)
       super
-      define_getters
-      self.class.coercions ||= {}
+      override_getters
+    end
+
+    def cache_key(*timestamp_names)
+      if timestamp_names.present?
+        raise ArgumentError, "ContentfulModel::Base models don't support named timestamps."
+      end
+
+      "#{self.class.to_s.underscore}/#{self.id}-#{self.updated_at.utc.to_s(:usec)}"
+    end
+
+    def hash
+      "#{sys[:content_type].id}-#{sys[:id]}".hash
+    end
+
+    def eql?(other)
+      super || other.instance_of?(self.class) && sys[:id].present? && other.sys[:id] == sys[:id]
     end
 
     private
 
-    def define_getters
-      fields.each do |k, v|
-        if Contentful::Constants::KNOWN_LOCALES.include?(k.to_s)
-          v.keys.each do |name|
-            define_getter(name)
+    def override_getters
+      sys.keys.each do |name|
+        define_singleton_method name do
+          self.class.coerce_value(name, sys[name])
+        end
+      end
+
+      fields.keys.each do |name|
+        define_singleton_method name do
+          result = self.class.coerce_value(name, fields[name])
+
+          if result.is_a?(Array)
+            result.reject! { |r| r.is_a?(Contentful::Link) || (r.respond_to?(:invalid?) && r.invalid?) }
+          elsif result.is_a?(Contentful::Link)
+            result = nil
+          elsif result.respond_to?(:fields) && result.send(:fields).empty?
+            result = nil
           end
-        else
-          define_getter(k)
-        end
-      end
-    end
 
-    def define_getter(name)
-      define_singleton_method "#{name.to_s.underscore}" do
-        fields(default_locale)[name]
-      end
-    end
+          if result.nil? && self.class.return_nil_for_empty_attribute_fields && self.class.return_nil_for_empty_attribute_fields.include?(name)
+            return nil
+          end
 
-    #use method_missing to call fields on the model
-    def method_missing(method, *args, &block)
-      result = fields[:"#{method.to_s.camelize(:lower)}"]
-      # we need to pull out any Contentful::Link references, and also things which don't have any fields at all
-      # because they're newly created
-      if result.is_a?(Array)
-        result.reject! {|r| r.is_a?(Contentful::Link) || (r.respond_to?(:invalid) && r.invalid?)}
-      elsif result.is_a?(Contentful::Link)
-        result = nil
-      elsif result.respond_to?(:fields) && result.send(:fields).empty?
-        result = nil
-      elsif result.respond_to?(:invalid?) && result.invalid?
-        result = nil
-      end
-
-      if result.nil?
-        # if self.class.rescue_from_no_attribute_fields.member?()
-        # end
-        if self.class.return_nil_for_empty_attribute_fields && self.class.return_nil_for_empty_attribute_fields.include?(method)
-          return nil
-        else
-          raise ContentfulModel::AttributeNotFoundError, "no attribute #{method} found"
-        end
-      else
-        # if there's no coercion specified, return the result
-        if self.class.coercions[method].nil?
-          return result
-        #if there's a coercion specified for the field and it's a proc, pass the result
-        #to the proc
-        elsif self.class.coercions[method].is_a?(Proc)
-          return self.class.coercions[method].call(result)
-        #provided the coercion is in the COERCIONS constant, call the proc on that
-        elsif !self.class::COERCIONS[self.class.coercions[method]].nil?
-          return self.class::COERCIONS[self.class.coercions[method]].call(result)
-        else
-          #... or just return the result
-          return result
+          result
         end
       end
     end
@@ -80,16 +64,8 @@ module ContentfulModel
       end
     end
 
-    def cache_key(*timestamp_names)
-      if timestamp_names.present?
-        raise ArgumentError, "ContentfulModel::Base models don't support named timestamps."
-      end
-
-      "#{self.class.to_s.underscore}/#{self.id}-#{self.updated_at.utc.to_s(:number)}"
-    end
-
     class << self
-      attr_accessor :content_type_id, :coercions, :return_nil_for_empty_attribute_fields
+      attr_accessor :content_type_id, :coercions, :return_nil_for_empty_attribute_fields, :client
 
       def descendents
         ObjectSpace.each_object(Class).select { |klass| klass < self }
@@ -123,13 +99,29 @@ module ContentfulModel
         @coercions
       end
 
+      def coerce_value(field_name, value)
+        return value if coercions.nil?
+
+        coercion = coercions[field_name]
+
+        case coercion
+        when Symbol, String
+          coercion = Contentful::Field::KNOWN_TYPES[coercion.to_s]
+          return coercion.new(value).coerce unless coercion.nil?
+        when Proc
+          coercion[value]
+        else
+          value
+        end
+      end
+
       def return_nil_for_empty(*fields)
         @return_nil_for_empty_attribute_fields ||= []
 
         fields.each do |field|
           define_method field do
             begin
-              super()
+              super
             rescue ContentfulModel::AttributeNotFoundError
               nil
             end

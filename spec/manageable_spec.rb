@@ -1,21 +1,32 @@
 require 'spec_helper'
 
+class InvalidSaveCat < ContentfulModel::Base
+  self.content_type_id = 'cat'
+
+  validate :always_fail, -> (e) { false }
+end
+
 describe ContentfulModel::Manageable do
-  before do
+  before :each do
     ContentfulModel.configure do |c|
       c.default_locale = 'en-US'
-      c.management_token = 'foo'
-      c.access_token = 'foobar'
-      c.space = 'cfexampleapi'
+      c.management_token = '<ACCESS_TOKEN>'
+      c.access_token = '4d0f55d940975f78139daae5d965b463c0816e88ad16062d2c1ee3d6cb930521'
+      c.space = 'facgnwwgj5fe'
+      c.entry_mapping = {}
     end
+
+    InvalidSaveCat.client = nil
+    Cat.client = nil
   end
 
-  let(:space) { MockSpace.new('space_id') }
-  subject { MockBase.new('entry_id', space) }
+  let(:space_id) { 'facgnwwgj5fe' }
+  let(:entry_id) { 'IJLRrADsqq2AmwcugoYeK' }
+  subject { vcr('playground/nyancat') { Cat.find(entry_id) } }
 
   describe 'class methods' do
     it '::management' do
-      expect(MockBase.management).to be_a(ContentfulModel::Management)
+      expect(Cat.management).to be_a(ContentfulModel::Management)
     end
 
     describe '::create' do
@@ -23,146 +34,152 @@ describe ContentfulModel::Manageable do
         @mock_client = Object.new
         @mock_ct = Object.new
         @mock_entry = Object.new
-        allow(MockBase).to receive(:management) { @mock_client }
+        allow(Cat).to receive(:management) { @mock_client }
         allow(@mock_client).to receive(:entries) { @mock_client }
         allow(@mock_client).to receive(:content_types) { @mock_client }
-        allow(@mock_client).to receive(:find).with('cfexampleapi', 'ct_id') { @mock_ct }
-        @values = {'foo' => 'bar'}
+        allow(@mock_client).to receive(:find).with(space_id, 'cat') { @mock_ct }
+        @values = {'name' => 'Nyan Cat'}
       end
 
       it 'creates an entry' do
         expect(@mock_client).to receive(:create).with(@mock_ct, @values) { @mock_entry }
 
-        MockBase.create(@values)
+        Cat.create(@values)
       end
 
       it 'publishes after creation' do
         allow(@mock_client).to receive(:create).with(@mock_ct, @values) { @mock_entry }
-        allow(@mock_entry).to receive(:id) { 'entry_id' }
-        allow(MockBase).to receive(:find).with('entry_id') { @mock_entry }
+        allow(@mock_entry).to receive(:id) { entry_id }
+        allow(Cat).to receive(:find).with(entry_id) { @mock_entry }
         expect(@mock_entry).to receive(:publish)
 
-        MockBase.create(@values, true)
+        Cat.create(@values, true)
       end
     end
   end
 
   describe 'instance methods' do
     it '#to_management' do
-      vcr('client') {
-        mock_management_client = Object.new
-        mock_entry = Object.new
-        allow_any_instance_of(ContentfulModel::Client).to receive(:space)
-        allow_any_instance_of(ContentfulModel::Client).to receive(:entry) { mock_entry }
-        allow(MockBase).to receive(:management) { mock_management_client }
-        allow(mock_management_client).to receive(:spaces) { mock_management_client }
-        allow(mock_management_client).to receive(:find) { space }
-        allow(space).to receive(:entries) { space }
-        allow(space).to receive(:find).with('entry_id') { Contentful::Management::Entry.new({'sys' => {'id' => 'entry_id'}}) }
-
+      vcr('management/client') {
         expect(subject.to_management).to be_a(Contentful::Management::Entry)
-        expect(subject.to_management.id).to eq('entry_id')
+        expect(subject.to_management.id).to eq(entry_id)
       }
     end
 
     it 'creates setters for fields' do
-      subject = MockBase.new('entry_id', space, {'foo' => {'en-US' => 1 }})
-
-      expect(subject.respond_to?(:foo=)).to be_truthy
+      expect(subject.respond_to?(:name=)).to be_truthy
     end
 
     it 'allows to override values' do
-      subject = MockBase.new('entry_id', space, {'foo' =>  {'en-US' => 1 }})
-
-      expect(subject.foo).to eq(1)
-
-      subject.foo = 2
-
-      expect(subject.foo).to eq(2)
+      expect(subject.name).to eq('Nyan Cat')
+      subject.name = 'Fat Cat'
+      expect(subject.name).to eq('Fat Cat')
     end
 
-    describe '#save' do
-      it 'calls #save on management object' do
-        mock_management = Object.new
-        expect(subject).to receive(:to_management) { mock_management }
-        expect(mock_management).to receive(:save)
+    context 'modifying the space' do
+      describe '#save' do
+        it 'fails on invalid instance' do
+          vcr('management/nyancat') {
+            subject = InvalidSaveCat.find(entry_id)
 
-        subject.save
+            expect(subject).not_to receive(:to_management)
+
+            expect(subject.save).to be_falsey
+
+            expect(subject.errors).to match_array [
+              'always_fail: validation not met'
+            ]
+          }
+        end
+
+        it 'calls #save on management object' do
+          vcr('management/nyancat') {
+            subject = Cat.find(entry_id)
+
+            version = subject.to_management.sys[:version]
+
+            expect(subject.name).to eq 'Nyan Cat'
+
+            subject.name = 'Fat Cat'
+            vcr('management/nyancat_save') {
+              subject.save
+
+              expect(subject.to_management.sys[:version]).to eq(version + 1)
+            }
+          }
+        end
+
+        it 'sets dirty to false' do
+          vcr('management/nyancat') {
+            subject = Cat.find(entry_id)
+
+            expect(subject.dirty).to be_falsey
+
+            subject.name = 'Fat Cat'
+
+            expect(subject.dirty).to be_truthy
+            vcr('management/nyancat_save') {
+              subject.save
+
+              expect(subject.dirty).to be_falsey
+            }
+          }
+        end
+
+        it 'refetches management entry if conflict occurs' do
+          vcr('management/nyancat') {
+            subject = Cat.find(entry_id)
+
+            vcr('management/nyancat_refetch_and_save') {
+              expect(subject).to receive(:refetch_management_entry).and_call_original
+
+              subject.name = 'Foo Cat'
+              subject.save
+            }
+          }
+        end
+
+        it 'raises error if conflict happens after refetch' do
+          vcr('management/nyancat') {
+            subject = Cat.find(entry_id)
+
+            vcr('management/nyancat_refetch_and_fail') {
+              expect(subject).to receive(:refetch_management_entry).and_call_original
+
+              subject.name = 'Foo Cat'
+
+              expect { subject.save }.to raise_error ContentfulModel::VersionMismatchError
+            }
+          }
+        end
       end
 
-      it 'sets dirty to false' do
-        subject = MockBase.new('entry_id', space, {'foo' =>  {'en-US' => 1 }})
-        mock_management = Object.new
-        allow(subject).to receive(:to_management) { mock_management }
-        allow(mock_management).to receive(:save)
+      describe '#publish' do
+        it 'calls #publish on management object' do
+          vcr('management/nyancat_2') {
+            subject = Cat.find(entry_id)
 
-        expect(subject.dirty).to be_falsey
+            version = subject.to_management.sys[:version]
 
-        subject.foo = 2
+            expect(subject.name).to eq 'Nyan Cat'
 
-        expect(subject.dirty).to be_truthy
+            subject.name = 'Fat Cat'
+            vcr('management/nyancat_save_2') {
+              subject.save
 
-        subject.save
+              management_subject = subject.to_management
+              published_at = management_subject.sys[:publishedAt]
+              expect(management_subject.sys[:version]).to eq(version + 1)
+              vcr('management/nyancat_publish') {
+                subject.publish
 
-        expect(subject.dirty).to be_falsey
-      end
-
-      it 'refetches management entry if conflict occurs' do
-        subject = MockBase.new('entry_id', space, {'foo' =>  {'en-US' => 1 }})
-        mock_management = Object.new
-        new_management_entry = Object.new
-        allow(subject).to receive(:to_management) { mock_management }
-
-        dummy_http = Object.new
-        allow(dummy_http).to receive(:request) { dummy_http }
-        allow(dummy_http).to receive(:endpoint) { dummy_http }
-        allow(dummy_http).to receive(:error_message)
-        allow(dummy_http).to receive(:raw) { dummy_http }
-        allow(dummy_http).to receive(:body)
-
-        expect(mock_management).to receive(:save).and_raise(Contentful::Management::Conflict.new(dummy_http))
-        expect(subject).to receive(:refetch_management_entry) { new_management_entry }
-
-        expect(subject).to receive(:to_management) { mock_management }
-        expect(subject).to receive(:to_management).with(new_management_entry) { new_management_entry }
-
-        expect(new_management_entry).to receive(:save)
-
-        subject.save
-      end
-
-      it 'raises error if conflict happens after refetch' do
-        subject = MockBase.new('entry_id', space, {'foo' =>  {'en-US' => 1 }})
-        mock_management = Object.new
-        new_management_entry = Object.new
-        allow(subject).to receive(:to_management) { mock_management }
-
-        dummy_http = Object.new
-        allow(dummy_http).to receive(:request) { dummy_http }
-        allow(dummy_http).to receive(:endpoint) { dummy_http }
-        allow(dummy_http).to receive(:error_message)
-        allow(dummy_http).to receive(:raw) { dummy_http }
-        allow(dummy_http).to receive(:body)
-
-        expect(mock_management).to receive(:save).and_raise(Contentful::Management::Conflict.new(dummy_http))
-        expect(subject).to receive(:refetch_management_entry) { new_management_entry }
-
-        expect(subject).to receive(:to_management) { mock_management }
-        expect(subject).to receive(:to_management).with(new_management_entry) { new_management_entry }
-
-        expect(new_management_entry).to receive(:save).and_raise(Contentful::Management::Conflict.new(dummy_http))
-
-        expect { subject.save }.to raise_error ContentfulModel::VersionMismatchError
-      end
-    end
-
-    describe '#publish' do
-      it 'calls #publish on management object' do
-        mock_management = Object.new
-        expect(subject).to receive(:to_management) { mock_management }
-        expect(mock_management).to receive(:publish)
-
-        subject.publish
+                management_subject = subject.to_management
+                expect(management_subject.sys[:version]).to eq(version + 2)
+                expect(management_subject.sys[:publishedAt]).not_to eq(published_at)
+              }
+            }
+          }
+        end
       end
     end
   end

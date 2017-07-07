@@ -36,7 +36,7 @@ module ContentfulModel
         @query << {'locale' => locale_code}
         self
       end
-      
+
       def load_children(n)
         @query << {'include' => n}
         self
@@ -53,7 +53,11 @@ module ContentfulModel
         else
           column = args.to_s
         end
-        @query << {'order' => "#{prefix}fields.#{column.camelize(:lower)}"}
+        property_name = column.camelize(:lower).to_sym
+        sys_properties = ['type', 'id', 'space', 'contentType', 'linkType', 'revision', 'createdAt', 'updatedAt', 'locale']
+        property_type = sys_properties.include?(property_name.to_s) ? 'sys' : 'fields'
+
+        @query << {'order' => "#{prefix}#{property_type}.#{property_name}"}
         self
       end
 

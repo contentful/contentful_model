@@ -97,6 +97,11 @@ describe ContentfulModel::ChainableQueries do
         expect(subject.order('foo')).to eq subject
         expect(subject.query.parameters).to include('order' => 'fields.foo')
       end
+
+      it 'when param is a sys property' do
+        expect(subject.order(:created_at)).to eq subject
+        expect(subject.query.parameters).to include('order' => 'sys.createdAt')
+      end
     end
 
     describe '::find_by' do

@@ -2,8 +2,9 @@ module ContentfulModel
   module Manageable
     attr_reader :dirty
 
-    def initialize(*args)
+    def initialize(_item, _configuration = {}, localized = false, *)
       super
+      @localized = localized
       @dirty = false
       @changed_fields = []
       define_setters
@@ -27,7 +28,11 @@ module ContentfulModel
       @management_entry = fetch_management_entry
     end
 
-    def save
+    def save(skip_validations = false)
+      if !skip_validations && invalid?(true)
+        return false
+      end
+
       begin
         to_management.save
       rescue Contentful::Management::Conflict
@@ -41,6 +46,10 @@ module ContentfulModel
       self
     rescue Contentful::Management::Conflict
       fail ContentfulModel::VersionMismatchError, "Version Mismatch persisting after refetch attempt, use :refetch_management_entry and try again later."
+    end
+
+    def save!
+      save(true)
     end
 
     def publish
@@ -72,7 +81,7 @@ module ContentfulModel
 
     def define_setters
       fields.each do |k, v|
-        if Contentful::Constants::KNOWN_LOCALES.include?(k.to_s)
+        if @localized
           v.keys.each do |name|
             define_setter(name)
           end
@@ -86,7 +95,7 @@ module ContentfulModel
       define_singleton_method "#{name.to_s.underscore}=" do |value|
         @dirty = true
         @changed_fields << name
-        fields(default_locale)[name] = value
+        fields[name] = value
       end
     end
 
@@ -106,7 +115,10 @@ module ContentfulModel
     module ClassMethods
       def management(options = {})
         @management ||= ContentfulModel::Management.new(
-          options.merge(default_locale: ContentfulModel.configuration.default_locale)
+          options.merge(
+            default_locale: ContentfulModel.configuration.default_locale,
+            raise_errors: true
+          )
         )
       end
 

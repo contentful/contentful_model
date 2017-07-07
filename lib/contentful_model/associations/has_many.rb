@@ -28,8 +28,8 @@ module ContentfulModel
               # this will end up in ContentfulModel::Base#method_missing and return the value from Contentful.
               # We set the singular of the association name on each object in the collection to allow easy
               # reverse recursion without another API call (i.e. finding the Foo which called .bars())
-              super().collect do |child|
-                child.send(:"#{options[:inverse_of]}=",self)
+              super().each do |child|
+                child.send(:"#{options[:inverse_of]}=",self) if child.respond_to?(:"#{options[:inverse_of]}=")
               end
 
             rescue NoMethodError => e
@@ -39,8 +39,9 @@ module ContentfulModel
 
               # If AttributeNotFoundError is raised, that means that the association name isn't available on the object.
               # We try to call the class name (pluralize) instead, or give up and return an empty collection
-              if options[:class_name].pluralize.underscore.to_sym != association_names
-                self.send(options[:class_name].pluralize.underscore.to_sym)
+              possible_field_name = options[:class_name].pluralize.underscore.to_sym
+              if possible_field_name != association_names && respond_to?(possible_field_name)
+                self.send(possible_field_name)
               else
                 #return an empty collection if the class name was the same as the association name and there's no attribute on the object.
                 []

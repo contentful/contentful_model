@@ -1,0 +1,177 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: https://cdn.contentful.com/spaces/facgnwwgj5fe/content_types?limit=1000
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - RubyContentfulGem/2.0.1
+      Authorization:
+      - Bearer 4d0f55d940975f78139daae5d965b463c0816e88ad16062d2c1ee3d6cb930521
+      Content-Type:
+      - application/vnd.contentful.delivery.v1+json
+      Accept-Encoding:
+      - gzip
+      Connection:
+      - close
+      Host:
+      - cdn.contentful.com
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Access-Control-Allow-Headers:
+      - Accept,Accept-Language,Authorization,Cache-Control,Content-Length,Content-Range,Content-Type,DNT,Destination,Expires,If-Match,If-Modified-Since,If-None-Match,Keep-Alive,Last-Modified,Origin,Pragma,Range,User-Agent,X-Http-Method-Override,X-Mx-ReqToken,X-Requested-With,X-Contentful-Version,X-Contentful-Content-Type,X-Contentful-Organization,X-Contentful-Skip-Transformation,X-Contentful-User-Agent
+      Access-Control-Allow-Methods:
+      - GET,HEAD,OPTIONS
+      Access-Control-Allow-Origin:
+      - "*"
+      Access-Control-Expose-Headers:
+      - Etag
+      Access-Control-Max-Age:
+      - '86400'
+      Cache-Control:
+      - max-age=0
+      Content-Encoding:
+      - gzip
+      Content-Type:
+      - application/vnd.contentful.delivery.v1+json
+      Etag:
+      - W/"3c2eb059965a5ca225b2f5a86de05daa"
+      Server:
+      - Contentful
+      X-Content-Type-Options:
+      - nosniff
+      X-Contentful-Request-Id:
+      - 63d6461924e04798c8b9b1d6a30034e4
+      Content-Length:
+      - '521'
+      Accept-Ranges:
+      - bytes
+      Date:
+      - Tue, 09 May 2017 13:31:27 GMT
+      Via:
+      - 1.1 varnish
+      Age:
+      - '0'
+      Connection:
+      - close
+      X-Served-By:
+      - cache-lax8620-LAX
+      X-Cache:
+      - MISS
+      X-Cache-Hits:
+      - '0'
+      X-Timer:
+      - S1494336687.227205,VS0,VE301
+      Vary:
+      - Accept-Encoding
+    body:
+      encoding: ASCII-8BIT
+      string: !binary |-
+        H4sIAAAAAAAAA+1WS08CMRC+8ytIz0LahUXsTY0mJsSLnDQeym4hldJd24JZ
+        Cf/dtvvqIqjxbWIv7Ew7j6/zMdN1q90GKlMAt9fm0wg6S6mRwLGUJANGtzmw
+        Z3SiCTf6npPUnKVGgE7gbMG0kRCEuYJpurAeb5zH3O9WGBdKpSSyscoTudJL
+        xiqcskxqxMQc2KD1MuHFfFwkfeU8bh1gscUzJdFMPDzM7sIptbDKtam+HdB8
+        gcImSTxnVRanidBUaBfUs4kkJZrGx/YuQADRYQf2OjAYBwiHCPf63XCIrn2D
+        ZRrvNghwH+EAdgfDsGEg6YoplghbhyLXKmkQM5Vykp0zyh1gQRZ1erlkr8GD
+        BGKqIslSnbsUS85LOGBq3dRFtNfSKFN+QY0Y9kwV5/lOWcOrbDFJeKNIgCcR
+        4eyR2sSnhCvqlxBIer9kcs+mgU0mfM9mYphpSlJ6rUtdfN263+IO/zBRNVX6
+        E5iKhrgX4BB2w/DoTUzda+AxFb2TqWMf0xZVQQX2n6je//L3d9SIfJCnYQcO
+        x6iP4QBD2D3sv8rTlw0+gaenHqSvo+ml381dp/1V/bTu1zumBGcrqpoN340H
+        M45Gz7dKXBdmyM6o/OFB8SKwiWlR55JREe9Gd2L227sO7H3PfNckbMxX/wV1
+        JrR0z758la+jYlAa/W1r03oCtIL/UzYKAAA=
+    http_version: 
+  recorded_at: Tue, 09 May 2017 13:31:27 GMT
+- request:
+    method: get
+    uri: https://cdn.contentful.com/spaces/facgnwwgj5fe/entries?content_type=cat&sys.id=IJLRrADsqq2AmwcugoYeK
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - RubyContentfulGem/2.0.1
+      Authorization:
+      - Bearer 4d0f55d940975f78139daae5d965b463c0816e88ad16062d2c1ee3d6cb930521
+      Content-Type:
+      - application/vnd.contentful.delivery.v1+json
+      Accept-Encoding:
+      - gzip
+      Connection:
+      - close
+      Host:
+      - cdn.contentful.com
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Access-Control-Allow-Headers:
+      - Accept,Accept-Language,Authorization,Cache-Control,Content-Length,Content-Range,Content-Type,DNT,Destination,Expires,If-Match,If-Modified-Since,If-None-Match,Keep-Alive,Last-Modified,Origin,Pragma,Range,User-Agent,X-Http-Method-Override,X-Mx-ReqToken,X-Requested-With,X-Contentful-Version,X-Contentful-Content-Type,X-Contentful-Organization,X-Contentful-Skip-Transformation,X-Contentful-User-Agent
+      Access-Control-Allow-Methods:
+      - GET,HEAD,OPTIONS
+      Access-Control-Allow-Origin:
+      - "*"
+      Access-Control-Expose-Headers:
+      - Etag
+      Access-Control-Max-Age:
+      - '86400'
+      Cache-Control:
+      - max-age=0
+      Content-Encoding:
+      - gzip
+      Content-Type:
+      - application/vnd.contentful.delivery.v1+json
+      Etag:
+      - W/"512a87e4fc7466dd01ab009c308a1778"
+      Server:
+      - Contentful
+      X-Content-Type-Options:
+      - nosniff
+      X-Contentful-Request-Id:
+      - 227d8ba150521933505f32db669852e1
+      Content-Length:
+      - '524'
+      Accept-Ranges:
+      - bytes
+      Date:
+      - Tue, 09 May 2017 13:31:28 GMT
+      Via:
+      - 1.1 varnish
+      Age:
+      - '0'
+      Connection:
+      - close
+      X-Served-By:
+      - cache-lax8628-LAX
+      X-Cache:
+      - MISS
+      X-Cache-Hits:
+      - '0'
+      X-Timer:
+      - S1494336688.267052,VS0,VE119
+      Vary:
+      - Accept-Encoding
+    body:
+      encoding: ASCII-8BIT
+      string: !binary |-
+        H4sIAAAAAAAAA62VyW7CMBCG7zwF8rkgJ5ACuUVd1IVWaqEHWvXgOga5BGcz
+        RVHFu9dLEpw0gQs+oIztWfx7PvPb6XZBmqXA7f6KT2HwLCLCAl6SoAyIuf2F
+        3MNDjgIxbykrXdNIGFAZAd1QLpegtiknGxnwQwXUYWtZVKY0QlimKnboSaMW
+        OaEmi5qmlK2BzHkYIjtbz/OaZypibQP15XGWCK/Ybrf6dpZEnqoY+/JbnVMP
+        oH3uH6aviXedxrHtbXZ4uwoX5NEIX9Z1w3iSmQs4IYgT35OyABtaox50enA8
+        t4YuvHRtp285w3fTYRv5DQ6TuTVw7Yk7HPcdC1YcEvJDUxoyqbttVI5Dxgnj
+        uSLnk/bKiNsoMEb8tK5BiFGg2ouw3tuscCilB0tKAv/QjfI6AEMb5fKcIda9
+        EmmM4wb0h8jt1mAwMqa/SMpvE0qYvPvziVC/Z1We7hUcw6fEW9+NPfgyfkkX
+        8Xb3FLcIkveZbj35+6k4ogwHW18dJ2dR5ytIOrDUQFMLT407VdlHmBKrp6gq
+        z93GlXg3TMrMljmqWGVjUeN/3cFxwoaD/mTkmMCIgpsZK6BsdDEpq1TWjtk5
+        FG+HrdS9htsxuVugy1/2/MVrAE/kKtC7Q1GU1dhTXaLpm1S0aYXvHNL8bwUD
+        wuYHu/J/UenKw9tfQfJTWPvOvvMHj9gimB0HAAA=
+    http_version: 
+  recorded_at: Tue, 09 May 2017 13:31:28 GMT
+recorded_with: VCR 3.0.3

@@ -22,12 +22,15 @@ ContentfulModel.configure do |config|
   config.preview_access_token = "your preview token in here"
   config.management_token = "your management token in here"
   config.space = "your space id in here"
+  config.default_locale = "en-US"
   config.options = {
     #extra options to send to the Contentful::Client
   }
 end
 
 ```
+
+It is important to set the `default_locale` to match the one set in your Contentful settings, otherwise the fields will have no content.
 
 ## Create a model class
 
@@ -213,14 +216,100 @@ You might want to hit the preview API. Our [contentful_rails](https://github.com
 
 Provided you've set a `preview_api_token` in the configuration block, it's dead easy. Just set `ContentfulModel.use_preview_api = true` before making calls.
 
-## Suppressing unvalidated content in preview
-There's a slightly weird piece of logic in the Contentful API when you're using preview mode. It returns content which has _failed_ its own validation!
+## Validations
 
-This is something Contentful are planning to address, but for now, we need to filter these out to avoid breaking stuff on the client side. We've added a validator for 'required', using syntax similar to ActiveRecord:
+Validations are a simple way to check content before sending it back to the server on `#save`.
+This is often useful when working on organizations with heavy CMA traffic, in which by using validations previous to hitting the API,
+we can ensure that the API will only be hit when a successful request can be made.
 
+There is a special case of validations, that are run when content is being loaded when running `::load`,
+failing those validations will filter out that content from the response,
+you can transform any of the following validations to an `:on_load` validation by appending `on_load: true` on the `::validate` filter.
+This validations will also be run before `#save`.
+
+You can skip validations on `#save` by calling it as `my_entry.save(true)` or `my_entry.save!`.
+
+### Inline Validations
+Inline validations are a useful shorthand for creating validations, they can be added as a lambda function or a block. In any of the cases,
+they must receive a single parameter and return a boolean.
+
+```ruby
+class Product < ContentfulModel::Base
+  # validation with a lambda
+  validate :price_is_positive, -> (e) { e.price > 0 }
+
+  # validation with a block
+  validate :category_is_not_empty do |e|
+    !e.category.empty?
+  end
+
+  # :on_load validation
+  validate :name_longer_than_3_characters, -> (e) { e.name.size > 3 }, on_load: true
+end
 ```
-class Page
-    validates_presence_of :slug, :title, :some_other_vital_field
+
+The above example will run the `:price_is_positive` and `:category_is_not_empty` only on `#save` and `:name_is_longer_than_3_characters` both on `::load` and `#save`.
+
+When an inline validation fails, an error with the following structure will be added to `#errors`: `"#{validation_alias}: validation not met"`.
+
+### Class and Object based Validations
+If inline validations aren't flexible enough for your needs, you can create class and object based validations.
+These validations can return multiple errors. They must define a `#validate(entry)` method, which must return an array of errors or an empty array.
+
+Class validations are useful when the validation class doesn't require setup. For example:
+
+```ruby
+class NameValidation
+  def validate(entry)
+    errors = []
+    errors << "Name not long enough" if entry.name.size < 3
+    errors << "Name not capitalized" if entry.name != entry.name.capitalize
+    errors
+  end
+end
+
+class Post < ContentfulModel::Base
+  validate_with NameValidation
+end
+```
+
+Object validations are just like Class validations, with the exception that they can define a constructor in order to parameterize them. For example:
+
+```ruby
+class FieldLengthValidation
+  def initialize(field_name, length)
+    @field_name = field_name
+    @length = length
+  end
+
+  def validate(entry)
+    errors = []
+    errors << "#{@field_name} less than #{@length} character/s long" if entry.public_send(@field_name).size < @length
+    errors
+  end
+end
+
+class Post < ContentfulModel::Base
+  validate_with FieldLengthValidation.new(:title, 10)
+  validate_with FieldLengthValidation.new(:content, 200)
+end
+```
+
+With these validations, you can define more complex and combined validations for your models.
+As with Inline validations, you can enable them to run on `::load` by appending `on_load: true` after the `::validate_with` filter.
+
+### PresenceOf - Suppressing unvalidated content in preview
+Draft content doesn't include values which didn't pass the validations on responses.
+This content wouldn't be able to be saved on the CMA, and the WebApp keeps the state but doesn't save it to the API.
+
+Therefore, when using the content, we require a way to make sure that those values are present in the entries we intend to display,
+and be able to filter out entries that do not contain those values, so a filter with an ActiveRecord-like sintax is provided.
+
+This validation is always run `:on_load`
+
+```ruby
+class Page < ContentfulModel::Base
+  validates_presence_of :slug, :title, :some_other_vital_field
 end
 ```
 
@@ -231,9 +320,9 @@ If an object is valid, but has content missing from a field, the Contentful API 
 
 We decided it would be nice to be able to declare that certain fields should return nil, rather than raising an error. You can do that as follows:
 
-```
+```ruby
 class Page
-    return_nil_for_empty :content, :excerpt
+  return_nil_for_empty :content, :excerpt
 end
 ```
 

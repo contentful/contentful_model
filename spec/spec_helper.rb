@@ -1,3 +1,6 @@
+require 'simplecov'
+SimpleCov.start
+
 require 'contentful_model'
 require 'rspec'
 require 'vcr'
@@ -26,23 +29,6 @@ class MockSpace
   end
 end
 
-class MockBase < ContentfulModel::Base
-  self.content_type_id = 'ct_id'
-
-  attr_reader :id, :space, :locale
-
-  def initialize(id, space, fields = {})
-    @locale = 'en-US'
-    super('fields' => fields)
-    @id = id
-    @space = space
-  end
-
-  def fields(locale = default_locale)
-    super || {}
-  end
-end
-
 class MockClient
   attr_accessor :response
 
@@ -53,4 +39,16 @@ class MockClient
   def entries(query = {})
     response
   end
+end
+
+class Cat < ContentfulModel::Base
+  self.content_type_id = 'cat'
+end
+
+class CoercedCat < ContentfulModel::Base
+  self.content_type_id = 'cat'
+
+  coerce_field name: -> (name) { name.gsub('Nyan', 'Fat') }
+  coerce_field created_at: 'String'
+  coerce_field updated_at: 'Date'
 end

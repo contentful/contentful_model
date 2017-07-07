@@ -1,0 +1,1292 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: https://cdn.contentful.com/spaces/facgnwwgj5fe/content_types?limit=1000
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - RubyContentfulGem/2.0.1
+      Authorization:
+      - Bearer 4d0f55d940975f78139daae5d965b463c0816e88ad16062d2c1ee3d6cb930521
+      Content-Type:
+      - application/vnd.contentful.delivery.v1+json
+      Accept-Encoding:
+      - gzip
+      Connection:
+      - close
+      Host:
+      - cdn.contentful.com
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Access-Control-Allow-Headers:
+      - Accept,Accept-Language,Authorization,Cache-Control,Content-Length,Content-Range,Content-Type,DNT,Destination,Expires,If-Match,If-Modified-Since,If-None-Match,Keep-Alive,Last-Modified,Origin,Pragma,Range,User-Agent,X-Http-Method-Override,X-Mx-ReqToken,X-Requested-With,X-Contentful-Version,X-Contentful-Content-Type,X-Contentful-Organization,X-Contentful-Skip-Transformation,X-Contentful-User-Agent
+      Access-Control-Allow-Methods:
+      - GET,HEAD,OPTIONS
+      Access-Control-Allow-Origin:
+      - "*"
+      Access-Control-Expose-Headers:
+      - Etag
+      Access-Control-Max-Age:
+      - '86400'
+      Cache-Control:
+      - max-age=0
+      Content-Encoding:
+      - gzip
+      Content-Type:
+      - application/vnd.contentful.delivery.v1+json
+      Etag:
+      - W/"3c2eb059965a5ca225b2f5a86de05daa"
+      Server:
+      - Contentful
+      X-Content-Type-Options:
+      - nosniff
+      X-Contentful-Request-Id:
+      - 412ab0fdb469d86835a6b7ee523bc925
+      Content-Length:
+      - '521'
+      Accept-Ranges:
+      - bytes
+      Date:
+      - Tue, 09 May 2017 13:39:49 GMT
+      Via:
+      - 1.1 varnish
+      Age:
+      - '0'
+      Connection:
+      - close
+      X-Served-By:
+      - cache-lax8627-LAX
+      X-Cache:
+      - MISS
+      X-Cache-Hits:
+      - '0'
+      X-Timer:
+      - S1494337190.555085,VS0,VE179
+      Vary:
+      - Accept-Encoding
+    body:
+      encoding: ASCII-8BIT
+      string: !binary |-
+        H4sIAAAAAAAAA+1WS08CMRC+8ytIz0LahUXsTY0mJsSLnDQeym4hldJd24JZ
+        Cf/dtvvqIqjxbWIv7Ew7j6/zMdN1q90GKlMAt9fm0wg6S6mRwLGUJANGtzmw
+        Z3SiCTf6npPUnKVGgE7gbMG0kRCEuYJpurAeb5zH3O9WGBdKpSSyscoTudJL
+        xiqcskxqxMQc2KD1MuHFfFwkfeU8bh1gscUzJdFMPDzM7sIptbDKtam+HdB8
+        gcImSTxnVRanidBUaBfUs4kkJZrGx/YuQADRYQf2OjAYBwiHCPf63XCIrn2D
+        ZRrvNghwH+EAdgfDsGEg6YoplghbhyLXKmkQM5Vykp0zyh1gQRZ1erlkr8GD
+        BGKqIslSnbsUS85LOGBq3dRFtNfSKFN+QY0Y9kwV5/lOWcOrbDFJeKNIgCcR
+        4eyR2sSnhCvqlxBIer9kcs+mgU0mfM9mYphpSlJ6rUtdfN263+IO/zBRNVX6
+        E5iKhrgX4BB2w/DoTUzda+AxFb2TqWMf0xZVQQX2n6je//L3d9SIfJCnYQcO
+        x6iP4QBD2D3sv8rTlw0+gaenHqSvo+ml381dp/1V/bTu1zumBGcrqpoN340H
+        M45Gz7dKXBdmyM6o/OFB8SKwiWlR55JREe9Gd2L227sO7H3PfNckbMxX/wV1
+        JrR0z758la+jYlAa/W1r03oCtIL/UzYKAAA=
+    http_version: 
+  recorded_at: Tue, 09 May 2017 13:39:49 GMT
+- request:
+    method: get
+    uri: https://cdn.contentful.com/spaces/facgnwwgj5fe/entries?content_type=cat&sys.id=IJLRrADsqq2AmwcugoYeK
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - RubyContentfulGem/2.0.1
+      Authorization:
+      - Bearer 4d0f55d940975f78139daae5d965b463c0816e88ad16062d2c1ee3d6cb930521
+      Content-Type:
+      - application/vnd.contentful.delivery.v1+json
+      Accept-Encoding:
+      - gzip
+      Connection:
+      - close
+      Host:
+      - cdn.contentful.com
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Access-Control-Allow-Headers:
+      - Accept,Accept-Language,Authorization,Cache-Control,Content-Length,Content-Range,Content-Type,DNT,Destination,Expires,If-Match,If-Modified-Since,If-None-Match,Keep-Alive,Last-Modified,Origin,Pragma,Range,User-Agent,X-Http-Method-Override,X-Mx-ReqToken,X-Requested-With,X-Contentful-Version,X-Contentful-Content-Type,X-Contentful-Organization,X-Contentful-Skip-Transformation,X-Contentful-User-Agent
+      Access-Control-Allow-Methods:
+      - GET,HEAD,OPTIONS
+      Access-Control-Allow-Origin:
+      - "*"
+      Access-Control-Expose-Headers:
+      - Etag
+      Access-Control-Max-Age:
+      - '86400'
+      Cache-Control:
+      - max-age=0
+      Content-Encoding:
+      - gzip
+      Content-Type:
+      - application/vnd.contentful.delivery.v1+json
+      Etag:
+      - W/"eed7c45300718697b883c490d40eaae3"
+      Server:
+      - Contentful
+      X-Content-Type-Options:
+      - nosniff
+      X-Contentful-Request-Id:
+      - 90e4f462c888ee3e62d7953ee6d57167
+      Content-Length:
+      - '523'
+      Accept-Ranges:
+      - bytes
+      Date:
+      - Tue, 09 May 2017 13:39:50 GMT
+      Via:
+      - 1.1 varnish
+      Age:
+      - '0'
+      Connection:
+      - close
+      X-Served-By:
+      - cache-lax8635-LAX
+      X-Cache:
+      - MISS
+      X-Cache-Hits:
+      - '0'
+      X-Timer:
+      - S1494337190.475515,VS0,VE130
+      Vary:
+      - Accept-Encoding
+    body:
+      encoding: ASCII-8BIT
+      string: !binary |-
+        H4sIAAAAAAAAA62VSVPCMBTH73wKJmdhWkqF9tZBHRd0RsGDOhxiGphISbcg
+        03H47mbpktYWL+TA9CV5S/55v/DT6/dBmqXA7f/wT26wLMLcAl6SwAzwueOF
+        2MNCBgM+b0or3ZKIG4Y0ArIjTCwZyiYM70TADxlQhW1kkZnSCCKRqtihJrVa
+        xIScLGqaE7oFImc1eHa6XeY1L2TExgbii+OsIdrQw2HzZa+xOFUxjuW3PKca
+        QPnc3c9fEu8qjeORtzug/SZ8ww9a+LKua8qSTF9ACYYM+56QBYwMczIw7IEx
+        XZpj17h0R/bQtMfvusM+8lscnKVpuZYjHOzxZc0hwd8kJSEVutta5SikDFOW
+        K3I+aWda3FaBEWT/6xqECAayvTAdvC4Kh1J6sCY48KtuFNcBKNxJl6cM0v6M
+        p9GOG5BvLLabljXRpj9xym4Sgqm4+/OJ0LxnWZ7qFRQbj4m3vZ16xvP0OX2L
+        94fHuEOQvM9U64nfleSIUBTsfXmcnEWVryCpYqmFpg6eWnfKsk8wxVf/o6o8
+        dxdX/N3QKdNb5qRitY1FjX91B6cJG1tDZ2LrwPCC2xkroGx10SmrVdaN2TkU
+        74at1L2B2ym5O6DLX/b8xWsBj+cq0LuFUZQ12JNdouhzatp0wncOaf62ggZh
+        +4Nd+7+odWX19teQXHHr2Dv2fgHe1BBDHQcAAA==
+    http_version: 
+  recorded_at: Tue, 09 May 2017 13:39:50 GMT
+- request:
+    method: get
+    uri: https://api.contentful.com/spaces/facgnwwgj5fe
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - RubyContentfulManagementGem/1.1.0
+      Authorization:
+      - Bearer <ACCESS_TOKEN>
+      Content-Type:
+      - application/vnd.contentful.management.v1+json
+      Content-Length:
+      - '0'
+      Connection:
+      - close
+      Host:
+      - api.contentful.com
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Accept-Ranges:
+      - bytes
+      Access-Control-Allow-Headers:
+      - Accept,Accept-Language,Authorization,Cache-Control,Content-Length,Content-Range,Content-Type,DNT,Destination,Expires,If-Match,If-Modified-Since,If-None-Match,Keep-Alive,Last-Modified,Origin,Pragma,Range,User-Agent,X-Http-Method-Override,X-Mx-ReqToken,X-Requested-With,X-Contentful-Version,X-Contentful-Content-Type,X-Contentful-Organization,X-Contentful-Skip-Transformation,X-Contentful-User-Agent
+      Access-Control-Allow-Methods:
+      - DELETE,GET,HEAD,POST,PUT,OPTIONS
+      Access-Control-Allow-Origin:
+      - "*"
+      Access-Control-Expose-Headers:
+      - Etag
+      Access-Control-Max-Age:
+      - '1728000'
+      Cache-Control:
+      - max-age=0
+      Cf-Organization-Id:
+      - 4SsuxQCaMaemfIms52Jr8s
+      Cf-Space-Id:
+      - facgnwwgj5fe
+      Content-Type:
+      - application/vnd.contentful.management.v1+json
+      Date:
+      - Tue, 09 May 2017 13:39:51 GMT
+      Etag:
+      - W/"b29eab6ac82dc3cfce06e10fd402fdbf"
+      Server:
+      - Contentful
+      Strict-Transport-Security:
+      - max-age=15768000
+      X-Content-Type-Options:
+      - nosniff
+      X-Contentful-Ratelimit-Hour-Limit:
+      - '36000'
+      X-Contentful-Ratelimit-Hour-Remaining:
+      - '35929'
+      X-Contentful-Ratelimit-Reset:
+      - '0'
+      X-Contentful-Ratelimit-Second-Limit:
+      - '10'
+      X-Contentful-Ratelimit-Second-Remaining:
+      - '9'
+      X-Contentful-Request-Id:
+      - a0e597f85d6437e730f9026b4b5df3bd
+      X-Frame-Options:
+      - ALLOWALL
+      X-Xss-Protection:
+      - 1; mode=block
+      Content-Length:
+      - '469'
+      Connection:
+      - Close
+      Set-Cookie:
+      - incap_ses_297_673446=GJywTkQAfAAhEMSJiygfBKfGEVkAAAAAdRACuWhxdvqn28xALKzKlQ==;
+        path=/; Domain=.contentful.com
+      - nlbi_673446=PownGXfc1k2ltlC06lKYhQAAAAA7O/yM8gE+fQhE5F8MyQck; path=/; Domain=.contentful.com
+      - visid_incap_673446=UMDGX7AOQwiNYL3Iwsb59KfGEVkAAAAAQUIPAAAAAAD4qqRx8LD+aM032HEZRMK7;
+        expires=Wed, 09 May 2018 07:00:14 GMT; path=/; Domain=.contentful.com
+      X-Iinfo:
+      - 6-45630552-45630557 NNNN CT(132 270 0) RT(1494337190831 112) q(0 0 4 -1) r(6
+        6) U5
+      X-Cdn:
+      - Incapsula
+    body:
+      encoding: UTF-8
+      string: |+
+        {
+          "name":"management.py - playground",
+          "sys":{
+            "type":"Space",
+            "id":"facgnwwgj5fe",
+            "version":1,
+            "createdBy":{
+              "sys":{
+                "type":"Link",
+                "linkType":"User",
+                "id":"4SejVrWT96dvL9IV4Nb7sQ"
+              }
+            },
+            "createdAt":"2017-03-02T18:30:26Z",
+            "updatedBy":{
+              "sys":{
+                "type":"Link",
+                "linkType":"User",
+                "id":"4SejVrWT96dvL9IV4Nb7sQ"
+              }
+            },
+            "updatedAt":"2017-03-02T18:30:26Z"
+          }
+        }
+
+    http_version: 
+  recorded_at: Tue, 09 May 2017 13:39:51 GMT
+- request:
+    method: get
+    uri: https://api.contentful.com/spaces/facgnwwgj5fe/content_types
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - RubyContentfulManagementGem/1.1.0
+      Authorization:
+      - Bearer <ACCESS_TOKEN>
+      Content-Type:
+      - application/vnd.contentful.management.v1+json
+      Content-Length:
+      - '0'
+      Connection:
+      - close
+      Host:
+      - api.contentful.com
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Access-Control-Allow-Headers:
+      - Accept,Accept-Language,Authorization,Cache-Control,Content-Length,Content-Range,Content-Type,DNT,Destination,Expires,If-Match,If-Modified-Since,If-None-Match,Keep-Alive,Last-Modified,Origin,Pragma,Range,User-Agent,X-Http-Method-Override,X-Mx-ReqToken,X-Requested-With,X-Contentful-Version,X-Contentful-Content-Type,X-Contentful-Organization,X-Contentful-Skip-Transformation,X-Contentful-User-Agent
+      Access-Control-Allow-Methods:
+      - DELETE,GET,HEAD,POST,PUT,OPTIONS
+      Access-Control-Allow-Origin:
+      - "*"
+      Access-Control-Expose-Headers:
+      - Etag
+      Access-Control-Max-Age:
+      - '1728000'
+      Cf-Space-Id:
+      - facgnwwgj5fe
+      Content-Type:
+      - application/vnd.contentful.management.v1+json
+      Date:
+      - Tue, 09 May 2017 13:39:52 GMT
+      Etag:
+      - '"eee9fa878abdf291c973e8542cba12e2"'
+      Server:
+      - Contentful
+      Strict-Transport-Security:
+      - max-age=15768000
+      X-Content-Type-Options:
+      - nosniff
+      X-Contentful-Ratelimit-Hour-Limit:
+      - '36000'
+      X-Contentful-Ratelimit-Hour-Remaining:
+      - '35928'
+      X-Contentful-Ratelimit-Reset:
+      - '0'
+      X-Contentful-Ratelimit-Second-Limit:
+      - '10'
+      X-Contentful-Ratelimit-Second-Remaining:
+      - '9'
+      X-Contentful-Request-Id:
+      - 4efef1be53c88d7e9c00fc35e8a294a6
+      Content-Length:
+      - '16805'
+      Connection:
+      - Close
+      Set-Cookie:
+      - incap_ses_297_673446=YMBXHAv7QCejEsSJiygfBKjGEVkAAAAAI0R84x7GN0NPhlnsQb8Vhg==;
+        path=/; Domain=.contentful.com
+      - nlbi_673446=LWEMINeDamQxFS3D6lKYhQAAAABVXCPDKtJgW5mM72II9g5I; path=/; Domain=.contentful.com
+      - visid_incap_673446=M4XpqNo0Q4yDHWM4REqYeqjGEVkAAAAAQUIPAAAAAABqletO9S1cTWcpLFWNtvG1;
+        expires=Wed, 09 May 2018 07:00:15 GMT; path=/; Domain=.contentful.com
+      X-Iinfo:
+      - 4-48248989-48249009 NNNN CT(133 136 0) RT(1494337191681 97) q(0 0 3 -1) r(5
+        7) U5
+      X-Cdn:
+      - Incapsula
+    body:
+      encoding: UTF-8
+      string: |
+        {
+          "sys": {
+            "type": "Array"
+          },
+          "total": 15,
+          "skip": 0,
+          "limit": 100,
+          "items": [
+            {
+              "sys": {
+                "space": {
+                  "sys": {
+                    "type": "Link",
+                    "linkType": "Space",
+                    "id": "facgnwwgj5fe"
+                  }
+                },
+                "id": "test",
+                "type": "ContentType",
+                "createdAt": "2017-03-02T18:32:49.570Z",
+                "updatedAt": "2017-03-02T18:32:50.586Z",
+                "createdBy": {
+                  "sys": {
+                    "type": "Link",
+                    "linkType": "User",
+                    "id": "4SejVrWT96dvL9IV4Nb7sQ"
+                  }
+                },
+                "updatedBy": {
+                  "sys": {
+                    "type": "Link",
+                    "linkType": "User",
+                    "id": "4SejVrWT96dvL9IV4Nb7sQ"
+                  }
+                },
+                "publishedCounter": 1,
+                "version": 2,
+                "publishedBy": {
+                  "sys": {
+                    "type": "Link",
+                    "linkType": "User",
+                    "id": "4SejVrWT96dvL9IV4Nb7sQ"
+                  }
+                },
+                "publishedVersion": 1,
+                "firstPublishedAt": "2017-03-02T18:32:50.559Z",
+                "publishedAt": "2017-03-02T18:32:50.559Z"
+              },
+              "displayField": "name",
+              "name": "Test",
+              "description": "",
+              "fields": [
+                {
+                  "id": "name",
+                  "name": "name",
+                  "type": "Symbol",
+                  "localized": false,
+                  "required": false,
+                  "validations": [],
+                  "disabled": false,
+                  "omitted": false
+                }
+              ]
+            },
+            {
+              "sys": {
+                "space": {
+                  "sys": {
+                    "type": "Link",
+                    "linkType": "Space",
+                    "id": "facgnwwgj5fe"
+                  }
+                },
+                "id": "bar",
+                "type": "ContentType",
+                "createdAt": "2017-03-02T19:34:07.111Z",
+                "updatedAt": "2017-03-10T15:31:05.565Z",
+                "createdBy": {
+                  "sys": {
+                    "type": "Link",
+                    "linkType": "User",
+                    "id": "4SejVrWT96dvL9IV4Nb7sQ"
+                  }
+                },
+                "updatedBy": {
+                  "sys": {
+                    "type": "Link",
+                    "linkType": "User",
+                    "id": "4SejVrWT96dvL9IV4Nb7sQ"
+                  }
+                },
+                "publishedCounter": 4,
+                "version": 9,
+                "firstPublishedAt": "2017-03-09T13:51:34.847Z"
+              },
+              "displayField": null,
+              "name": "bar",
+              "description": null,
+              "fields": [
+                {
+                  "id": "test",
+                  "name": "test",
+                  "type": "Symbol",
+                  "localized": false,
+                  "required": false,
+                  "validations": [],
+                  "disabled": false,
+                  "omitted": false
+                }
+              ]
+            },
+            {
+              "sys": {
+                "space": {
+                  "sys": {
+                    "type": "Link",
+                    "linkType": "Space",
+                    "id": "facgnwwgj5fe"
+                  }
+                },
+                "id": "id_content_type_create_test",
+                "type": "ContentType",
+                "createdAt": "2017-03-10T15:36:41.568Z",
+                "updatedAt": "2017-03-10T15:36:41.583Z",
+                "createdBy": {
+                  "sys": {
+                    "type": "Link",
+                    "linkType": "User",
+                    "id": "4SejVrWT96dvL9IV4Nb7sQ"
+                  }
+                },
+                "updatedBy": {
+                  "sys": {
+                    "type": "Link",
+                    "linkType": "User",
+                    "id": "4SejVrWT96dvL9IV4Nb7sQ"
+                  }
+                },
+                "version": 1
+              },
+              "displayField": "name",
+              "name": "ID Create Test",
+              "description": "Something goes here...",
+              "fields": [
+                {
+                  "id": "name",
+                  "name": "Name",
+                  "type": "Symbol",
+                  "localized": false,
+                  "required": false,
+                  "validations": [],
+                  "disabled": false,
+                  "omitted": false
+                }
+              ]
+            },
+            {
+              "sys": {
+                "space": {
+                  "sys": {
+                    "type": "Link",
+                    "linkType": "Space",
+                    "id": "facgnwwgj5fe"
+                  }
+                },
+                "id": "1JzBeA5EcEcyKUaqGeqImy",
+                "type": "ContentType",
+                "createdAt": "2017-03-10T15:22:01.234Z",
+                "updatedAt": "2017-03-10T15:40:48.767Z",
+                "createdBy": {
+                  "sys": {
+                    "type": "Link",
+                    "linkType": "User",
+                    "id": "4SejVrWT96dvL9IV4Nb7sQ"
+                  }
+                },
+                "updatedBy": {
+                  "sys": {
+                    "type": "Link",
+                    "linkType": "User",
+                    "id": "4SejVrWT96dvL9IV4Nb7sQ"
+                  }
+                },
+                "publishedCounter": 1,
+                "version": 3,
+                "firstPublishedAt": "2017-03-10T15:39:42.640Z"
+              },
+              "displayField": "name",
+              "name": "Create Test",
+              "description": "Something goes here...",
+              "fields": [
+                {
+                  "id": "name",
+                  "name": "Name",
+                  "type": "Symbol",
+                  "localized": false,
+                  "required": false,
+                  "validations": [],
+                  "disabled": false,
+                  "omitted": false
+                }
+              ]
+            },
+            {
+              "sys": {
+                "space": {
+                  "sys": {
+                    "type": "Link",
+                    "linkType": "Space",
+                    "id": "facgnwwgj5fe"
+                  }
+                },
+                "id": "3kbg8jMFzqmagw6IO8YUyu",
+                "type": "ContentType",
+                "createdAt": "2017-03-10T15:31:01.043Z",
+                "updatedAt": "2017-03-10T15:31:01.049Z",
+                "createdBy": {
+                  "sys": {
+                    "type": "Link",
+                    "linkType": "User",
+                    "id": "4SejVrWT96dvL9IV4Nb7sQ"
+                  }
+                },
+                "updatedBy": {
+                  "sys": {
+                    "type": "Link",
+                    "linkType": "User",
+                    "id": "4SejVrWT96dvL9IV4Nb7sQ"
+                  }
+                },
+                "version": 1
+              },
+              "displayField": "name",
+              "name": "Create Test",
+              "description": "Something goes here...",
+              "fields": [
+                {
+                  "id": "name",
+                  "name": "Name",
+                  "type": "Symbol",
+                  "localized": false,
+                  "required": false,
+                  "validations": [],
+                  "disabled": false,
+                  "omitted": false
+                }
+              ]
+            },
+            {
+              "sys": {
+                "space": {
+                  "sys": {
+                    "type": "Link",
+                    "linkType": "Space",
+                    "id": "facgnwwgj5fe"
+                  }
+                },
+                "id": "foo",
+                "type": "ContentType",
+                "createdAt": "2017-03-02T19:32:52.225Z",
+                "updatedAt": "2017-03-10T15:38:16.371Z",
+                "createdBy": {
+                  "sys": {
+                    "type": "Link",
+                    "linkType": "User",
+                    "id": "4SejVrWT96dvL9IV4Nb7sQ"
+                  }
+                },
+                "updatedBy": {
+                  "sys": {
+                    "type": "Link",
+                    "linkType": "User",
+                    "id": "4SejVrWT96dvL9IV4Nb7sQ"
+                  }
+                },
+                "publishedCounter": 3,
+                "version": 9,
+                "publishedBy": {
+                  "sys": {
+                    "type": "Link",
+                    "linkType": "User",
+                    "id": "4SejVrWT96dvL9IV4Nb7sQ"
+                  }
+                },
+                "publishedVersion": 6,
+                "firstPublishedAt": "2017-03-02T21:51:34.581Z",
+                "publishedAt": "2017-03-02T22:41:20.685Z"
+              },
+              "displayField": "name",
+              "name": "foo",
+              "description": "",
+              "fields": [
+                {
+                  "id": "name",
+                  "name": "name",
+                  "type": "Symbol",
+                  "localized": false,
+                  "required": false,
+                  "validations": [],
+                  "disabled": false,
+                  "omitted": false
+                }
+              ]
+            },
+            {
+              "sys": {
+                "space": {
+                  "sys": {
+                    "type": "Link",
+                    "linkType": "Space",
+                    "id": "facgnwwgj5fe"
+                  }
+                },
+                "id": "id_create_test",
+                "type": "ContentType",
+                "createdAt": "2017-03-09T13:28:50.850Z",
+                "updatedAt": "2017-03-09T13:28:50.867Z",
+                "createdBy": {
+                  "sys": {
+                    "type": "Link",
+                    "linkType": "User",
+                    "id": "4SejVrWT96dvL9IV4Nb7sQ"
+                  }
+                },
+                "updatedBy": {
+                  "sys": {
+                    "type": "Link",
+                    "linkType": "User",
+                    "id": "4SejVrWT96dvL9IV4Nb7sQ"
+                  }
+                },
+                "version": 1
+              },
+              "displayField": "name",
+              "name": "ID Create Test",
+              "description": "Something goes here...",
+              "fields": [
+                {
+                  "id": "name",
+                  "name": "Name",
+                  "type": "Symbol",
+                  "localized": false,
+                  "required": false,
+                  "validations": [],
+                  "disabled": false,
+                  "omitted": false
+                }
+              ]
+            },
+            {
+              "sys": {
+                "space": {
+                  "sys": {
+                    "type": "Link",
+                    "linkType": "Space",
+                    "id": "facgnwwgj5fe"
+                  }
+                },
+                "id": "3uQBNcOiysuICOOK0MM8mU",
+                "type": "ContentType",
+                "createdAt": "2017-03-10T15:36:03.464Z",
+                "updatedAt": "2017-03-10T15:36:03.473Z",
+                "createdBy": {
+                  "sys": {
+                    "type": "Link",
+                    "linkType": "User",
+                    "id": "4SejVrWT96dvL9IV4Nb7sQ"
+                  }
+                },
+                "updatedBy": {
+                  "sys": {
+                    "type": "Link",
+                    "linkType": "User",
+                    "id": "4SejVrWT96dvL9IV4Nb7sQ"
+                  }
+                },
+                "version": 1
+              },
+              "displayField": "name",
+              "name": "Create Test",
+              "description": "Something goes here...",
+              "fields": [
+                {
+                  "id": "name",
+                  "name": "Name",
+                  "type": "Symbol",
+                  "localized": false,
+                  "required": false,
+                  "validations": [],
+                  "disabled": false,
+                  "omitted": false
+                }
+              ]
+            },
+            {
+              "sys": {
+                "space": {
+                  "sys": {
+                    "type": "Link",
+                    "linkType": "Space",
+                    "id": "facgnwwgj5fe"
+                  }
+                },
+                "id": "7FPMXCj9f2qeuUc04cQ6GU",
+                "type": "ContentType",
+                "createdAt": "2017-03-09T13:28:47.344Z",
+                "updatedAt": "2017-03-09T13:28:47.356Z",
+                "createdBy": {
+                  "sys": {
+                    "type": "Link",
+                    "linkType": "User",
+                    "id": "4SejVrWT96dvL9IV4Nb7sQ"
+                  }
+                },
+                "updatedBy": {
+                  "sys": {
+                    "type": "Link",
+                    "linkType": "User",
+                    "id": "4SejVrWT96dvL9IV4Nb7sQ"
+                  }
+                },
+                "version": 1
+              },
+              "displayField": "name",
+              "name": "Create Test",
+              "description": "Something goes here...",
+              "fields": [
+                {
+                  "id": "name",
+                  "name": "Name",
+                  "type": "Symbol",
+                  "localized": false,
+                  "required": false,
+                  "validations": [],
+                  "disabled": false,
+                  "omitted": false
+                }
+              ]
+            },
+            {
+              "sys": {
+                "space": {
+                  "sys": {
+                    "type": "Link",
+                    "linkType": "Space",
+                    "id": "facgnwwgj5fe"
+                  }
+                },
+                "id": "cat",
+                "type": "ContentType",
+                "createdAt": "2017-05-08T14:06:00.224Z",
+                "updatedAt": "2017-05-08T14:06:00.760Z",
+                "createdBy": {
+                  "sys": {
+                    "type": "Link",
+                    "linkType": "User",
+                    "id": "4SejVrWT96dvL9IV4Nb7sQ"
+                  }
+                },
+                "updatedBy": {
+                  "sys": {
+                    "type": "Link",
+                    "linkType": "User",
+                    "id": "4SejVrWT96dvL9IV4Nb7sQ"
+                  }
+                },
+                "publishedCounter": 1,
+                "version": 2,
+                "publishedBy": {
+                  "sys": {
+                    "type": "Link",
+                    "linkType": "User",
+                    "id": "4SejVrWT96dvL9IV4Nb7sQ"
+                  }
+                },
+                "publishedVersion": 1,
+                "firstPublishedAt": "2017-05-08T14:06:00.749Z",
+                "publishedAt": "2017-05-08T14:06:00.749Z"
+              },
+              "displayField": "name",
+              "name": "Cat",
+              "description": "",
+              "fields": [
+                {
+                  "id": "name",
+                  "name": "Name",
+                  "type": "Symbol",
+                  "localized": false,
+                  "required": false,
+                  "validations": [],
+                  "disabled": false,
+                  "omitted": false
+                },
+                {
+                  "id": "lives",
+                  "name": "Lives",
+                  "type": "Integer",
+                  "localized": false,
+                  "required": false,
+                  "validations": [],
+                  "disabled": false,
+                  "omitted": false
+                },
+                {
+                  "id": "bestFriend",
+                  "name": "Best Friend",
+                  "type": "Link",
+                  "localized": false,
+                  "required": false,
+                  "validations": [],
+                  "disabled": false,
+                  "omitted": false,
+                  "linkType": "Entry"
+                }
+              ]
+            },
+            {
+              "sys": {
+                "space": {
+                  "sys": {
+                    "type": "Link",
+                    "linkType": "Space",
+                    "id": "facgnwwgj5fe"
+                  }
+                },
+                "id": "7zb3vZVDs4scCKC2GmE4ie",
+                "type": "ContentType",
+                "createdAt": "2017-03-10T15:17:42.408Z",
+                "updatedAt": "2017-03-10T15:17:42.428Z",
+                "createdBy": {
+                  "sys": {
+                    "type": "Link",
+                    "linkType": "User",
+                    "id": "4SejVrWT96dvL9IV4Nb7sQ"
+                  }
+                },
+                "updatedBy": {
+                  "sys": {
+                    "type": "Link",
+                    "linkType": "User",
+                    "id": "4SejVrWT96dvL9IV4Nb7sQ"
+                  }
+                },
+                "version": 1
+              },
+              "displayField": null,
+              "name": "Create Test No Fields",
+              "description": "Something goes here...",
+              "fields": []
+            },
+            {
+              "sys": {
+                "space": {
+                  "sys": {
+                    "type": "Link",
+                    "linkType": "Space",
+                    "id": "facgnwwgj5fe"
+                  }
+                },
+                "id": "7wTtN8hq92iu2Mgq4aGYmq",
+                "type": "ContentType",
+                "createdAt": "2017-03-10T15:22:01.798Z",
+                "updatedAt": "2017-03-10T15:22:01.805Z",
+                "createdBy": {
+                  "sys": {
+                    "type": "Link",
+                    "linkType": "User",
+                    "id": "4SejVrWT96dvL9IV4Nb7sQ"
+                  }
+                },
+                "updatedBy": {
+                  "sys": {
+                    "type": "Link",
+                    "linkType": "User",
+                    "id": "4SejVrWT96dvL9IV4Nb7sQ"
+                  }
+                },
+                "version": 1
+              },
+              "displayField": null,
+              "name": "Create Test No Fields",
+              "description": "Something goes here...",
+              "fields": []
+            },
+            {
+              "sys": {
+                "space": {
+                  "sys": {
+                    "type": "Link",
+                    "linkType": "Space",
+                    "id": "facgnwwgj5fe"
+                  }
+                },
+                "id": "59hDHlRevu6Aua80Qk460m",
+                "type": "ContentType",
+                "createdAt": "2017-03-09T13:59:13.566Z",
+                "updatedAt": "2017-03-09T13:59:13.571Z",
+                "createdBy": {
+                  "sys": {
+                    "type": "Link",
+                    "linkType": "User",
+                    "id": "4SejVrWT96dvL9IV4Nb7sQ"
+                  }
+                },
+                "updatedBy": {
+                  "sys": {
+                    "type": "Link",
+                    "linkType": "User",
+                    "id": "4SejVrWT96dvL9IV4Nb7sQ"
+                  }
+                },
+                "version": 1
+              },
+              "displayField": null,
+              "name": "Create Test No Fields",
+              "description": "Something goes here...",
+              "fields": []
+            },
+            {
+              "sys": {
+                "space": {
+                  "sys": {
+                    "type": "Link",
+                    "linkType": "Space",
+                    "id": "facgnwwgj5fe"
+                  }
+                },
+                "id": "PDwi7T92YEUoec68Iu6eE",
+                "type": "ContentType",
+                "createdAt": "2017-03-10T15:31:01.728Z",
+                "updatedAt": "2017-03-10T15:31:01.735Z",
+                "createdBy": {
+                  "sys": {
+                    "type": "Link",
+                    "linkType": "User",
+                    "id": "4SejVrWT96dvL9IV4Nb7sQ"
+                  }
+                },
+                "updatedBy": {
+                  "sys": {
+                    "type": "Link",
+                    "linkType": "User",
+                    "id": "4SejVrWT96dvL9IV4Nb7sQ"
+                  }
+                },
+                "version": 1
+              },
+              "displayField": null,
+              "name": "Create Test No Fields",
+              "description": "Something goes here...",
+              "fields": []
+            },
+            {
+              "sys": {
+                "space": {
+                  "sys": {
+                    "type": "Link",
+                    "linkType": "Space",
+                    "id": "facgnwwgj5fe"
+                  }
+                },
+                "id": "5f4YC4yDxYgAc6IYqIIoeW",
+                "type": "ContentType",
+                "createdAt": "2017-03-10T15:36:40.895Z",
+                "updatedAt": "2017-03-10T15:36:40.905Z",
+                "createdBy": {
+                  "sys": {
+                    "type": "Link",
+                    "linkType": "User",
+                    "id": "4SejVrWT96dvL9IV4Nb7sQ"
+                  }
+                },
+                "updatedBy": {
+                  "sys": {
+                    "type": "Link",
+                    "linkType": "User",
+                    "id": "4SejVrWT96dvL9IV4Nb7sQ"
+                  }
+                },
+                "version": 1
+              },
+              "displayField": null,
+              "name": "Create Test No Fields",
+              "description": "Something goes here...",
+              "fields": []
+            }
+          ]
+        }
+    http_version: 
+  recorded_at: Tue, 09 May 2017 13:39:52 GMT
+- request:
+    method: get
+    uri: https://api.contentful.com/spaces/facgnwwgj5fe/entries/IJLRrADsqq2AmwcugoYeK
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - RubyContentfulManagementGem/1.1.0
+      Authorization:
+      - Bearer <ACCESS_TOKEN>
+      Content-Type:
+      - application/vnd.contentful.management.v1+json
+      Content-Length:
+      - '0'
+      Connection:
+      - close
+      Host:
+      - api.contentful.com
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Access-Control-Allow-Headers:
+      - Accept,Accept-Language,Authorization,Cache-Control,Content-Length,Content-Range,Content-Type,DNT,Destination,Expires,If-Match,If-Modified-Since,If-None-Match,Keep-Alive,Last-Modified,Origin,Pragma,Range,User-Agent,X-Http-Method-Override,X-Mx-ReqToken,X-Requested-With,X-Contentful-Version,X-Contentful-Content-Type,X-Contentful-Organization,X-Contentful-Skip-Transformation,X-Contentful-User-Agent
+      Access-Control-Allow-Methods:
+      - DELETE,GET,HEAD,POST,PUT,OPTIONS
+      Access-Control-Allow-Origin:
+      - "*"
+      Access-Control-Expose-Headers:
+      - Etag
+      Access-Control-Max-Age:
+      - '1728000'
+      Cf-Space-Id:
+      - facgnwwgj5fe
+      Content-Type:
+      - application/vnd.contentful.management.v1+json
+      Date:
+      - Tue, 09 May 2017 13:39:52 GMT
+      Etag:
+      - '"a0aaa797f65dae09d9af41ef03567f3f"'
+      Server:
+      - Contentful
+      Strict-Transport-Security:
+      - max-age=15768000
+      X-Content-Type-Options:
+      - nosniff
+      X-Contentful-Ratelimit-Hour-Limit:
+      - '36000'
+      X-Contentful-Ratelimit-Hour-Remaining:
+      - '35927'
+      X-Contentful-Ratelimit-Reset:
+      - '0'
+      X-Contentful-Ratelimit-Second-Limit:
+      - '10'
+      X-Contentful-Ratelimit-Second-Remaining:
+      - '8'
+      X-Contentful-Request-Id:
+      - 130ec43b75127f72e846406226b4e6c4
+      Content-Length:
+      - '1300'
+      Connection:
+      - Close
+      Set-Cookie:
+      - incap_ses_297_673446=KQYVB4wxhAdbFMSJiygfBKnGEVkAAAAAjTEq970hGx8Op81GiWiwyg==;
+        path=/; Domain=.contentful.com
+      - nlbi_673446=Oi5yIGAgMQAGHKWC6lKYhQAAAADmavdLkobFW/pvbYfE57pM; path=/; Domain=.contentful.com
+      - visid_incap_673446=pZjw/p6+T0mSNRjuXlg6YanGEVkAAAAAQUIPAAAAAAB9dMR/wtscfyz0owF2b9d1;
+        expires=Wed, 09 May 2018 07:00:14 GMT; path=/; Domain=.contentful.com
+      X-Iinfo:
+      - 10-64563186-64563200 NNNN CT(0 0 0) RT(1494337192657 99) q(0 0 0 -1) r(3 3)
+        U5
+      X-Cdn:
+      - Incapsula
+    body:
+      encoding: UTF-8
+      string: |
+        {
+          "fields": {
+            "name": {
+              "en-US": "Nyan Cat"
+            },
+            "lives": {
+              "en-US": 1337
+            },
+            "bestFriend": {
+              "en-US": {
+                "sys": {
+                  "type": "Link",
+                  "linkType": "Entry",
+                  "id": "cq0MrAkH8A0Q8QsYquwMq"
+                }
+              }
+            }
+          },
+          "sys": {
+            "id": "IJLRrADsqq2AmwcugoYeK",
+            "type": "Entry",
+            "createdAt": "2017-05-08T14:06:14.367Z",
+            "createdBy": {
+              "sys": {
+                "type": "Link",
+                "linkType": "User",
+                "id": "4SejVrWT96dvL9IV4Nb7sQ"
+              }
+            },
+            "space": {
+              "sys": {
+                "type": "Link",
+                "linkType": "Space",
+                "id": "facgnwwgj5fe"
+              }
+            },
+            "contentType": {
+              "sys": {
+                "type": "Link",
+                "linkType": "ContentType",
+                "id": "cat"
+              }
+            },
+            "firstPublishedAt": "2017-05-08T14:06:25.154Z",
+            "publishedCounter": 15,
+            "publishedAt": "2017-05-09T13:39:25.546Z",
+            "publishedBy": {
+              "sys": {
+                "type": "Link",
+                "linkType": "User",
+                "id": "4SejVrWT96dvL9IV4Nb7sQ"
+              }
+            },
+            "publishedVersion": 54,
+            "version": 55,
+            "updatedAt": "2017-05-09T13:39:25.592Z",
+            "updatedBy": {
+              "sys": {
+                "type": "Link",
+                "linkType": "User",
+                "id": "4SejVrWT96dvL9IV4Nb7sQ"
+              }
+            }
+          }
+        }
+    http_version: 
+  recorded_at: Tue, 09 May 2017 13:39:53 GMT
+- request:
+    method: get
+    uri: https://cdn.contentful.com/spaces/facgnwwgj5fe/entries?sys.id=IJLRrADsqq2AmwcugoYeK
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - RubyContentfulGem/2.0.1
+      Authorization:
+      - Bearer 4d0f55d940975f78139daae5d965b463c0816e88ad16062d2c1ee3d6cb930521
+      Content-Type:
+      - application/vnd.contentful.delivery.v1+json
+      Accept-Encoding:
+      - gzip
+      Connection:
+      - close
+      Host:
+      - cdn.contentful.com
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Access-Control-Allow-Headers:
+      - Accept,Accept-Language,Authorization,Cache-Control,Content-Length,Content-Range,Content-Type,DNT,Destination,Expires,If-Match,If-Modified-Since,If-None-Match,Keep-Alive,Last-Modified,Origin,Pragma,Range,User-Agent,X-Http-Method-Override,X-Mx-ReqToken,X-Requested-With,X-Contentful-Version,X-Contentful-Content-Type,X-Contentful-Organization,X-Contentful-Skip-Transformation,X-Contentful-User-Agent
+      Access-Control-Allow-Methods:
+      - GET,HEAD,OPTIONS
+      Access-Control-Allow-Origin:
+      - "*"
+      Access-Control-Expose-Headers:
+      - Etag
+      Access-Control-Max-Age:
+      - '86400'
+      Cache-Control:
+      - max-age=0
+      Content-Encoding:
+      - gzip
+      Content-Type:
+      - application/vnd.contentful.delivery.v1+json
+      Etag:
+      - W/"eed7c45300718697b883c490d40eaae3"
+      Server:
+      - Contentful
+      X-Content-Type-Options:
+      - nosniff
+      X-Contentful-Request-Id:
+      - 6d58420e56cd72d96f6d05fff7e44b84
+      Content-Length:
+      - '523'
+      Accept-Ranges:
+      - bytes
+      Date:
+      - Tue, 09 May 2017 13:39:54 GMT
+      Via:
+      - 1.1 varnish
+      Age:
+      - '0'
+      Connection:
+      - close
+      X-Served-By:
+      - cache-lax8620-LAX
+      X-Cache:
+      - MISS
+      X-Cache-Hits:
+      - '0'
+      X-Timer:
+      - S1494337194.839018,VS0,VE321
+      Vary:
+      - Accept-Encoding
+    body:
+      encoding: ASCII-8BIT
+      string: !binary |-
+        H4sIAAAAAAAAA62VSVPCMBTH73wKJmdhWkqF9tZBHRd0RsGDOhxiGphISbcg
+        03H47mbpktYWL+TA9CV5S/55v/DT6/dBmqXA7f/wT26wLMLcAl6SwAzwueOF
+        2MNCBgM+b0or3ZKIG4Y0ArIjTCwZyiYM70TADxlQhW1kkZnSCCKRqtihJrVa
+        xIScLGqaE7oFImc1eHa6XeY1L2TExgbii+OsIdrQw2HzZa+xOFUxjuW3PKca
+        QPnc3c9fEu8qjeORtzug/SZ8ww9a+LKua8qSTF9ACYYM+56QBYwMczIw7IEx
+        XZpj17h0R/bQtMfvusM+8lscnKVpuZYjHOzxZc0hwd8kJSEVutta5SikDFOW
+        K3I+aWda3FaBEWT/6xqECAayvTAdvC4Kh1J6sCY48KtuFNcBKNxJl6cM0v6M
+        p9GOG5BvLLabljXRpj9xym4Sgqm4+/OJ0LxnWZ7qFRQbj4m3vZ16xvP0OX2L
+        94fHuEOQvM9U64nfleSIUBTsfXmcnEWVryCpYqmFpg6eWnfKsk8wxVf/o6o8
+        dxdX/N3QKdNb5qRitY1FjX91B6cJG1tDZ2LrwPCC2xkroGx10SmrVdaN2TkU
+        74at1L2B2ym5O6DLX/b8xWsBj+cq0LuFUZQ12JNdouhzatp0wncOaf62ggZh
+        +4Nd+7+odWX19teQXHHr2Dv2fgHe1BBDHQcAAA==
+    http_version: 
+  recorded_at: Tue, 09 May 2017 13:39:54 GMT
+recorded_with: VCR 3.0.3
