@@ -113,7 +113,8 @@ However: it's not possible to assign an entry only once - so that means that eve
 
 (If you happen to accidentally declare `belongs_to` on a model, you'll get a `NotImplementedError`.
 
-### `has_one`
+### `has_one`
+
 Define a `has_one` relationship on a parent model, just like you would for ActiveRecord. For example:
 
 
