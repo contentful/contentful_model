@@ -32,7 +32,7 @@ describe ContentfulModel::Migrations::ContentType do
 
       it 'creates a new content type on contentful' do
         mock_client = Object.new
-        expect(mock_client).to receive(:create).with('space_id', name: 'foo', fields: [])
+        expect(mock_client).to receive(:create).with('space_id', id: 'foo', name: 'foo', fields: [])
         allow_any_instance_of(ContentfulModel::Management).to receive(:content_types) { mock_client }
 
         described_class.new('foo').save

@@ -6,10 +6,15 @@ module ContentfulModel
         @management_content_type = management_content_type
       end
 
+      def id(id)
+        @id = id
+      end
+
       def save
         if new?
           @management_content_type = management.content_types.create(
             ContentfulModel.configuration.space,
+            id: @id || camel_case(@name),
             name: @name,
             fields: fields
           )
@@ -62,6 +67,14 @@ module ContentfulModel
       end
 
       private
+
+      def camel_case(a_string)
+        # Replace underscores
+        a_string = a_string.split('_').inject([]){ |buffer,e| buffer.push(buffer.empty? ? e : e.capitalize) }.join
+
+        # Replace spaces
+        a_string.split(' ').inject([]){ |buffer,e| buffer.push(buffer.empty? ? e : e.capitalize) }.join
+      end
 
       def fields_from_management_type
         @management_content_type.fields
