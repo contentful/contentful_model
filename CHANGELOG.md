@@ -10,6 +10,8 @@ changes from that point onwards.
 
 * Added `::validate_with` and `::validate` methods for more complex validations
 * Added `#hash` and `#eql?` to `ContentfulModel::Base` for equality and set operations [#65](https://github.com/contentful/contentful_model/issues/65)
+* Added `#id` to `ContentfulModel::Migrations::ContentType` to allow to set a custom ID [#80](https://github.com/contentful/contentful_model/issues/80)
+* Added default ID for content types created using migrations, to be the `camelCased` version of the name, replicating the Web App [#80](https://github.com/contentful/contentful_model/issues/80)
 
 ### Fixed
 
