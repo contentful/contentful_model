@@ -70,10 +70,10 @@ module ContentfulModel
 
       def camel_case(a_string)
         # Replace underscores
-        a_string = a_string.split('_').inject([]){ |buffer,e| buffer.push(buffer.empty? ? e : e.capitalize) }.join
+        a_string = a_string.split('_').inject([]){ |buffer,e| buffer.push(buffer.empty? ? e.downcase : e.capitalize) }.join
 
         # Replace spaces
-        a_string.split(' ').inject([]){ |buffer,e| buffer.push(buffer.empty? ? e : e.capitalize) }.join
+        a_string.split(' ').inject([]){ |buffer,e| buffer.push(buffer.empty? ? e.downcase : e.capitalize) }.join
       end
 
       def fields_from_management_type
