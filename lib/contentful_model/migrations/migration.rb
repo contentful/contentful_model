@@ -5,10 +5,11 @@ module ContentfulModel
         ContentfulModel::Migrations::ContentTypeFactory.create(name, fields, &block)
       end
 
-      def add_content_type_field(content_type_id, name, type)
+      def add_content_type_field(content_type_id, name, type, &block)
         content_type = ContentfulModel::Migrations::ContentTypeFactory.find(content_type_id)
+        field = content_type.field(name, type)
 
-        content_type.field(name, type)
+        yield(field) if block_given?
 
         content_type.save.publish
       end
