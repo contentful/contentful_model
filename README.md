@@ -397,4 +397,5 @@ Please feel free to contribute. We would love your input.
 
 * Fork the repo
 * Make changes
+
 * Commit and make a PR :-)
