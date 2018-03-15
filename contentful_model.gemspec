@@ -23,6 +23,9 @@ Gem::Specification.new do |s|
 
   s.add_dependency "redcarpet"
   s.add_dependency "activesupport"
+  
+  # require_all 2.0 isn't compatible anymore, due to 
+  # https://github.com/jarmo/require_all/pull/21
   s.add_dependency 'require_all', '~> 1'
 
   s.add_development_dependency "vcr"
