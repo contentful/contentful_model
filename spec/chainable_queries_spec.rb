@@ -142,9 +142,9 @@ describe ContentfulModel::ChainableQueries do
     end
 
     describe '::paginate' do
-      it 'defaults to first page and 100 items' do
+      it 'defaults to first page and 100 items and sort by updatedAt' do
         expect(subject.paginate).to eq subject
-        expect(subject.query.parameters).to include('limit' => 100, 'skip' => 0)
+        expect(subject.query.parameters).to include('limit' => 100, 'skip' => 0, 'order' => 'sys.updatedAt')
       end
 
       it 'requesting second page will add page_size to skip' do
@@ -160,6 +160,16 @@ describe ContentfulModel::ChainableQueries do
       it 'can change page_size and select a different page' do
         expect(subject.paginate(3, 20)).to eq subject
         expect(subject.query.parameters).to include('limit' => 20, 'skip' => 40)
+      end
+
+      it 'outliers are changed to default values' do
+        expect(subject.paginate(-1, 'foo')).to eq subject
+        expect(subject.query.parameters).to include('limit' => 100, 'skip' => 0)
+      end
+
+      it 'can sort by a different field' do
+        expect(subject.paginate(1, 100, 'sys.createdAt')).to eq subject
+        expect(subject.query.parameters).to include('limit' => 100, 'skip' => 0, 'order' => 'sys.createdAt')
       end
     end
 

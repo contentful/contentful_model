@@ -38,11 +38,12 @@ module ContentfulModel
         self
       end
 
-      def paginate(page = 1, per_page = 100)
-        page = 1 if page.nil?
-        per_page = 25 if per_page.nil?
+      def paginate(page = 1, per_page = 100, order_field = 'sys.updatedAt')
+        page = 1 if page.nil? || !page.is_a?(Numeric) || page <= 0
+        per_page = 100 if per_page.nil? || !per_page.is_a?(Numeric) || per_page <= 0
+
         skip_records_count = (page - 1) * per_page
-        @query << { 'limit' => per_page, 'skip' => skip_records_count }
+        @query << { 'limit' => per_page, 'skip' => skip_records_count, 'order' => order_field }
         self
       end
 
