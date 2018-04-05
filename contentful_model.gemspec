@@ -23,7 +23,6 @@ Gem::Specification.new do |s|
 
   s.add_dependency "redcarpet"
   s.add_dependency "activesupport"
-  s.add_dependency 'require_all'
 
   s.add_development_dependency "vcr"
   s.add_development_dependency "rspec"

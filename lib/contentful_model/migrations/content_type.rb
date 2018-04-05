@@ -1,3 +1,5 @@
+require_relative 'errors'
+
 module ContentfulModel
   module Migrations
     class ContentType

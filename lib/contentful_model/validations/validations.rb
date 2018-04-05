@@ -1,3 +1,6 @@
+require_relative 'validates_presence_of'
+require_relative 'lambda_validation'
+
 # A module to validate entries. A little like ActiveRecord. We don't think this should be necessary, really,
 # because Contentful should be doing the validating, but they expose invalid entries through the preview API.
 module ContentfulModel

@@ -1,3 +1,5 @@
+require_relative 'query'
+
 module ContentfulModel
   module Queries
     def self.included(base)

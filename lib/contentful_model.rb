@@ -1,9 +1,11 @@
-require 'require_all'
+require 'active_support/all'
 require 'contentful/management'
 require 'contentful'
-require_rel '.'
 
-require "active_support/all"
+require_relative 'contentful_model/base'
+require_relative 'contentful_model/migrations/migration'
+require_relative 'contentful_model/version'
+
 
 module ContentfulModel
   class << self

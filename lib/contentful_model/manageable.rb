@@ -1,3 +1,6 @@
+require_relative 'errors'
+require_relative 'management'
+
 module ContentfulModel
   module Manageable
     attr_reader :dirty
