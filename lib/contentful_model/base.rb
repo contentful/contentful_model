@@ -1,3 +1,10 @@
+require_relative 'associations/associations'
+require_relative 'validations/validations'
+require_relative 'chainable_queries'
+require_relative 'manageable'
+require_relative 'errors'
+require_relative 'client'
+
 module ContentfulModel
   class Base < Contentful::Entry
     include ContentfulModel::ChainableQueries

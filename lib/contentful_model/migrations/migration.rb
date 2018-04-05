@@ -1,3 +1,5 @@
+require_relative 'content_type_factory'
+
 module ContentfulModel
   module Migrations
     module Migration

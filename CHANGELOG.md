@@ -24,6 +24,7 @@ changes from that point onwards.
 * Updated to CDA SDK 2.x
 * Updated Specs to run mostly against real data instead of mocks
 * Validations are now run by default before `#save`
+* Removed `require_all` dependency
 
 ## 0.2.0
 
