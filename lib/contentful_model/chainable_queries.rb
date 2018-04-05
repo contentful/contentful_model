@@ -8,7 +8,6 @@ module ContentfulModel
     end
 
     module ClassMethods
-
       def all
         raise ArgumentError, 'You need to set self.content_type in your model class' if @content_type_id.nil?
         self
@@ -39,6 +38,15 @@ module ContentfulModel
         self
       end
 
+      def paginate(page = 1, per_page = 100, order_field = 'sys.updatedAt')
+        page = 1 if page.nil? || !page.is_a?(Numeric) || page <= 0
+        per_page = 100 if per_page.nil? || !per_page.is_a?(Numeric) || per_page <= 0
+
+        skip_records_count = (page - 1) * per_page
+        @query << { 'limit' => per_page, 'skip' => skip_records_count, 'order' => order_field }
+        self
+      end
+
       def load_children(n)
         @query << {'include' => n}
         self
@@ -65,23 +73,29 @@ module ContentfulModel
 
       alias_method :skip, :offset
 
-      def find_by(*args)
-        args.each do |query|
-          #query is a hash
-          if query.values.first.is_a?(Array) #we need to do an 'in' query
-            @query << {"fields.#{query.keys.first.to_s.camelize(:lower)}[in]" => query.values.first.join(",")}
-          elsif query.values.first.is_a?(String) || query.values.first.is_a?(Numeric) || [TrueClass,FalseClass].member?(query.values.first.class)
-            @query << {"fields.#{query.keys.first.to_s.camelize(:lower)}" => query.values.first}
-          elsif query.values.first.is_a?(Hash)
+      def find_by(query = {})
+        query.each do |field, value|
+          key = if field.to_s.include?('sys.') || field.to_s.include?('fields.')
+                  field
+                else
+                  "fields.#{field}"
+                end
+
+          case value
+          when Array  #we need to do an 'in' query
+            @query << {"#{key}[in]" => value.join(",")}
+          when String, Numeric, true, false
+            @query << {"#{key}" => value}
+          when Hash
             # if the search is a hash, use the key to specify the search field operator
             # For example
             # Model.search(start_date: {gte: DateTime.now}) => "fields.start_date[gte]" => DateTime.now
-            query.each do |field, condition|
-              search_predicate, search_value = *condition.flatten
-              @query << {"fields.#{field.to_s.camelize(:lower)}[#{search_predicate}]" => search_value}
+            value.each do |search_predicate, search_value|
+              @query << {"#{key}[#{search_predicate}]" => search_value}
             end
           end
         end
+
         self
       end
 
@@ -103,8 +117,6 @@ module ContentfulModel
         end
         self
       end
-
     end
-
   end
 end
