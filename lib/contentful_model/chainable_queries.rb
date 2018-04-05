@@ -38,6 +38,14 @@ module ContentfulModel
         @query << {'locale' => locale_code}
         self
       end
+      
+      def paginate(page = 1, per_page = 25)
+        page = 1 if page.nil?
+        per_page = 25 if per_page.nil?
+        skip_records_count = (page - 1) * per_page
+        @query << { limit: per_page, skip: skip_records_count }
+        self
+      end
 
       def load_children(n)
         @query << {'include' => n}
