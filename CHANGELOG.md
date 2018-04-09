@@ -21,6 +21,7 @@ changes from that point onwards.
 * Queries now properly returns `::Contentful::Array` instead of `::Array` instances [#67](https://github.com/contentful/contentful_model/issues/67)
 * Queries now allow multiple fields for `find_by` and also works with `sys` fields [#49](https://github.com/contentful/contentful_model/issues/49)
 * Queries now do not share state any more, interface remained the same [#94](https://github.com/contentful/contentful_model/issues/94)
+* Queries using `find_by` can now also request `sys` fields without having to specify always the `sys.` prefix
 
 ### Changed
 

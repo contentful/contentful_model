@@ -1,5 +1,7 @@
 module ContentfulModel
   class Query
+    SYS_PROPERTIES = ['type', 'id', 'space', 'contentType', 'linkType', 'revision', 'createdAt', 'updatedAt', 'locale']
+
     attr_accessor :parameters
     def initialize(referenced_class, parameters=nil)
       @parameters = parameters || {}
@@ -62,8 +64,7 @@ module ContentfulModel
         column = args.to_s
       end
       property_name = column.camelize(:lower).to_sym
-      sys_properties = ['type', 'id', 'space', 'contentType', 'linkType', 'revision', 'createdAt', 'updatedAt', 'locale']
-      property_type = sys_properties.include?(property_name.to_s) ? 'sys' : 'fields'
+      property_type = SYS_PROPERTIES.include?(property_name.to_s) ? 'sys' : 'fields'
 
       self << {'order' => "#{prefix}#{property_type}.#{property_name}"}
       self
@@ -78,6 +79,8 @@ module ContentfulModel
       find_query.each do |field, value|
         key = if field.to_s.include?('sys.') || field.to_s.include?('fields.')
                 field
+              elsif SYS_PROPERTIES.include?(field.to_s)
+                "sys.#{field}"
               else
                 "fields.#{field}"
               end

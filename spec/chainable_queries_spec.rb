@@ -138,6 +138,11 @@ describe ContentfulModel::Base do
         query = subject.find_by('sys.id': 'foo')
         expect(query.parameters).to include('sys.id' => 'foo')
       end
+
+      it 'support sys properties without prefix' do
+        query = subject.find_by('updatedAt' => 'foo')
+        expect(query.parameters).to include('sys.updatedAt' => 'foo')
+      end
     end
 
     describe '::paginate' do
