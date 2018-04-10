@@ -4,6 +4,7 @@ require_relative 'lambda_validation'
 # A module to validate entries. A little like ActiveRecord. We don't think this should be necessary, really,
 # because Contentful should be doing the validating, but they expose invalid entries through the preview API.
 module ContentfulModel
+  # Defines general validation methods
   module Validations
     def self.included(base)
       base.extend ClassMethods
@@ -21,7 +22,7 @@ module ContentfulModel
 
     def validate(save = false)
       @errors = []
-      unless self.respond_to?(:fields)
+      unless respond_to?(:fields)
         @errors.push("Entity doesn't respond to the fields() method")
         return false
       end
@@ -31,16 +32,17 @@ module ContentfulModel
 
       validation_kinds.each do |validation_kind|
         validations = self.class.send(validation_kind)
-        unless validations.nil?
-          validations.each do |validation|
-            @errors += validation.validate(self)
-          end
+        next if validations.nil?
+
+        validations.each do |validation|
+          @errors += validation.validate(self)
         end
       end
 
       @errors.empty?
     end
 
+    # Class methods for Validations
     module ClassMethods
       def validations
         @validations

@@ -9,4 +9,6 @@ test/dummy/tmp/
 test/dummy/.sass-cache
 .idea/*
 .idea/.*
+.yardoc
+doc/
 Gemfile.lock

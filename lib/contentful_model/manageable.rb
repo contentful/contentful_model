@@ -2,8 +2,13 @@ require_relative 'errors'
 require_relative 'management'
 
 module ContentfulModel
+  # Adds CMA functionality to Base
   module Manageable
     attr_reader :dirty
+
+    def self.included(base)
+      base.extend(ClassMethods)
+    end
 
     def initialize(_item, _configuration = {}, localized = false, *)
       super
@@ -32,9 +37,7 @@ module ContentfulModel
     end
 
     def save(skip_validations = false)
-      if !skip_validations && invalid?(true)
-        return false
-      end
+      return false if !skip_validations && invalid?(true)
 
       begin
         to_management.save
@@ -48,7 +51,10 @@ module ContentfulModel
 
       self
     rescue Contentful::Management::Conflict
-      fail ContentfulModel::VersionMismatchError, "Version Mismatch persisting after refetch attempt, use :refetch_management_entry and try again later."
+      raise(
+        ContentfulModel::VersionMismatchError,
+        'Version Mismatch persisting after refetch attempt, use :refetch_management_entry and try again later.'
+      )
     end
 
     def save!
@@ -64,7 +70,10 @@ module ContentfulModel
 
       self
     rescue Contentful::Management::Conflict
-      fail ContentfulModel::VersionMismatchError, "Version Mismatch persisting after refetch attempt, use :refetch_management_entry and try again later."
+      raise(
+        ContentfulModel::VersionMismatchError,
+        'Version Mismatch persisting after refetch attempt, use :refetch_management_entry and try again later.'
+      )
     end
 
     private
@@ -115,6 +124,7 @@ module ContentfulModel
       end
     end
 
+    # Management Class methods
     module ClassMethods
       def management(options = {})
         @management ||= ContentfulModel::Management.new(
@@ -138,15 +148,11 @@ module ContentfulModel
 
         if publish
           entry.publish
-          entry = self.find(entry.id)
+          entry = find(entry.id)
         end
 
         entry
       end
-    end
-
-    def self.included(base)
-      base.extend(ClassMethods)
     end
   end
 end

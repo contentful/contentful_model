@@ -1,10 +1,12 @@
 module ContentfulModel
   module Associations
+    # Defines Has Many association
     module HasMany
       def self.included(base)
         base.extend ClassMethods
       end
 
+      # Class method
       module ClassMethods
         # has_many is called on the parent model
         #
@@ -16,10 +18,11 @@ module ContentfulModel
         # from the name of the model we're calling. If you specify a class_name, the method called on the parent will
         # be that. e.g. .somethings in this example
         # @param association_names [Symbol] the name of the child model, as a plural symbol
+        # rubocop:disable Style/PredicateName
         def has_many(association_names, options = {})
           default_options = {
             class_name: association_names.to_s.singularize.classify,
-            inverse_of: self.to_s.underscore.to_s
+            inverse_of: to_s.underscore.to_s
           }
           options = default_options.merge(options)
           define_method association_names do
@@ -29,23 +32,16 @@ module ContentfulModel
               # We set the singular of the association name on each object in the collection to allow easy
               # reverse recursion without another API call (i.e. finding the Foo which called .bars())
               super().each do |child|
-                child.send(:"#{options[:inverse_of]}=",self) if child.respond_to?(:"#{options[:inverse_of]}=")
+                child.send(:"#{options[:inverse_of]}=", self) if child.respond_to?(:"#{options[:inverse_of]}=")
               end
             rescue NoMethodError
-              []
-            rescue ContentfulModel::AttributeNotFoundError
-              # If AttributeNotFoundError is raised, that means that the association name isn't available on the object.
-              # We try to call the class name (pluralize) instead, or give up and return an empty collection
               possible_field_name = options[:class_name].pluralize.underscore.to_sym
-              if possible_field_name != association_names && respond_to?(possible_field_name)
-                self.send(possible_field_name)
-              else
-                #return an empty collection if the class name was the same as the association name and there's no attribute on the object.
-                []
-              end
+              return send(possible_field_name) if possible_field_name != association_names && respond_to?(possible_field_name)
+              []
             end
           end
         end
+        # rubocop:enable Style/PredicateName
       end
     end
   end

@@ -1,5 +1,6 @@
 module Contentful
   module Validations
+    # Class to define lambda validations
     class LambdaValidation
       def initialize(name, fn)
         @name = name

@@ -59,6 +59,26 @@ describe ContentfulModel::Migrations::ContentType do
       described_class.new(nil, mock_ct).remove_field('foo')
     end
 
+    describe '#id' do
+      it 'can set the id' do
+        subject.id = 'foo_ct'
+        expect(subject.id).to eq 'foo_ct'
+      end
+
+      it 'when saving, defined id will be used' do
+        subject.id = 'foo_ct'
+
+        expect_any_instance_of(::Contentful::Management::ClientContentTypeMethodsFactory).to receive(:create).with(
+          ContentfulModel.configuration.space,
+          id: 'foo_ct',
+          name: subject.name,
+          fields: subject.fields
+        )
+
+        subject.save
+      end
+    end
+
     describe '#field' do
       it 'snake cases field id' do
         field = subject.field('Foo Test', :symbol)

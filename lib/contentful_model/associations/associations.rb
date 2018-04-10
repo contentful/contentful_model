@@ -4,10 +4,10 @@ require_relative 'has_many'
 require_relative 'has_one'
 require_relative 'has_many_nested'
 
-# A module to map relationships, a little like ActiveRecord::Relation
-# This is necessary because Contentful::Link classes are not 2-way, so you can't
-# get the parent from a child.
 module ContentfulModel
+  # A module to map relationships, a little like ActiveRecord::Relation
+  # This is necessary because Contentful::Link classes are not 2-way, so you can't
+  # get the parent from a child.
   module Associations
     def self.included(base)
       base.include HasMany
