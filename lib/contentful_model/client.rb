@@ -1,7 +1,7 @@
 module ContentfulModel
+  # Wrapper for the CDA Client
   class Client < Contentful::Client
-
-    PREVIEW_API_URL = "preview.contentful.com"
+    PREVIEW_API_URL = 'preview.contentful.com'.freeze
 
     def initialize(configuration)
       if ContentfulModel.use_preview_api

@@ -10,7 +10,7 @@ changes from that point onwards.
 
 * Added `::validate_with` and `::validate` methods for more complex validations
 * Added `#hash` and `#eql?` to `ContentfulModel::Base` for equality and set operations [#65](https://github.com/contentful/contentful_model/issues/65)
-* Added `#id` to `ContentfulModel::Migrations::ContentType` to allow to set a custom ID [#80](https://github.com/contentful/contentful_model/issues/80)
+* Added `#id` and `#id=` to `ContentfulModel::Migrations::ContentType` to allow to set a custom ID [#80](https://github.com/contentful/contentful_model/issues/80)
 * Added default ID for content types created using migrations, to be the `camelCased` version of the name, replicating the Web App [#80](https://github.com/contentful/contentful_model/issues/80)
 * Added `#paginate` query to allow pagination [#79](https://github.com/contentful/contentful_model/pull/79)
 
@@ -30,6 +30,8 @@ changes from that point onwards.
 * Validations are now run by default before `#save`
 * Removed `require_all` dependency [#95](https://github.com/contentful/contentful_model/issues/95)
 * `ChainableQueries` module removed, behaviour now moved to `Queries` and `Query`. [#94](https://github.com/contentful/contentful_model/issues/94)
+* `has_children?` for `has_many_nested` was renamed to `children?`
+* Updated code to follow our style guide
 
 ## 0.2.0
 

@@ -1,18 +1,20 @@
 require_relative 'query'
 
 module ContentfulModel
+  # Module to extend Base with querying capabilities
   module Queries
     def self.included(base)
       base.extend ClassMethods
     end
 
+    # Class methods for Queries
     module ClassMethods
       def query
         ContentfulModel::Query.new(self)
       end
 
       def all
-        raise ArgumentError, 'You need to set self.content_type in your model class' if @content_type_id.nil?
+        fail ArgumentError, 'You need to set self.content_type in your model class' if @content_type_id.nil?
         query
       end
 
@@ -31,7 +33,7 @@ module ContentfulModel
       def offset(n)
         query.offset(n)
       end
-      alias_method :skip, :offset
+      alias skip offset
 
       def limit(n)
         query.limit(n)

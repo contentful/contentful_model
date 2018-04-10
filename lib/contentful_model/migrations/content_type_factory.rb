@@ -2,8 +2,9 @@ require_relative 'content_type'
 
 module ContentfulModel
   module Migrations
+    # Content Type Factory class
     module ContentTypeFactory
-      def self.create(name, fields = {}, &block)
+      def self.create(name, fields = {}, &_block)
         content_type = ContentfulModel::Migrations::ContentType.new(name)
 
         yield(content_type) if block_given?

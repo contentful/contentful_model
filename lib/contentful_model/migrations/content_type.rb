@@ -2,21 +2,20 @@ require_relative 'errors'
 
 module ContentfulModel
   module Migrations
+    # Class for defining Content Type transformations
     class ContentType
+      attr_accessor :id, :name
+
       def initialize(name = nil, management_content_type = nil)
         @name = name
         @management_content_type = management_content_type
-      end
-
-      def id(id)
-        @id = id
       end
 
       def save
         if new?
           @management_content_type = management.content_types.create(
             ContentfulModel.configuration.space,
-            id: @id || camel_case(@name),
+            id: id || camel_case(@name),
             name: @name,
             fields: fields
           )
@@ -61,17 +60,13 @@ module ContentfulModel
       end
 
       def fields
-        if new?
-          return @fields ||= []
-        else
-          return @fields ||= fields_from_management_type
-        end
+        @fields ||= new? ? [] : fields_from_management_type
       end
 
       private
 
       def camel_case(a_string)
-        a_string.split(/\s|_|-/).inject([]){ |buffer,e| buffer.push(buffer.empty? ? e.downcase : e.capitalize) }.join
+        a_string.split(/\s|_|-/).inject([]) { |a, e| a.push(a.empty? ? e.downcase : e.capitalize) }.join
       end
 
       def fields_from_management_type
@@ -98,11 +93,9 @@ module ContentfulModel
       end
 
       def management_link_type(type)
-        if [:entry_link, :asset_link].include?(type.to_sym)
-          return type.split('_').first.capitalize
-        else
-          raise_field_type_error(type)
-        end
+        raise_field_type_error(type) unless [:entry_link, :asset_link].include?(type.to_sym)
+
+        type.split('_').first.capitalize
       end
 
       def management_items(type)
@@ -135,4 +128,3 @@ module ContentfulModel
     end
   end
 end
-

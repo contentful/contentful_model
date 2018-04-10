@@ -6,6 +6,7 @@ require_relative 'errors'
 require_relative 'client'
 
 module ContentfulModel
+  # Wrapper for Contentful::Entry which provides ActiveModel-like syntax
   class Base < Contentful::Entry
     include ContentfulModel::Associations
     include ContentfulModel::Validations
@@ -18,11 +19,9 @@ module ContentfulModel
     end
 
     def cache_key(*timestamp_names)
-      if timestamp_names.present?
-        raise ArgumentError, "ContentfulModel::Base models don't support named timestamps."
-      end
+      fail ArgumentError, "ContentfulModel::Base models don't support named timestamps." if timestamp_names.present?
 
-      "#{self.class.to_s.underscore}/#{self.id}-#{self.updated_at.utc.to_s(:usec)}"
+      "#{self.class.to_s.underscore}/#{id}-#{updated_at.utc.to_s(:usec)}"
     end
 
     def hash
@@ -35,40 +34,49 @@ module ContentfulModel
 
     private
 
-    def override_getters
+    def define_sys_methods
       sys.keys.each do |name|
         define_singleton_method name do
           self.class.coerce_value(name, sys[name])
         end
       end
+    end
 
+    def filter_invalids(value)
+      return value.reject { |v| v.is_a?(Contentful::Link) || (v.respond_to?(:invalid?) && v.invalid?) } if value.is_a?(Array)
+      return nil if value.is_a?(Contentful::Link) || value.respond_to?(:fields) && value.fields.empty?
+
+      value
+    end
+
+    def nillable?(name, value)
+      value.nil? &&
+        self.class.return_nil_for_empty_attribute_fields &&
+        self.class.return_nil_for_empty_attribute_fields.include?(name)
+    end
+
+    def define_fields_methods
       fields.keys.each do |name|
         define_singleton_method name do
-          result = self.class.coerce_value(name, fields[name])
+          result = filter_invalids(
+            self.class.coerce_value(name, fields[name])
+          )
 
-          if result.is_a?(Array)
-            result.reject! { |r| r.is_a?(Contentful::Link) || (r.respond_to?(:invalid?) && r.invalid?) }
-          elsif result.is_a?(Contentful::Link)
-            result = nil
-          elsif result.respond_to?(:fields) && result.send(:fields).empty?
-            result = nil
-          end
-
-          if result.nil? && self.class.return_nil_for_empty_attribute_fields && self.class.return_nil_for_empty_attribute_fields.include?(name)
-            return nil
-          end
+          return nil if nillable?(name, result)
 
           result
         end
       end
     end
 
-    def respond_to_missing?(method, private=false)
-      if fields[:"#{method.to_s.camelize(:lower)}"].nil?
-         super
-      else
-        true
-      end
+    def override_getters
+      define_sys_methods
+      define_fields_methods
+    end
+
+    def respond_to_missing?(method, private = false)
+      return super if fields[:"#{method.to_s.camelize(:lower)}"].nil?
+      true
     end
 
     class << self
@@ -79,14 +87,14 @@ module ContentfulModel
       end
 
       def add_entry_mapping
-        unless ContentfulModel.configuration.entry_mapping.has_key?(@content_type_id)
-          ContentfulModel.configuration.entry_mapping[@content_type_id] = self.to_s.constantize
+        unless ContentfulModel.configuration.entry_mapping.key?(@content_type_id)
+          ContentfulModel.configuration.entry_mapping[@content_type_id] = to_s.constantize
         end
       end
 
       def client
         # add an entry mapping for this content type
-        self.add_entry_mapping
+        add_entry_mapping
         if ContentfulModel.use_preview_api
           @preview_client ||= ContentfulModel::Client.new(ContentfulModel.configuration.to_hash)
         else
@@ -127,11 +135,8 @@ module ContentfulModel
 
         fields.each do |field|
           define_method field do
-            begin
-              super
-            rescue ContentfulModel::AttributeNotFoundError
-              nil
-            end
+            result = super
+            result.present? ? result : nil
           end
 
           @return_nil_for_empty_attribute_fields.push(field)

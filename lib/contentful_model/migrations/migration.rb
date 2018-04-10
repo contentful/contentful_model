@@ -1,13 +1,15 @@
 require_relative 'content_type_factory'
 
 module ContentfulModel
+  # Migrations module
   module Migrations
+    # Content Type Migration methods
     module Migration
       def create_content_type(name, fields = {}, &block)
         ContentfulModel::Migrations::ContentTypeFactory.create(name, fields, &block)
       end
 
-      def add_content_type_field(content_type_id, name, type, &block)
+      def add_content_type_field(content_type_id, name, type, &_block)
         content_type = ContentfulModel::Migrations::ContentTypeFactory.find(content_type_id)
         field = content_type.field(name, type)
 

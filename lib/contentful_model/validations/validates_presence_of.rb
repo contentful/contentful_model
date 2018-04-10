@@ -1,10 +1,12 @@
 module Contentful
   module Validations
+    # Module to check presence of a field
     module PresenceOf
       def self.included(base)
         base.extend(ClassMethods)
       end
 
+      # Class method
       module ClassMethods
         def validates_presence_of(*args)
           @validations ||= []
@@ -13,6 +15,7 @@ module Contentful
       end
     end
 
+    # Actual validation
     class PresenceValidation
       attr_reader :fields
 
@@ -24,7 +27,7 @@ module Contentful
         errors = []
 
         fields.each do |field|
-          errors << "#{field} is required" unless entry.respond_to?(field) && (entry.send(field) rescue nil).present?
+          errors << "#{field} is required" unless entry.respond_to?(field) && entry.public_send(field).present?
         end
 
         errors
