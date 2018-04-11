@@ -34,5 +34,5 @@ Gem::Specification.new do |s|
   s.add_development_dependency 'webmock', '~> 1', '>= 1.17.3'
   s.add_development_dependency 'tins', '~> 1.6.0'
   s.add_development_dependency 'simplecov'
-  s.add_development_dependency 'rubocop', '~> 0.41.0'
+  s.add_development_dependency 'rubocop', '~> 0.49.0'
 end

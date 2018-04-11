@@ -74,37 +74,32 @@ module ContentfulModel
       end
 
       def management_type(type)
-        if [
-          :text, :symbol,
-          :integer, :number,
-          :date, :boolean,
-          :location, :object
-        ].include?(type.to_sym)
-          return type.capitalize
+        if %i[text symbol integer number date boolean location object].include?(type.to_sym)
+          type.capitalize
         elsif type == 'string'
-          return 'Symbol'
+          'Symbol'
         elsif link?(type)
-          return 'Link'
+          'Link'
         elsif array?(type)
-          return 'Array'
+          'Array'
         else
           raise_field_type_error(type)
         end
       end
 
       def management_link_type(type)
-        raise_field_type_error(type) unless [:entry_link, :asset_link].include?(type.to_sym)
+        raise_field_type_error(type) unless %i[entry_link asset_link].include?(type.to_sym)
 
         type.split('_').first.capitalize
       end
 
       def management_items(type)
-        if [:entry_array, :asset_array].include?(type.to_sym)
+        if %i[entry_array asset_array].include?(type.to_sym)
           items = Contentful::Management::Field.new
           items.type = 'Link'
           items.link_type = type.split('_').first.capitalize
 
-          return items
+          items
         else
           raise_field_type_error(type)
         end

@@ -1,7 +1,7 @@
 module ContentfulModel
   # Class to wrap query parameters
   class Query
-    SYS_PROPERTIES = %w(type id space contentType linkType revision createdAt updatedAt locale)
+    SYS_PROPERTIES = %w[type id space contentType linkType revision createdAt updatedAt locale]
 
     attr_accessor :parameters
     def initialize(referenced_class, parameters = nil)

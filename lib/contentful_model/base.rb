@@ -86,10 +86,12 @@ module ContentfulModel
         ObjectSpace.each_object(Class).select { |klass| klass < self }
       end
 
+      def mapping?
+        ContentfulModel.configuration.entry_mapping.key?(@content_type_id)
+      end
+
       def add_entry_mapping
-        unless ContentfulModel.configuration.entry_mapping.key?(@content_type_id)
-          ContentfulModel.configuration.entry_mapping[@content_type_id] = to_s.constantize
-        end
+        ContentfulModel.configuration.entry_mapping[@content_type_id] = to_s.constantize unless mapping?
       end
 
       def client

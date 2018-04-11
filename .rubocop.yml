@@ -17,6 +17,7 @@ AllCops:
     - Guardfile
     - Gemfile
     - Rakefile
+    - '*.gemspec'
 
 Metrics/ClassLength:
   Max: 250
