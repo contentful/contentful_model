@@ -26,6 +26,9 @@ module ContentfulModel
             inverse_of: to_s.underscore.to_sym
           }
           options = default_options.merge(options)
+
+          include_discovered(options[:class_name])
+
           # Define a method which matches the association name
           define_method association_name do
             begin

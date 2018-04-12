@@ -131,6 +131,7 @@ module ContentfulModel
 
     def execute
       query = @parameters.merge(default_parameters)
+      query.merge('include' => discover_includes) unless query.key?('include')
       result = client.entries(query)
       result.items.reject!(&:invalid?)
       result
@@ -143,6 +144,10 @@ module ContentfulModel
 
     def reset
       @parameters = default_parameters
+    end
+
+    def discover_includes
+      @referenced_class.discovered_include_level
     end
   end
 end

@@ -86,6 +86,29 @@ module ContentfulModel
         ObjectSpace.each_object(Class).select { |klass| klass < self }
       end
 
+      def discovered_includes
+        @discovered_includes ||= []
+      end
+
+      def discovered_include_level
+        @discovered_include_level ||= nil
+        return @discovered_include_level unless @discovered_include_level.nil?
+
+        includes = {}
+        discovered_includes.each do |klass|
+          includes[klass] = klass.constantize.discovered_includes.reject { |i| i == to_s } + [klass]
+        end
+
+        include_level = includes.values.map(&:size).max
+        return @discovered_include_level = 1 if include_level.nil? || include_level.zero?
+        return @discovered_include_level = 10 if include_level >= 10
+        @discovered_include_level = include_level + 1
+      end
+
+      def include_discovered(klass)
+        discovered_includes << klass unless discovered_includes.include?(klass)
+      end
+
       def mapping?
         ContentfulModel.configuration.entry_mapping.key?(@content_type_id)
       end

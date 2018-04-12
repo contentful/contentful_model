@@ -13,6 +13,7 @@ changes from that point onwards.
 * Added `#id` and `#id=` to `ContentfulModel::Migrations::ContentType` to allow to set a custom ID [#80](https://github.com/contentful/contentful_model/issues/80)
 * Added default ID for content types created using migrations, to be the `camelCased` version of the name, replicating the Web App [#80](https://github.com/contentful/contentful_model/issues/80)
 * Added `#paginate` query to allow pagination [#79](https://github.com/contentful/contentful_model/pull/79)
+* Added automated include discovery when using explicit relationship declarations [#85](https://github.com/contentful/contentful_model/issues/85)
 
 ### Fixed
 
