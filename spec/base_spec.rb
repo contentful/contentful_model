@@ -1,5 +1,27 @@
 require 'spec_helper'
 
+class HumanWithMethods < ContentfulModel::Base
+  self.content_type_id = 'human'
+
+  def foo
+    'bar'
+  end
+
+  def profile
+    [
+      "Name: #{name}",
+      "Description: #{description}",
+      "Likes: #{likes.join(', ')}"
+    ].join("\n")
+  end
+end
+
+module Models
+  class NestedDog < ContentfulModel::Base
+    self.content_type_id = 'dog'
+  end
+end
+
 describe ContentfulModel::Base do
   subject { vcr('nyancat') { Cat.find('nyancat') } }
 
@@ -102,6 +124,39 @@ describe ContentfulModel::Base do
     vcr('nyancat') { other_nyan = Cat.find('nyancat') }
 
     expect(nyancat == other_nyan).to be_truthy
+  end
+
+  describe 'base children should be able to have user defined methods' do
+    it 'has a user defined method' do
+      vcr('human') {
+        human = HumanWithMethods.first
+        expect(human.foo).to eq 'bar'
+      }
+    end
+
+    it 'has a user defined method that uses some entry field' do
+      vcr('human') {
+        human = HumanWithMethods.first
+        profile = human.profile
+
+        expect(profile).to include("Name: Finn")
+        expect(profile).to include("Description: Fearless adventurer! Defender of pancakes.")
+        expect(profile).to include("Likes: adventure")
+      }
+    end
+  end
+
+  describe 'base children can be defined in nested modules' do
+    it 'does not fail to fetch entries' do
+      dog = nil
+      vcr('dog') {
+        expect {
+          dog = Models::NestedDog.first
+        }.not_to raise_error
+
+        expect(dog.name).to eq 'Jake'
+      }
+    end
   end
 end
 
