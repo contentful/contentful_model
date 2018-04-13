@@ -97,7 +97,8 @@ module ContentfulModel
         # Recreate content type tree
         includes = {}
         discovered_includes.each do |klass|
-          includes[klass] = klass.constantize.discovered_includes.reject { |i| i == to_s } + [klass] # Recursively find includes - remove self from reference lists
+          # Recursively find includes - remove self from reference lists
+          includes[klass] = klass.constantize.discovered_includes.reject { |i| i == to_s } + [klass]
         end
 
         include_level = includes.values.map(&:size).max # Longest include chain
@@ -108,7 +109,10 @@ module ContentfulModel
 
       # Add a class to the known referenced classes
       def include_discovered(klass)
-        @discovered_include_level = nil # This should be nil already in most cases - but if another class is defined in Runtime after a query was already run, we want to make sure this is reset
+        # This should be nil already in most cases,
+        # but if another class is defined in Runtime after a query was already run, we want to make sure this is reset
+        @discovered_include_level = nil
+
         discovered_includes << klass unless discovered_includes.include?(klass)
       end
 
