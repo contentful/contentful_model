@@ -19,6 +19,14 @@ class ToCircular < ContentfulModel::Base
   has_one :circular_include
 end
 
+class Bar < ContentfulModel::Base
+end
+
+class MultiIncludeWithVaryingReferenceDepth < ContentfulModel::Base
+  has_one :one_include
+  has_one :bar
+end
+
 describe ContentfulModel::Query do
   let(:parameters) { { 'sys.id' => 'foo' } }
   let(:entry) { vcr('nyancat') { Cat.find('nyancat') } }
@@ -105,6 +113,11 @@ describe ContentfulModel::Query do
 
         query = described_class.new(ToCircular)
         expect(query.discover_includes).to eq 2
+      end
+
+      it 'when having multiple reference chains, include is set to the maximum chain legth' do
+        query = described_class.new(MultiIncludeWithVaryingReferenceDepth)
+        expect(query.discover_includes).to eq 3
       end
     end
   end
