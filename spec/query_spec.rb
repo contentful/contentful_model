@@ -1,5 +1,32 @@
 require 'spec_helper'
 
+class Foo < ContentfulModel::Base
+end
+
+class OneInclude < ContentfulModel::Base
+  has_one :foo
+end
+
+class MultiInclude < ContentfulModel::Base
+  has_one :one_include
+end
+
+class CircularInclude < ContentfulModel::Base
+  has_many :to_circulars
+end
+
+class ToCircular < ContentfulModel::Base
+  has_one :circular_include
+end
+
+class Bar < ContentfulModel::Base
+end
+
+class MultiIncludeWithVaryingReferenceDepth < ContentfulModel::Base
+  has_one :one_include
+  has_one :bar
+end
+
 describe ContentfulModel::Query do
   let(:parameters) { { 'sys.id' => 'foo' } }
   let(:entry) { vcr('nyancat') { Cat.find('nyancat') } }
@@ -61,6 +88,36 @@ describe ContentfulModel::Query do
           entries = query.execute
           expect(entries.first.id).to eq 'nyancat'
         }
+      end
+    end
+
+    describe '#discover_includes' do
+      it 'defaults to 1 for a class without associations' do
+        query = described_class.new(Cat)
+        expect(query.discover_includes).to eq 1
+      end
+
+      it 'adds an include level if it finds another nested item' do
+        query = described_class.new(OneInclude)
+        expect(query.discover_includes).to eq 2
+      end
+
+      it 'follows the include chain' do
+        query = described_class.new(MultiInclude)
+        expect(query.discover_includes).to eq 3
+      end
+
+      it 'can support circular references' do
+        query = described_class.new(CircularInclude)
+        expect(query.discover_includes).to eq 2
+
+        query = described_class.new(ToCircular)
+        expect(query.discover_includes).to eq 2
+      end
+
+      it 'when having multiple reference chains, include is set to the maximum chain legth' do
+        query = described_class.new(MultiIncludeWithVaryingReferenceDepth)
+        expect(query.discover_includes).to eq 3
       end
     end
   end

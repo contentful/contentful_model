@@ -86,6 +86,36 @@ module ContentfulModel
         ObjectSpace.each_object(Class).select { |klass| klass < self }
       end
 
+      def discovered_includes
+        @discovered_includes ||= []
+      end
+
+      def discovered_include_level
+        @discovered_include_level ||= nil
+        return @discovered_include_level unless @discovered_include_level.nil?
+
+        # Recreate content type tree
+        includes = {}
+        discovered_includes.each do |klass|
+          # Recursively find includes - remove self from reference lists
+          includes[klass] = klass.constantize.discovered_includes.reject { |i| i == to_s } + [klass]
+        end
+
+        include_level = includes.values.map(&:size).max # Longest include chain
+        return @discovered_include_level = 1 if include_level.nil? || include_level.zero?
+        return @discovered_include_level = 10 if include_level >= 10
+        @discovered_include_level = include_level + 1
+      end
+
+      # Add a class to the known referenced classes
+      def include_discovered(klass)
+        # This should be nil already in most cases,
+        # but if another class is defined in Runtime after a query was already run, we want to make sure this is reset
+        @discovered_include_level = nil
+
+        discovered_includes << klass unless discovered_includes.include?(klass)
+      end
+
       def mapping?
         ContentfulModel.configuration.entry_mapping.key?(@content_type_id)
       end

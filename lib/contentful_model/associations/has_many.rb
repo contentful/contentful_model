@@ -25,6 +25,9 @@ module ContentfulModel
             inverse_of: to_s.underscore.to_s
           }
           options = default_options.merge(options)
+
+          include_discovered(options[:class_name])
+
           define_method association_names do
             begin
               # Start by calling the association name as a method on the superclass.
