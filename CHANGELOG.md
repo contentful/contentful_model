@@ -13,6 +13,7 @@ changes from that point onwards.
 * Added `#id` and `#id=` to `ContentfulModel::Migrations::ContentType` to allow to set a custom ID [#80](https://github.com/contentful/contentful_model/issues/80)
 * Added default ID for content types created using migrations, to be the `camelCased` version of the name, replicating the Web App [#80](https://github.com/contentful/contentful_model/issues/80)
 * Added `#paginate` query to allow pagination [#79](https://github.com/contentful/contentful_model/pull/79)
+* Added tests for user defined methods and nested classes [#74](https://github.com/contentful/contentful_model/issues/74)
 * Added automated include discovery when using explicit relationship declarations [#85](https://github.com/contentful/contentful_model/issues/85)
 
 ### Fixed
@@ -23,6 +24,7 @@ changes from that point onwards.
 * Queries now allow multiple fields for `find_by` and also works with `sys` fields [#49](https://github.com/contentful/contentful_model/issues/49)
 * Queries now do not share state any more, interface remained the same [#94](https://github.com/contentful/contentful_model/issues/94)
 * Queries using `find_by` can now also request `sys` fields without having to specify always the `sys.` prefix
+* `return_nil_for_empty` no longer throws an error [#73](https://github.com/contentful/contentful_model/issues/73)
 
 ### Changed
 

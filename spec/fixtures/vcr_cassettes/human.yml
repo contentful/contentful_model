@@ -1,0 +1,199 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: https://cdn.contentful.com/spaces/cfexampleapi/content_types?limit=1000
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      X-Contentful-User-Agent:
+      - sdk contentful.rb/2.5.0; integration contentful_model/0.2.0; platform ruby/2.5.1;
+        os macOS/16;
+      Authorization:
+      - Bearer b4c0n73n7fu1
+      Content-Type:
+      - application/vnd.contentful.delivery.v1+json
+      Accept-Encoding:
+      - gzip
+      Connection:
+      - close
+      Host:
+      - cdn.contentful.com
+      User-Agent:
+      - http.rb/0.9.9
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Access-Control-Allow-Headers:
+      - Accept,Accept-Language,Authorization,Cache-Control,Content-Length,Content-Range,Content-Type,DNT,Destination,Expires,If-Match,If-Modified-Since,If-None-Match,Keep-Alive,Last-Modified,Origin,Pragma,Range,User-Agent,X-Http-Method-Override,X-Mx-ReqToken,X-Requested-With,X-Contentful-Version,X-Contentful-Content-Type,X-Contentful-Organization,X-Contentful-Skip-Transformation,X-Contentful-User-Agent,X-Contentful-Enable-Alpha-Feature
+      Access-Control-Allow-Methods:
+      - GET,HEAD,OPTIONS
+      Access-Control-Allow-Origin:
+      - "*"
+      Access-Control-Expose-Headers:
+      - Etag
+      Access-Control-Max-Age:
+      - '86400'
+      Cache-Control:
+      - max-age=0
+      Content-Encoding:
+      - gzip
+      Content-Type:
+      - application/vnd.contentful.delivery.v1+json
+      Etag:
+      - W/"5931d6f8ea469d4856e7e31b1cf1553a"
+      Server:
+      - Contentful
+      X-Content-Type-Options:
+      - nosniff
+      X-Contentful-Request-Id:
+      - e22a4695949994fa42407977a1d36887
+      Content-Length:
+      - '867'
+      Accept-Ranges:
+      - bytes
+      Date:
+      - Thu, 12 Apr 2018 08:19:25 GMT
+      Via:
+      - 1.1 varnish
+      Age:
+      - '0'
+      Connection:
+      - close
+      X-Served-By:
+      - cache-hhn1522-HHN
+      X-Cache:
+      - MISS
+      X-Cache-Hits:
+      - '0'
+      X-Timer:
+      - S1523521165.400457,VS0,VE431
+      Vary:
+      - Accept-Encoding
+    body:
+      encoding: ASCII-8BIT
+      string: !binary |-
+        H4sIAAAAAAAAA+1YS3PaMBC+51dQn4vHsg0B3xLSTJmmvcApnRyELRIN8qO2SEMz+e9dydhItiGMyatpPByQVtLut6tdfdL9UadjZKvM8Dr38BcafJUQaBknaYpXBvQ9fBZjeMwxg35XtrIFTaBhyQajIeXQQpaVd1BOQrHiT7livm5FjVSVJdgXuooReadijOiQnYVRFzRaGELp5gP10WK6NnoiV6wMoIHA48/JHQ4TRnBCBazieyj/S6D5Z+RzgvhaWay0YhRHnERcKlXm+CnBnAQnwheGbSGna/W79vHUtj237yHHdIeDS3XCMgmqE4Zdy54i13NsDyFz4BxrE1JySzMaR6DAXttaGm0ENEsYXp1TwiTgCIcb8/IW9J4pkIyAZH5KE54vaZzidPGpNNCYi5U2cRSe0SKV+0hTI8aUqn6oBkhJEcYpueNalAwW+5jRP0RYPscsI2oMjZT8WtJUCnm61GUAG8/Ylokx7EwISbFoU6gbIKlu0eyQWIUTFb9pA54AYB39MyCkIb7W86SM2rgu2pp9+4ftMFSaj9V8P8kywjfZXOTylQz0OjX+4fqD+HA88+fBaNEPLXc5nkwyPP52QElyobx0bTRFjufanuOYljXcWZIenaCUJNSyJI0oX22qjl6ToiVjRfT/34Lkw2lDUr1iFrVo1CArExaqqizuegK9cK1db4v3kpTg0gMysEIKbHPQs3dm4HHXgl9/ag293sDr2WZ/iLaRgkHbDFQgVUnBdxL/Nl+fFNTO/RfmBIwuSNacgRd1kU6i22XfEx6ZBSFXuY5CxyarcBYzDRxIb4GQAT+F8iE5YJ6+4lyFk3VPIuXHLN5WtuqiwmkN5rwU0dgT14xk/DylJAqad8QpyDtNA94uk/oS8VRe99YR3uzZBoI8oym/CeB62MiOTxulBfQzuPK0PI8Oy4g9sTE6357oIOowMq9cXgpoYzilr6vn9N43m53oauWv3c2G0dvt4ED0OuDqyNuh+7jVQPK+/VeVm2WIVUp64LuKayLH2UmhgHPl7yo9D1me3TcHSH+IUS4xTksK9VUDVSFRH7cY8Wry/p9VPkhiecjuTxLbVe38efoZmPVjJ62m8hFi3fRcXaXV6npQvXe8bmku1S/V0Lo6ejj6C+2NRHvOFwAA
+    http_version: 
+  recorded_at: Thu, 12 Apr 2018 08:19:25 GMT
+- request:
+    method: get
+    uri: https://cdn.contentful.com/spaces/cfexampleapi/entries?content_type=human&limit=1
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      X-Contentful-User-Agent:
+      - sdk contentful.rb/2.5.0; integration contentful_model/0.2.0; platform ruby/2.5.1;
+        os macOS/16;
+      Authorization:
+      - Bearer b4c0n73n7fu1
+      Content-Type:
+      - application/vnd.contentful.delivery.v1+json
+      Accept-Encoding:
+      - gzip
+      Connection:
+      - close
+      Host:
+      - cdn.contentful.com
+      User-Agent:
+      - http.rb/0.9.9
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Access-Control-Allow-Headers:
+      - Accept,Accept-Language,Authorization,Cache-Control,Content-Length,Content-Range,Content-Type,DNT,Destination,Expires,If-Match,If-Modified-Since,If-None-Match,Keep-Alive,Last-Modified,Origin,Pragma,Range,User-Agent,X-Http-Method-Override,X-Mx-ReqToken,X-Requested-With,X-Contentful-Version,X-Contentful-Content-Type,X-Contentful-Organization,X-Contentful-Skip-Transformation,X-Contentful-User-Agent,X-Contentful-Enable-Alpha-Feature
+      Access-Control-Allow-Methods:
+      - GET,HEAD,OPTIONS
+      Access-Control-Allow-Origin:
+      - "*"
+      Access-Control-Expose-Headers:
+      - Etag
+      Access-Control-Max-Age:
+      - '86400'
+      Cache-Control:
+      - max-age=0
+      Content-Type:
+      - application/vnd.contentful.delivery.v1+json
+      Etag:
+      - '"fc1e23cdbfae3d608a920680858b749f"'
+      Server:
+      - Contentful
+      X-Content-Type-Options:
+      - nosniff
+      X-Contentful-Request-Id:
+      - 60072e7b907aa4a874e2d98c3d7107d4
+      Content-Length:
+      - '813'
+      Accept-Ranges:
+      - bytes
+      Date:
+      - Thu, 12 Apr 2018 08:19:26 GMT
+      Via:
+      - 1.1 varnish
+      Age:
+      - '0'
+      Connection:
+      - close
+      X-Served-By:
+      - cache-hhn1539-HHN
+      X-Cache:
+      - MISS
+      X-Cache-Hits:
+      - '0'
+      X-Timer:
+      - S1523521166.921792,VS0,VE415
+      Vary:
+      - Accept-Encoding
+    body:
+      encoding: UTF-8
+      string: |
+        {
+          "sys": {
+            "type": "Array"
+          },
+          "total": 1,
+          "skip": 0,
+          "limit": 1,
+          "items": [
+            {
+              "sys": {
+                "space": {
+                  "sys": {
+                    "type": "Link",
+                    "linkType": "Space",
+                    "id": "cfexampleapi"
+                  }
+                },
+                "id": "finn",
+                "type": "Entry",
+                "createdAt": "2013-06-27T22:46:21.450Z",
+                "updatedAt": "2013-09-09T16:15:01.297Z",
+                "revision": 6,
+                "contentType": {
+                  "sys": {
+                    "type": "Link",
+                    "linkType": "ContentType",
+                    "id": "human"
+                  }
+                },
+                "locale": "en-US"
+              },
+              "fields": {
+                "name": "Finn",
+                "description": "Fearless adventurer! Defender of pancakes.",
+                "likes": [
+                  "adventure"
+                ]
+              }
+            }
+          ]
+        }
+    http_version: 
+  recorded_at: Thu, 12 Apr 2018 08:19:26 GMT
+recorded_with: VCR 4.0.0
