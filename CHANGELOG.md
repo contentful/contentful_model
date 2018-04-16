@@ -15,6 +15,7 @@ changes from that point onwards.
 * Added `#paginate` query to allow pagination [#79](https://github.com/contentful/contentful_model/pull/79)
 * Added tests for user defined methods and nested classes [#74](https://github.com/contentful/contentful_model/issues/74)
 * Added automated include discovery when using explicit relationship declarations [#85](https://github.com/contentful/contentful_model/issues/85)
+* Added support for environments
 
 ### Fixed
 
@@ -29,6 +30,7 @@ changes from that point onwards.
 ### Changed
 
 * Updated to CDA SDK 2.x
+* Updated to CMA SDK 2.x
 * Updated Specs to run mostly against real data instead of mocks
 * Validations are now run by default before `#save`
 * Removed `require_all` dependency [#95](https://github.com/contentful/contentful_model/issues/95)

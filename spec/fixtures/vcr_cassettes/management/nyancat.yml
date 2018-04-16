@@ -2,7 +2,7 @@
 http_interactions:
 - request:
     method: get
-    uri: https://cdn.contentful.com/spaces/facgnwwgj5fe/content_types?limit=1000
+    uri: https://cdn.contentful.com/spaces/facgnwwgj5fe/environments/master/content_types?limit=1000
     body:
       encoding: US-ASCII
       string: ''
@@ -89,7 +89,7 @@ http_interactions:
   recorded_at: Mon, 08 May 2017 14:10:41 GMT
 - request:
     method: get
-    uri: https://cdn.contentful.com/spaces/facgnwwgj5fe/entries?content_type=cat&sys.id=IJLRrADsqq2AmwcugoYeK
+    uri: https://cdn.contentful.com/spaces/facgnwwgj5fe/environments/master/entries?content_type=cat&sys.id=IJLRrADsqq2AmwcugoYeK
     body:
       encoding: US-ASCII
       string: ''
@@ -291,7 +291,7 @@ http_interactions:
   recorded_at: Mon, 08 May 2017 14:10:43 GMT
 - request:
     method: get
-    uri: https://api.contentful.com/spaces/facgnwwgj5fe/content_types
+    uri: https://api.contentful.com/spaces/facgnwwgj5fe/environments/master/content_types
     body:
       encoding: US-ASCII
       string: ''
@@ -1059,7 +1059,7 @@ http_interactions:
   recorded_at: Mon, 08 May 2017 14:10:48 GMT
 - request:
     method: get
-    uri: https://api.contentful.com/spaces/facgnwwgj5fe/entries/IJLRrADsqq2AmwcugoYeK
+    uri: https://api.contentful.com/spaces/facgnwwgj5fe/environments/master/entries/IJLRrADsqq2AmwcugoYeK
     body:
       encoding: US-ASCII
       string: ''
@@ -1204,7 +1204,7 @@ http_interactions:
   recorded_at: Mon, 08 May 2017 14:10:52 GMT
 - request:
     method: get
-    uri: https://cdn.contentful.com/spaces/facgnwwgj5fe/entries?sys.id=IJLRrADsqq2AmwcugoYeK
+    uri: https://cdn.contentful.com/spaces/facgnwwgj5fe/environments/master/entries?sys.id=IJLRrADsqq2AmwcugoYeK
     body:
       encoding: US-ASCII
       string: ''
@@ -1291,7 +1291,7 @@ http_interactions:
   recorded_at: Mon, 08 May 2017 14:10:53 GMT
 - request:
     method: get
-    uri: https://api.contentful.com/spaces/facgnwwgj5fe/content_types/cat
+    uri: https://api.contentful.com/spaces/facgnwwgj5fe/environments/master/content_types/cat
     body:
       encoding: US-ASCII
       string: ''
