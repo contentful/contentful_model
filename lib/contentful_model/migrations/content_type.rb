@@ -13,8 +13,10 @@ module ContentfulModel
 
       def save
         if new?
-          @management_content_type = management.content_types.create(
+          @management_content_type = management.content_types(
             ContentfulModel.configuration.space,
+            ContentfulModel.configuration.environment
+          ).create(
             id: id || camel_case(@name),
             name: @name,
             fields: fields

@@ -78,12 +78,17 @@ module ContentfulModel
 
     private
 
-    def management_space
-      @management_space ||= self.class.management(default_locale: locale).spaces.find(space.id)
+    def management_proxy
+      @management_proxy ||= self.class.management(
+        default_locale: locale
+      ).entries(
+        space.id,
+        ContentfulModel.configuration.environment
+      )
     end
 
     def fetch_management_entry
-      management_space.entries.find(id)
+      management_proxy.find(id)
     end
 
     def management_entry
@@ -138,11 +143,11 @@ module ContentfulModel
       end
 
       def create(values = {}, publish = false)
-        entry = management.entries.create(
-          management.content_types.find(
-            ContentfulModel.configuration.space,
-            content_type_id
-          ),
+        space = ContentfulModel.configuration.space
+        environment = ContentfulModel.configuration.environment
+
+        entry = management.entries(space, environment).create(
+          management.content_types(space, environment).find(content_type_id),
           values
         )
 

@@ -2,7 +2,7 @@
 http_interactions:
 - request:
     method: get
-    uri: https://cdn.contentful.com/spaces/cfexampleapi/content_types?limit=1000
+    uri: https://cdn.contentful.com/spaces/cfexampleapi/environments/master/content_types?limit=1000
     body:
       encoding: US-ASCII
       string: ''
@@ -97,7 +97,7 @@ http_interactions:
   recorded_at: Wed, 10 May 2017 15:46:10 GMT
 - request:
     method: get
-    uri: https://cdn.contentful.com/spaces/cfexampleapi/entries?content_type=cat
+    uri: https://cdn.contentful.com/spaces/cfexampleapi/environments/master/entries?content_type=cat
     body:
       encoding: US-ASCII
       string: ''

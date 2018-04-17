@@ -32,8 +32,8 @@ describe ContentfulModel::Migrations::ContentTypeFactory do
     ContentfulModel.configure { |config| config.space = 'space_id' }
     mock_client = Object.new
 
-    allow_any_instance_of(ContentfulModel::Management).to receive(:content_types) { mock_client }
-    expect(mock_client).to receive(:find).with('space_id', 'ct_id')
+    allow_any_instance_of(ContentfulModel::Management).to receive(:content_types).with('space_id', 'master') { mock_client }
+    expect(mock_client).to receive(:find).with('ct_id')
 
     result = described_class.find('ct_id')
     expect(result).to be_a(ContentfulModel::Migrations::ContentType)

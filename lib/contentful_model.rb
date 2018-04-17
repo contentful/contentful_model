@@ -26,6 +26,7 @@ module ContentfulModel
   class Configuration
     attr_accessor :access_token,
                   :preview_access_token,
+                  :environment,
                   :space,
                   :entry_mapping,
                   :management_token,
@@ -33,6 +34,7 @@ module ContentfulModel
 
     def initialize
       @entry_mapping ||= {}
+      @environment = 'master'
     end
 
     # Rather than listing out all the possible attributes as setters, we have a catchall

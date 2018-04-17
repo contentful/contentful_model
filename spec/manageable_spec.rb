@@ -37,7 +37,7 @@ describe ContentfulModel::Manageable do
         allow(Cat).to receive(:management) { @mock_client }
         allow(@mock_client).to receive(:entries) { @mock_client }
         allow(@mock_client).to receive(:content_types) { @mock_client }
-        allow(@mock_client).to receive(:find).with(space_id, 'cat') { @mock_ct }
+        allow(@mock_client).to receive(:find).with('cat') { @mock_ct }
         @values = {'name' => 'Nyan Cat'}
       end
 

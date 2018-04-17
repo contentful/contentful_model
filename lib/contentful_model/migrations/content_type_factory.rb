@@ -19,10 +19,10 @@ module ContentfulModel
       def self.find(content_type_id)
         ContentfulModel::Migrations::ContentType.new(
           nil,
-          ContentfulModel::Management.new.content_types.find(
+          ContentfulModel::Management.new.content_types(
             ContentfulModel.configuration.space,
-            content_type_id
-          )
+            ContentfulModel.configuration.environment
+          ).find(content_type_id)
         )
       end
     end
