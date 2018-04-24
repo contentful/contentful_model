@@ -57,5 +57,29 @@ describe ContentfulModel::Queries do
         expect(nyancat.id).to eq 'nyancat'
       }
     end
+
+    it '::paginate' do
+      vcr('query/manual_pagination') {
+        happy_cat = Cat.paginate(2, 2).load.first
+        expect(happy_cat.name).to eq 'Happy Cat'
+      }
+    end
+
+    it '::each_page' do
+      vcr('query/each_page') {
+        Cat.each_page(2) do |page|
+          expect(page).to be_a ::Contentful::Array
+          expect(page.first).to be_a Cat
+        end
+      }
+    end
+
+    it '::each_entry' do
+      vcr('query/each_entry') {
+        Cat.each_entry(2) do |cat|
+          expect(cat).to be_a Cat
+        end
+      }
+    end
   end
 end

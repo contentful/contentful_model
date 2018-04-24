@@ -32,6 +32,14 @@ describe ContentfulModel::Query do
   let(:entry) { vcr('nyancat') { Cat.find('nyancat') } }
   subject { described_class.new(Cat, parameters) }
 
+  before :each do
+    ContentfulModel.configure do |config|
+      config.space = 'cfexampleapi'
+      config.access_token = 'b4c0n73n7fu1'
+      config.entry_mapping = {}
+    end
+  end
+
   describe 'attributes' do
     it ':parameters' do
       expect(subject.parameters).to eq parameters
@@ -40,12 +48,6 @@ describe ContentfulModel::Query do
 
   describe 'instance_methods' do
     before :each do
-      ContentfulModel.configure do |config|
-        config.space = 'cfexampleapi'
-        config.access_token = 'b4c0n73n7fu1'
-        config.entry_mapping = {}
-      end
-
       Cat.client = nil
     end
 

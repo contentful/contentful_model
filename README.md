@@ -56,6 +56,9 @@ end
 ## Queries and Searching
 ContentfulModel allows you to chain queries, like ActiveRecord. The options are as follows.
 
+### `first()`
+Returns the first entry for your content type.
+
 ### `all()`
 Returns all entries of a particular content type. Requires `load()` to be called at the end of the chain.
 
@@ -63,12 +66,27 @@ Returns all entries of a particular content type. Requires `load()` to be called
 Foo.all.load
 ```
 
+### `params([hash])`
+Allows you to send any arbitrary query to Contentful.
+
 ### `offset([integer])`
 (Also aliased as `skip()`). Allows you to specify an offset from the start of the returned set. Requires `load()` at the end of the chain.
 
 ```
 Foo.all.offset(2).load
 ```
+
+### `limit([integer])`
+Limits the amount of returned entries (minimum 1, maximum 1000, default is 100).
+
+### `paginate(page = 1, per_page = 100, order_field = 'sys.updatedAt')
+Fetches the requested entry page.
+
+### `each_page(per_page = 100, order_field = 'sys.updatedAt', &block)`
+Allows you to execute the given block over each page for your content type. It automatically does pagination for you.
+
+### `each_entry(per_page = 100, order_field = 'sys.updatedAt', &block)`
+Same as `each_page` but iterates through every entry. It automatically does pagination for you.
 
 ### `find([id])`
 Returns the entry of the content type you've called, matching the id you passed into the `find()` method. _Does not_ require `load()`.
@@ -102,6 +120,9 @@ Fetches nested links to the specified level.
 ```
 Foo.load_children(3).load
 ```
+
+### `order([string , hash or array of string])`
+Sets the order for the executed query.
 
 ## Associations
 You can specify associations between models in a similar way to ActiveRecord. There are some differences, though, so read on.
@@ -317,7 +338,8 @@ end
 If you've defined this in a class, any queries to the API will filter out entities which aren't valid. This applies to both relations (where you might get a collection), or searches.
 
 ## Returning nil for fields which aren't defined
-If an object is valid, but has content missing from a field, the Contentful API simply doesn't return the field, which is frustrating. That means that you have to check manually for its existence to avoid raising a `ContentfulModel::AttributeNotFoundError`.
+
+If an object is valid, but has content missing from a field, the Contentful API doesn't return the field. That means that you have to check manually for its existence to avoid raising a `NoMethodError`.
 
 We decided it would be nice to be able to declare that certain fields should return nil, rather than raising an error. You can do that as follows:
 

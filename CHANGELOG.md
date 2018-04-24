@@ -16,6 +16,7 @@ changes from that point onwards.
 * Added tests for user defined methods and nested classes [#74](https://github.com/contentful/contentful_model/issues/74)
 * Added automated include discovery when using explicit relationship declarations [#85](https://github.com/contentful/contentful_model/issues/85)
 * Added support for environments
+* Added `#each_page` and `#each_entry` to automatically paginate entries
 
 ### Fixed
 

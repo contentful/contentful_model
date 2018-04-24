@@ -47,6 +47,14 @@ module ContentfulModel
         query.paginate(page, per_page, order_field)
       end
 
+      def each_page(per_page = 100, order_field = 'sys.updatedAt', &block)
+        query.each_page(per_page, order_field, &block)
+      end
+
+      def each_entry(per_page = 100, order_field = 'sys.updatedAt', &block)
+        query.each_entry(per_page, order_field, &block)
+      end
+
       def load_children(n)
         query.load_children(n)
       end
