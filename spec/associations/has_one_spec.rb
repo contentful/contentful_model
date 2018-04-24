@@ -6,10 +6,6 @@ class HasOneTestModel < ContentfulModel::Base
   has_one :test_model
 end
 
-class TestModel < ContentfulModel::Base
-  self.content_type_id = 'testModel'
-end
-
 describe ContentfulModel::Associations::HasOne do
   before :each do
     ContentfulModel.configure do |c|

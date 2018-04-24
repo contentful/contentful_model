@@ -52,3 +52,7 @@ class CoercedCat < ContentfulModel::Base
   coerce_field created_at: 'String'
   coerce_field updated_at: 'Date'
 end
+
+class TestModel < ContentfulModel::Base
+  self.content_type_id = 'testModel'
+end
