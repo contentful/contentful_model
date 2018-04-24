@@ -48,6 +48,23 @@ module ContentfulModel
       self
     end
 
+    def each_page(per_page = 100, order_field = 'sys.updatedAt', &block)
+      total = self.class.new(@referenced_class).limit(1).load_children(0).execute.total
+
+      ((total / per_page) + 1).times do |i|
+        page = self.class.new(@referenced_class).paginate(i, per_page, order_field).execute
+        block[page]
+      end
+    end
+
+    def each_entry(per_page = 100, order_field = 'sys.updatedAt', &block)
+      each_page(per_page, order_field) do |page|
+        page.each do |entry|
+          block[entry]
+        end
+      end
+    end
+
     def load_children(n)
       self << { 'include' => n }
       self
