@@ -148,7 +148,10 @@ module ContentfulModel
 
     def execute
       query = @parameters.merge(default_parameters)
-      query.merge('include' => discover_includes) unless query.key?('include')
+
+      discovered_includes = discover_includes
+      query['include'] = discovered_includes unless query.key?('include') || discovered_includes == 1
+
       result = client.entries(query)
       result.items.reject!(&:invalid?)
       result
