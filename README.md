@@ -80,7 +80,7 @@ Foo.all.offset(2).load
 ### `limit([integer])`
 Limits the amount of returned entries (minimum 1, maximum 1000, default is 100).
 
-### `paginate(page = 1, per_page = 100, order_field = 'sys.updatedAt', additional_options = {})
+### `paginate(page = 1, per_page = 100, order_field = 'sys.updatedAt', additional_options = {})`
 Fetches the requested entry page. `additional_options` allows you to send more specific query parameters.
 
 ### `each_page(per_page = 100, order_field = 'sys.updatedAt', additional_options = {}, &block)`
