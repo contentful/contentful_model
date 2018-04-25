@@ -43,16 +43,16 @@ module ContentfulModel
         query.locale(locale_code)
       end
 
-      def paginate(page = 1, per_page = 100, order_field = 'sys.updatedAt')
-        query.paginate(page, per_page, order_field)
+      def paginate(page = 1, per_page = 100, order_field = 'sys.updatedAt', additional_options = {})
+        query.paginate(page, per_page, order_field, additional_options)
       end
 
-      def each_page(per_page = 100, order_field = 'sys.updatedAt', &block)
-        query.each_page(per_page, order_field, &block)
+      def each_page(per_page = 100, order_field = 'sys.updatedAt', additional_options = {}, &block)
+        query.each_page(per_page, order_field, additional_options, &block)
       end
 
-      def each_entry(per_page = 100, order_field = 'sys.updatedAt', &block)
-        query.each_entry(per_page, order_field, &block)
+      def each_entry(per_page = 100, order_field = 'sys.updatedAt', additional_options = {}, &block)
+        query.each_entry(per_page, order_field, additional_options, &block)
       end
 
       def load_children(n)

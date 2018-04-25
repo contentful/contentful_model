@@ -25,23 +25,24 @@ module ContentfulModel
         # to write your own recursion for this, because it's probably an implementation-specific problem.
         # rubocop:disable Style/PredicateName
         def has_many_nested(association_name, options = {})
-          has_many association_name, inverse_of: :"parent_#{to_s.underscore}"
-          belongs_to_many :"parent_#{to_s.underscore.pluralize}", class_name: to_s, inverse_of: association_name
-          @root_method = options[:root] if options[:root].is_a?(Proc)
+          has_many association_name, class_name: to_s, inverse_of: :"parent_#{to_s.underscore}"
+          belongs_to_many :"parent_#{to_s.underscore.pluralize}", class_name: to_s
+          root_method = options[:root] if options[:root].is_a?(Proc)
 
           # If there's a root method defined, set up a class method called root_[class name]. In our example this would be
           # Page.root_page.
           # @return [Object] the root entity returned from the proc defined in has_many_nested
-          if defined?(@root_method) && @root_method.is_a?(Proc)
+          if defined?(root_method) && root_method.is_a?(Proc)
             # @return [Object] the root entity
-            define_singleton_method :"root_#{to_s.underscore}" do
-              @root_method.call
+            define_method :"root_#{to_s.underscore}" do
+              root_method.call
             end
           end
 
           # A utility method which returns the parent object; saves passing around interpolated strings
           define_method :parent do
-            send(:"parent_#{self.class.to_s.underscore}")
+            parents = send(:"parent_#{self.class.to_s.underscore.pluralize}")
+            parents.first unless parents.nil?
           end
 
           # Determine if the object has any parents. If it doesn't, it's considered a root.
@@ -59,10 +60,9 @@ module ContentfulModel
               # this *is* the parent
               return self
             end
-            block.call(parent)
-            unless parent && parent.root?
-              parent.find_ancestors { |a| block.call(a) }
-            end
+            block[parent]
+
+            parent.find_ancestors { |a| block[a] } if parent && !parent.root?
           end
 
           # A utility method to return the results of `find_ancestors` as an array
@@ -71,9 +71,12 @@ module ContentfulModel
             find_ancestors.to_a
           end
 
-          # Return the last member of the enumerable, which is the root
+          # If this entry is the root, return self.
+          # Otherwise, return the last member of the ancestors, which is the root
           # @return the root instance of this object
           define_method :root do
+            return self if root?
+
             find_ancestors.to_a.last
           end
 

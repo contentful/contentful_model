@@ -39,26 +39,27 @@ module ContentfulModel
       self
     end
 
-    def paginate(page = 1, per_page = 100, order_field = 'sys.updatedAt')
+    def paginate(page = 1, per_page = 100, order_field = 'sys.updatedAt', additional_options = {})
       page = 1 if page.nil? || !page.is_a?(Numeric) || page <= 0
       per_page = 100 if per_page.nil? || !per_page.is_a?(Numeric) || per_page <= 0
 
       skip_records_count = (page - 1) * per_page
       self << { 'limit' => per_page, 'skip' => skip_records_count, 'order' => order_field }
+      self << additional_options
       self
     end
 
-    def each_page(per_page = 100, order_field = 'sys.updatedAt', &block)
-      total = self.class.new(@referenced_class).limit(1).load_children(0).execute.total
+    def each_page(per_page = 100, order_field = 'sys.updatedAt', additional_options = {}, &block)
+      total = self.class.new(@referenced_class).limit(1).load_children(0).params(additional_options).execute.total
 
       ((total / per_page) + 1).times do |i|
-        page = self.class.new(@referenced_class).paginate(i, per_page, order_field).execute
+        page = self.class.new(@referenced_class).paginate(i, per_page, order_field, additional_options).execute
         block[page]
       end
     end
 
-    def each_entry(per_page = 100, order_field = 'sys.updatedAt', &block)
-      each_page(per_page, order_field) do |page|
+    def each_entry(per_page = 100, order_field = 'sys.updatedAt', additional_options = {}, &block)
+      each_page(per_page, order_field, additional_options) do |page|
         page.each do |entry|
           block[entry]
         end
@@ -148,7 +149,10 @@ module ContentfulModel
 
     def execute
       query = @parameters.merge(default_parameters)
-      query.merge('include' => discover_includes) unless query.key?('include')
+
+      discovered_includes = discover_includes
+      query['include'] = discovered_includes unless query.key?('include') || discovered_includes == 1
+
       result = client.entries(query)
       result.items.reject!(&:invalid?)
       result
