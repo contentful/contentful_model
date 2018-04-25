@@ -18,12 +18,13 @@ Configure ContentfulModel with a block. In a Rails app this is best done in an i
 
 ```
 ContentfulModel.configure do |config|
-  config.access_token = "your access token in here"
-  config.preview_access_token = "your preview token in here"
-  config.management_token = "your management token in here"
-  config.space = "your space id in here"
-  config.default_locale = "en-US"
-  config.options = {
+  config.access_token = "your access token in here" # Required
+  config.preview_access_token = "your preview token in here" # Optional - required if you want to use the preview API
+  config.management_token = "your management token in here" # Optional - required if you want to update or create content
+  config.space = "your space id in here" # Required
+  config.environment = "master" # Optional - defaults to 'master'
+  config.default_locale = "en-US" # Optional - defaults to 'en-US'
+  config.options = { # Optional
     #extra options to send to the Contentful::Client
   }
 end
