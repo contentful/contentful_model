@@ -15,7 +15,7 @@ module ContentfulModel
         # is in the children. It requires one API call.
 
         # class Bar
-        #   belongs_to_many :foos, class_name: Foo, inverse_of: :special_bars
+        #   belongs_to_many :foos, class_name: Foo
         # end
 
         # In this example, children on the parent are accessed through an association called special_bars.
@@ -25,7 +25,7 @@ module ContentfulModel
         def belongs_to_many(association_names, opts = {})
           default_options = {
             class_name: association_names.to_s.singularize.classify,
-            inverse_of: to_s.underscore.to_sym
+            page_size: 100
           }
           options = default_options.merge(opts)
 
@@ -51,36 +51,14 @@ module ContentfulModel
             instance_variable_get(:@loaded_with_parent) ? true : false
           end
 
-          # Set up the association name (plural)
-          return send(association_names) if respond_to?(association_names)
-
           define_method association_names do
             parents = instance_variable_get(:"@#{association_names}")
             if parents.nil?
-              # get the parent class objects as an array
-              parent_objects = options[:class_name].constantize.send(:all).send(:load)
-
-              # iterate through parent objects and see if any of the children include the same ID as the method
-              parents = parent_objects.select do |parent_object|
-                # check to see if the parent object responds to the plural or singular.
-                if parent_object.respond_to?(:"#{options[:inverse_of].to_s.pluralize}")
-                  collection_of_children_on_parent = parent_object.send(:"#{options[:inverse_of].to_s.pluralize}")
-
-                  # get the collection of children from the parent. This *might* be nil if the parent doesn't have
-                  # any children, in which case, just skip over this parent item and move on to the next.
-                  next if collection_of_children_on_parent.nil?
-
-                  collection_of_children_on_parent.collect(&:id).include?(id)
-                else
-                  # if it doesn't respond to the plural, assume singular
-                  child_on_parent = parent_object.send(:"#{options[:inverse_of]}")
-
-                  # Do the same skipping routine on nil.
-                  next if child_on_parent.nil?
-
-                  child_on_parent.send(:id) == id
-                end
+              parents = []
+              options[:class_name].constantize.send(:each_entry, options[:page_size], 'sys.updatedAt', links_to_entry: id) do |parent|
+                parents << parent
               end
+
               instance_variable_set(:"@#{association_names}", parents)
             end
             parents

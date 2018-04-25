@@ -80,13 +80,13 @@ Foo.all.offset(2).load
 ### `limit([integer])`
 Limits the amount of returned entries (minimum 1, maximum 1000, default is 100).
 
-### `paginate(page = 1, per_page = 100, order_field = 'sys.updatedAt')
-Fetches the requested entry page.
+### `paginate(page = 1, per_page = 100, order_field = 'sys.updatedAt', additional_options = {})
+Fetches the requested entry page. `additional_options` allows you to send more specific query parameters.
 
-### `each_page(per_page = 100, order_field = 'sys.updatedAt', &block)`
+### `each_page(per_page = 100, order_field = 'sys.updatedAt', additional_options = {}, &block)`
 Allows you to execute the given block over each page for your content type. It automatically does pagination for you.
 
-### `each_entry(per_page = 100, order_field = 'sys.updatedAt', &block)`
+### `each_entry(per_page = 100, order_field = 'sys.updatedAt', additional_options = {}, &block)`
 Same as `each_page` but iterates through every entry. It automatically does pagination for you.
 
 ### `find([id])`
@@ -173,14 +173,6 @@ Our Article class above has a child called Author. The author will probably belo
 ```
 class Author < ContentfulModel::Base
     belongs_to_many :articles
-end
-```
-
-Our Page class above has a method called template. This returns a PageTemplate class; we set the inverse here for clarity and to help with setting up some utility methods.
-
-```
-class PageTemplate < ContentfulModel::Base
-    belongs_to_many :pages, inverse_of: :template
 end
 ```
 

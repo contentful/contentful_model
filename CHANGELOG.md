@@ -27,6 +27,7 @@ changes from that point onwards.
 * Queries now do not share state any more, interface remained the same [#94](https://github.com/contentful/contentful_model/issues/94)
 * Queries using `find_by` can now also request `sys` fields without having to specify always the `sys.` prefix
 * `return_nil_for_empty` no longer throws an error [#73](https://github.com/contentful/contentful_model/issues/73)
+* `belongs_to_many` now uses the `links_to_entry` parameter and greatly simplifies the code
 
 ### Changed
 
@@ -38,6 +39,7 @@ changes from that point onwards.
 * `ChainableQueries` module removed, behaviour now moved to `Queries` and `Query`. [#94](https://github.com/contentful/contentful_model/issues/94)
 * `has_children?` for `has_many_nested` was renamed to `children?`
 * Updated code to follow our style guide
+* `belongs_to_many` now doesn't support `inverse_of`
 
 ## 0.2.0
 
