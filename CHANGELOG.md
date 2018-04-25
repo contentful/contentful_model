@@ -28,6 +28,7 @@ changes from that point onwards.
 * Queries using `find_by` can now also request `sys` fields without having to specify always the `sys.` prefix
 * `return_nil_for_empty` no longer throws an error [#73](https://github.com/contentful/contentful_model/issues/73)
 * `belongs_to_many` now uses the `links_to_entry` parameter and greatly simplifies the code
+* `has_many_nested` now properly works and does extra queries only when required
 
 ### Changed
 

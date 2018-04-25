@@ -1,0 +1,82 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: https://cdn.contentful.com/spaces/a22o2qgm356c/environments/master/entries?content_type=nested&include=2&sys.id=5CNbxcca5OwgI68eSuWso2
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      X-Contentful-User-Agent:
+      - sdk contentful.rb/2.6.0; integration contentful_model/0.2.0; platform ruby/2.5.1;
+        os macOS/16;
+      Authorization:
+      - Bearer 60229df5876f14f499870d0d26f37b1323764ed637289353a5f74a5ea190c214
+      Content-Type:
+      - application/vnd.contentful.delivery.v1+json
+      Accept-Encoding:
+      - gzip
+      Connection:
+      - close
+      Host:
+      - cdn.contentful.com
+      User-Agent:
+      - http.rb/2.2.2
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Access-Control-Allow-Headers:
+      - Accept,Accept-Language,Authorization,Cache-Control,Content-Length,Content-Range,Content-Type,DNT,Destination,Expires,If-Match,If-Modified-Since,If-None-Match,Keep-Alive,Last-Modified,Origin,Pragma,Range,User-Agent,X-Http-Method-Override,X-Mx-ReqToken,X-Requested-With,X-Contentful-Version,X-Contentful-Content-Type,X-Contentful-Organization,X-Contentful-Skip-Transformation,X-Contentful-User-Agent,X-Contentful-Enable-Alpha-Feature
+      Access-Control-Allow-Methods:
+      - GET,HEAD,OPTIONS
+      Access-Control-Allow-Origin:
+      - "*"
+      Access-Control-Expose-Headers:
+      - Etag
+      Access-Control-Max-Age:
+      - '86400'
+      Cache-Control:
+      - max-age=0
+      Content-Encoding:
+      - gzip
+      Content-Type:
+      - application/vnd.contentful.delivery.v1+json
+      Etag:
+      - W/"6a2176e61669de8bc824a3c32e7afb5f"
+      Server:
+      - Contentful
+      X-Content-Type-Options:
+      - nosniff
+      X-Contentful-Request-Id:
+      - 345664652901ebf1b3673c4f126a00b2
+      Content-Length:
+      - '660'
+      Accept-Ranges:
+      - bytes
+      Date:
+      - Wed, 25 Apr 2018 13:07:40 GMT
+      Via:
+      - 1.1 varnish
+      Age:
+      - '0'
+      Connection:
+      - close
+      X-Served-By:
+      - cache-hhn1528-HHN
+      X-Cache:
+      - MISS
+      X-Cache-Hits:
+      - '0'
+      X-Timer:
+      - S1524661660.277749,VS0,VE360
+      Vary:
+      - Accept-Encoding
+    body:
+      encoding: ASCII-8BIT
+      string: !binary |-
+        H4sIAAAAAAAAA+1WW2+bMBR+z6+I/NxE4ABJeauirNrUtKroNmlVHyh4kRUwBEi6qMp/ny9cDLEhlTZpD/MDwgefq8/3Hd5H4zHIjzlwx+/0lW6KY4roDtxkmX8EVHa6YmeKpPAjKjf5Lt/ilG4MvolwjAv2yRB7XKCYGXzmBoXZjhfuKU/9gLmqTgihFAsTcGEV0x0mW8B8Not6J9unMmaPW+wcwCFLx4cwgbtNPLOdgGVVrVP9zvMUCwgde3n/+isIfPvhbfPZWSBv/z1PoGS/DmxFiuwofwgy5BcovGF1AdAwFxPDmkD7yTRd23Lt66nhGD9khX0aahVs17iezuG8pYDIAWcJiRFhPoZrKFKK/bxAWbdEl9Z3JfkcrGGGDjjHCaHRQam0QUIKGnN5ZcNxXxrbUrKr7ACCaOrh8N1HSeBHHAKITL56lULdHuAnRlHYIIa1DCB+zFXuuZOxKV9thiJ2tTUiRI/JmSvQUTZiT/YceU3vd1uw1cmzTbparg/enfewXLxtto/O7SPcybWgOFfe6EspFV/Z84WDHpMg2odIIg4RQAX7BvjK5JTgV57k5b28DCoKYOH2kkAnebl9Sk2Yftq/rr/sv+3WHs5v0TJOdihu4UhLBtR9Px1YztSyoIxuqtJHCJarVNFTgr6yPbTwobprqKGvshJB8KlSLaCnCH0el3eInijqPjmnir48NIRRTs4ShwrSoO46tDFrEFmhsaadhi9a87o0r5qlf6JYfwlOGj5qdUF1o+fENgAn25nOLfNDcFKq/IfTGCj+uGhbyXPnH4aT/KtGo1bPYXlQVWBS/IMOj6FOXc7btrQuGFczUCQaZMflmdzeVXO5kYqzTH4anUa/AQkdRIrZCwAA
+    http_version: 
+  recorded_at: Wed, 25 Apr 2018 13:07:40 GMT
+recorded_with: VCR 4.0.0
