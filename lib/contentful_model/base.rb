@@ -75,7 +75,8 @@ module ContentfulModel
     end
 
     def respond_to_missing?(method, private = false)
-      return super if fields[:"#{method.to_s.camelize(:lower)}"].nil?
+      key = fields.keys.detect { |k| k.to_s.underscore == method.to_s.underscore }
+      return super if key.nil?
       true
     end
 
@@ -162,13 +163,17 @@ module ContentfulModel
         end
       end
 
-      def return_nil_for_empty(*fields)
+      def return_nil_for_empty(*nillable_fields)
         @return_nil_for_empty_attribute_fields ||= []
 
-        fields.each do |field|
+        nillable_fields.each do |field|
           define_method field do
-            result = super
-            result.present? ? result : nil
+            begin
+              result = super()
+              result.present? ? result : nil
+            rescue NoMethodError
+              nil
+            end
           end
 
           @return_nil_for_empty_attribute_fields.push(field)
