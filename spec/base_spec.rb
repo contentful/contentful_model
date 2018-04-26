@@ -22,6 +22,12 @@ module Models
   end
 end
 
+class ModelWithEmptyFields < ContentfulModel::Base
+  self.content_type_id = 'modelWithEmpty'
+
+  return_nil_for_empty :empty
+end
+
 describe ContentfulModel::Base do
   subject { vcr('nyancat') { Cat.find('nyancat') } }
 
@@ -46,6 +52,37 @@ describe ContentfulModel::Base do
         expect(content_type.id).to eq 'cat'
         expect(content_type).to be_a Contentful::ContentType
       }
+    end
+
+    it '::descendents' do
+      child_classes = ContentfulModel::Base.descendents
+      expect(child_classes).to be_a ::Array
+      expect(child_classes).to include(Cat)
+    end
+
+    describe '::return_nil_for_empty' do
+      before :each do
+        ContentfulModel.configure do |config|
+          config.space = 'a22o2qgm356c'
+          config.access_token = '60229df5876f14f499870d0d26f37b1323764ed637289353a5f74a5ea190c214'
+          config.entry_mapping = {}
+        end
+        ModelWithEmptyFields.add_entry_mapping
+      end
+
+      it 'returns nil for undefined field' do
+        vcr('base/return_nil_for_empty') {
+          empty_entry = ModelWithEmptyFields.find('3QBNQLVctWIUMy4MEMUECK')
+          expect(empty_entry.empty).to be_nil
+        }
+      end
+
+      it 'returns value for defined field' do
+        vcr('base/return_nil_for_empty_with_value') {
+          empty_entry = ModelWithEmptyFields.find('JwGJyMyZQ44QWmWGS6sSy')
+          expect(empty_entry.empty).to eq 'foo'
+        }
+      end
     end
   end
 
