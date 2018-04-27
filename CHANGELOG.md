@@ -17,6 +17,7 @@ changes from that point onwards.
 * Added automated include discovery when using explicit relationship declarations [#85](https://github.com/contentful/contentful_model/issues/85)
 * Added support for environments
 * Added `#each_page` and `#each_entry` to automatically paginate entries
+* Added `Asset` wrapper class with search and Image API extensions [#3](https://github.com/contentful/contentful_model/issues/3)
 
 ### Fixed
 
