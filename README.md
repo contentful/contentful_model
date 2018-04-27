@@ -161,7 +161,7 @@ end
 Provided you've properly set up `belongs_to_many` on the other end of the relationship, you'll have a utility method on the child model called `page()`. This is the entity *which loaded the child*. In most cases this is pretty useful.
 
 ### `has_many`
-Using `has_many` is conceptually identical to `has_one`, so there isn't much to say here.
+Using `has_many` is conceptually identical to `has_one`, instead of a single entity you'll receive an array.
 
 ### `belongs_to_many`
 Use `belongs_to_many` on the other end of a `has_one` or `has_many` relationship.
@@ -222,9 +222,6 @@ end
 ```
 
 Adding this second parameter defines a method called `root_page` on the class, so you can get the root easily. Your proc needs to return one object.
-
-#### An aside on the Contentful UI
-There isn't a way to see the parent of a child entity, when you're looking at the child entity. This is something the Contentful gang are thinking about solving, we hear.
 
 ## Preview mode
 You might want to hit the preview API. Our [contentful_rails](https://github.com/errorstudio/contentful_rails) gem uses it, for example.
@@ -372,6 +369,22 @@ You can also publish directly by calling `#publish` on your models.
 
 ```ruby
 my_model.publish
+```
+
+## Assets
+
+Assets are wrapped in a `ContentfulModel::Asset` class, which has shorthand methods for all of the Image API options.
+
+```
+url = my_asset.resize(10, 20).rounded_corners(30).png_8bit.thumbnail_focused_on('face').load
+```
+
+You can also perform searches on assets.
+
+```
+assets = Asset.all('sys.updatedAt[gte]' => 2.days.ago)
+
+asset = Asset.find('asset_id')
 ```
 
 ## Content Migrations
