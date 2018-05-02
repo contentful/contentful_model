@@ -1,10 +1,8 @@
 # CHANGELOG
 
-This Changelog has been introduced after the 0.1.7 release by @errorstudio.
-Since then, @contentful has taken ownership. This changelog will start reflecting
-changes from that point onwards.
-
 ## Master
+
+## 1.0.0
 
 ### Added
 
@@ -53,6 +51,10 @@ changes from that point onwards.
 
 ### Fixed
 * Fixed getter method resolution
+
+This Changelog has been introduced after the 0.1.7 release by @errorstudio.
+Since then, @contentful has taken ownership. This changelog will start reflecting
+changes from that point onwards.
 
 ## 0.1.7 (and previous)
 
