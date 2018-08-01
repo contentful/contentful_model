@@ -13,6 +13,9 @@ module ContentfulModel
     include ContentfulModel::Manageable
     include ContentfulModel::Queries
 
+    # Time format for Cache Key
+    TIME_FORMAT = '%Y%m%d%H%M%S%6N'.freeze
+
     def initialize(*)
       super
       override_getters
@@ -21,7 +24,7 @@ module ContentfulModel
     def cache_key(*timestamp_names)
       fail ArgumentError, "ContentfulModel::Base models don't support named timestamps." if timestamp_names.present?
 
-      "#{self.class.to_s.underscore}/#{id}-#{updated_at.utc.to_s(:usec)}"
+      "#{self.class.to_s.underscore}/#{id}-#{updated_at.utc.strftime(TIME_FORMAT)}"
     end
 
     def hash

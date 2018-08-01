@@ -2,6 +2,10 @@
 
 ## Master
 
+### Changed
+
+* Changed `#cache_key` to use `strftime` instead of `to_s(:usec)` to achieve compatibility with older ActiveSupport versions.
+
 ## 1.0.0
 
 ### Added
