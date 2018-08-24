@@ -100,6 +100,7 @@ describe ContentfulModel::Base do
         nyancat = CoercedCat.find('nyancat')
         expect(nyancat.name).to eq 'Fat Cat'
         expect(nyancat.created_at).to eq '2013-06-27T22:46:19+00:00'
+        expect(nyancat.updated_at).to be_instance_of(DateTime)
       }
     end
   end
