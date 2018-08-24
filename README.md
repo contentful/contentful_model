@@ -49,10 +49,11 @@ ContentfulModel takes care of setting instance variables for each field in your 
 class Foo < ContentfulModel::Base
    self.content_type_id = "content type id for this model"
 
-   coerce_field birthday: :date
-   coerce_field store_id: :integer
+   coerce_field birthday: :Date
+   coerce_field store_id: :Integer
 end
 ```
+See a list of the available coercions [here](https://github.com/contentful/contentful.rb/blob/master/lib/contentful/field.rb#L9-L22).
 
 ## Queries and Searching
 ContentfulModel allows you to chain queries, like ActiveRecord. The options are as follows.
