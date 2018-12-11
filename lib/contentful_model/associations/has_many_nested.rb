@@ -25,8 +25,9 @@ module ContentfulModel
         # to write your own recursion for this, because it's probably an implementation-specific problem.
         # rubocop:disable Style/PredicateName
         def has_many_nested(association_name, options = {})
-          has_many association_name, class_name: to_s, inverse_of: :"parent_#{to_s.underscore}"
-          belongs_to_many :"parent_#{to_s.underscore.pluralize}", class_name: to_s
+          my_name = to_s.demodulize.underscore
+          has_many association_name, class_name: to_s, inverse_of: :"parent_#{my_name}"
+          belongs_to_many :"parent_#{my_name.pluralize}", class_name: to_s
           root_method = options[:root] if options[:root].is_a?(Proc)
 
           # If there's a root method defined, set up a class method called root_[class name]. In our example this would be
@@ -34,14 +35,14 @@ module ContentfulModel
           # @return [Object] the root entity returned from the proc defined in has_many_nested
           if defined?(root_method) && root_method.is_a?(Proc)
             # @return [Object] the root entity
-            define_method :"root_#{to_s.underscore}" do
+            define_method :"root_#{my_name}" do
               root_method.call
             end
           end
 
           # A utility method which returns the parent object; saves passing around interpolated strings
           define_method :parent do
-            parents = send(:"parent_#{self.class.to_s.underscore.pluralize}")
+            parents = send(:"parent_#{self.class.my_name.pluralize}")
             parents.first unless parents.nil?
           end
 
