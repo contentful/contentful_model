@@ -127,6 +127,12 @@ describe ContentfulModel::Migrations::ContentType do
         expect(items.link_type).to eq('Asset')
       end
 
+      it 'rich_text field' do
+        field = subject.field('foo', :rich_text)
+
+        expect(field.type).to eq('RichText')
+      end
+
       it 'fails on unknown type' do
         expect { subject.field('foo', :bar) }.to raise_error ContentfulModel::Migrations::InvalidFieldTypeError
       end
