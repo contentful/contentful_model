@@ -123,8 +123,10 @@ Fetches nested links to the specified level.
 Foo.load_children(3).load
 ```
 
-### `order([string , hash or array of string])`
+### `order([string, hash or array of strings])`
 Sets the order for the executed query.
+
+For example, to sort in reverse chronological order: `order(createdAt: :desc)`
 
 ## Associations
 You can specify associations between models in a similar way to ActiveRecord. There are some differences, though, so read on.
