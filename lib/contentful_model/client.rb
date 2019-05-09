@@ -18,7 +18,8 @@ module ContentfulModel
         raise_errors: true,
         dynamic_entries: :auto,
         integration_name: 'contentful_model',
-        integration_version: ::ContentfulModel::VERSION
+        integration_version: ::ContentfulModel::VERSION,
+        raise_for_empty_fields: false
       }.merge(configuration))
     end
   end

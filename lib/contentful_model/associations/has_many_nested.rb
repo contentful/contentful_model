@@ -131,11 +131,11 @@ module ContentfulModel
           end
           send(:private, :flatten_hash)
         end
-        # rubocop:enable Style/PredicateName
 
         def has_many_nested_name
           to_s.demodulize.underscore
         end
+        # rubocop:enable Style/PredicateName
       end
     end
   end
