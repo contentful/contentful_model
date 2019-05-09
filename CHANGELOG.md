@@ -1,7 +1,16 @@
 # CHANGELOG
 
 ## Master
+
+## 1.1.0
+
+### Added
+
+* Added support for RichText fields on migrations. [#127](https://github.com/contentful/contentful_model/pull/127)
+* Added support to define display fields for Content Types on migrations. [#128](https://github.com/contentful/contentful_model/pull/128)
+
 ### Fixed
+
 * Fixed namespace issue when having relationships defined within modules. [#125](https://github.com/contentful/contentful_model/pull/125)
 * Fixed test failures by only allowing this gem to handle field errors, instead of delegating to the SDK.
 
