@@ -6,6 +6,11 @@ module ContentfulModel
     class ContentType
       attr_accessor :id, :name, :display_field
 
+      MANAGEMENT_TYPE_MAPPING = {
+        'string' => 'Symbol',
+        'rich_text' => 'RichText'
+      }.freeze
+
       def initialize(name = nil, management_content_type = nil)
         @name = name
         @management_content_type = management_content_type
@@ -80,12 +85,12 @@ module ContentfulModel
       def management_type(type)
         if %i[text symbol integer number date boolean location object].include?(type.to_sym)
           type.capitalize
-        elsif type == 'string'
-          'Symbol'
         elsif link?(type)
           'Link'
         elsif array?(type)
           'Array'
+        elsif MANAGEMENT_TYPE_MAPPING.key?(type.to_s)
+          MANAGEMENT_TYPE_MAPPING[type.to_s]
         else
           raise_field_type_error(type)
         end
