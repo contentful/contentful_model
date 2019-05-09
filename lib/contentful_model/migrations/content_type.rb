@@ -4,7 +4,7 @@ module ContentfulModel
   module Migrations
     # Class for defining Content Type transformations
     class ContentType
-      attr_accessor :id, :name
+      attr_accessor :id, :name, :display_field
 
       def initialize(name = nil, management_content_type = nil)
         @name = name
@@ -19,10 +19,12 @@ module ContentfulModel
           ).create(
             id: id || camel_case(@name),
             name: @name,
+            displayField: display_field,
             fields: fields
           )
         else
           @management_content_type.fields = @fields
+          @management_content_type.displayField = display_field if display_field
           @management_content_type.save
         end
 

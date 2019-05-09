@@ -30,22 +30,52 @@ describe ContentfulModel::Migrations::ContentType do
         end
       end
 
-      it 'creates a new content type on contentful' do
-        mock_client = Object.new
-        expect(mock_client).to receive(:create).with(id: 'foo', name: 'foo', fields: [])
-        allow_any_instance_of(ContentfulModel::Management).to receive(:content_types) { mock_client }
+      context 'with a new content type' do
+        let(:mock_client) { Object.new }
 
-        described_class.new('foo').save
+        before do
+          allow_any_instance_of(ContentfulModel::Management).to receive(:content_types) { mock_client }
+        end
+
+        it 'creates it on contentful' do
+          expect(mock_client).to receive(:create).with(id: 'foo', name: 'foo', displayField: nil, fields: [])
+
+          described_class.new('foo').save
+        end
+
+        it 'allows to specify display field' do
+          expect(mock_client).to receive(:create).with(id: 'foo', name: 'foo', displayField: 'field_id', fields: [])
+
+          ct = described_class.new('foo')
+          ct.display_field = 'field_id'
+          ct.save
+        end
       end
 
-      it 'updates an existing content type' do
-        mock_ct = Object.new
-        allow(mock_ct).to receive(:id) { 'foo' }
+      context 'with an existing content type' do
+        let(:mock_ct) { Object.new }
 
-        expect(mock_ct).to receive(:fields=)
-        expect(mock_ct).to receive(:save)
+        before do
+          allow(mock_ct).to receive(:id) { 'foo' }
+        end
 
-        described_class.new(nil, mock_ct).save
+        it 'updates it' do
+          expect(mock_ct).to receive(:fields=)
+          expect(mock_ct).not_to receive(:displayField=)
+          expect(mock_ct).to receive(:save)
+
+          described_class.new(nil, mock_ct).save
+        end
+
+        it 'updates display field' do
+          expect(mock_ct).to receive(:fields=)
+          expect(mock_ct).to receive(:displayField=)
+          expect(mock_ct).to receive(:save)
+
+          ct = described_class.new(nil, mock_ct)
+          ct.display_field = 'field_id'
+          ct.save
+        end
       end
     end
 
@@ -71,6 +101,7 @@ describe ContentfulModel::Migrations::ContentType do
         expect_any_instance_of(::Contentful::Management::ClientContentTypeMethodsFactory).to receive(:create).with(
           id: 'foo_ct',
           name: subject.name,
+          displayField: nil,
           fields: subject.fields
         )
 
