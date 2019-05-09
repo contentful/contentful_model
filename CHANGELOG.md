@@ -1,6 +1,9 @@
 # CHANGELOG
 
 ## Master
+### Fixed
+* Fixed namespace issue when having relationships defined within modules. [#125](https://github.com/contentful/contentful_model/pull/125)
+* Fixed test failures by only allowing this gem to handle field errors, instead of delegating to the SDK.
 
 ## 1.0.1
 
