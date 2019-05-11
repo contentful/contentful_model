@@ -103,10 +103,16 @@ module ContentfulModel
       end
 
       def management_items(type)
-        if %i[entry_array asset_array].include?(type.to_sym)
+        if %i[entry_array asset_array symbol_array].include?(type.to_sym)
+          array_type = type.split('_').first.capitalize
+
           items = Contentful::Management::Field.new
-          items.type = 'Link'
-          items.link_type = type.split('_').first.capitalize
+          if %i[entry_array asset_array].include?(type.to_sym)
+            items.type = 'Link'
+            items.link_type = array_type
+          else
+            items.type = array_type
+          end
 
           items
         else

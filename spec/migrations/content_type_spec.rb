@@ -158,6 +158,21 @@ describe ContentfulModel::Migrations::ContentType do
         expect(items.link_type).to eq('Asset')
       end
 
+      it 'symbol array field' do
+        field = subject.field('foo', :symbol_array)
+
+        expect(field.id).to eq('foo')
+        expect(field.name).to eq('foo')
+        expect(field.type).to eq('Array')
+        expect(field.link_type).to eq(nil)
+
+        items = field.items
+
+        expect(items).to be_a(Contentful::Management::Field)
+        expect(items.type).to eq('Symbol')
+        expect(items.link_type).to eq(nil)
+      end
+
       it 'rich_text field' do
         field = subject.field('foo', :rich_text)
 
