@@ -35,6 +35,8 @@ module ContentfulModel
     def initialize
       @entry_mapping ||= {}
       @environment = 'master'
+      @integration_name = 'contentful_model'
+      @integration_version = ::ContentfulModel::VERSION
     end
 
     # Rather than listing out all the possible attributes as setters, we have a catchall
