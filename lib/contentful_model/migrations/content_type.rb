@@ -29,7 +29,7 @@ module ContentfulModel
           )
         else
           @management_content_type.fields = @fields
-          @management_content_type.displayField = display_field if display_field
+          @management_content_type.display_field = display_field if display_field
           @management_content_type.save
         end
 
