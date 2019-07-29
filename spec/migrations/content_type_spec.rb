@@ -79,14 +79,22 @@ describe ContentfulModel::Migrations::ContentType do
       end
     end
 
-    it '#remove_field' do
+    it '#remove_field and update fields' do
       mock_ct = Object.new
-      mock_fields = Object.new
+      remaining_field = Contentful::Management::Field.new
+      mock_fields = [
+        Contentful::Management::Field.new.tap { |f| f.id = 'foo' },
+        remaining_field
+      ]
+      allow(mock_ct).to receive(:id) { 'foo' }
+      allow(mock_ct).to receive(:fields) { mock_fields }
 
-      expect(mock_ct).to receive(:fields) { mock_fields }
       expect(mock_fields).to receive(:destroy).with('foo')
 
-      described_class.new(nil, mock_ct).remove_field('foo')
+      subject = described_class.new(nil, mock_ct)
+      subject.remove_field('foo')
+
+      expect(subject.fields).to contain_exactly(remaining_field)
     end
 
     describe '#id' do
