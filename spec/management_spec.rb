@@ -5,11 +5,19 @@ describe ContentfulModel::Management do
     ContentfulModel.configure do |c|
       c.management_token = 'foobar'
       c.options = {
+        timeout_connect: 2,
+        timeout_read: 5,
+        timeout_write: 19,
+
         management_api: {
-          timeout_read: 6
+          timeout_connect: 3,
+          timeout_read: 6,
+          timeout_write: 20
         },
         delivery_api: {
-          timeout_read: 7
+          timeout_connect: 4,
+          timeout_read: 7,
+          timeout_write: 21
         }
       }
     end
