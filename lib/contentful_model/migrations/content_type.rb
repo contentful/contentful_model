@@ -61,8 +61,8 @@ module ContentfulModel
       end
 
       def remove_field(field_id)
-        fields.reject! { |other| other.id == field_id }
         @management_content_type.fields.destroy(field_id)
+        @fields = fields_from_management_type
       end
 
       def new?
