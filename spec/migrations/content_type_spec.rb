@@ -81,20 +81,23 @@ describe ContentfulModel::Migrations::ContentType do
 
     it '#remove_field and update fields' do
       mock_ct = Object.new
-      remaining_field = Contentful::Management::Field.new
-      mock_fields = [
+      fields = [
         Contentful::Management::Field.new.tap { |f| f.id = 'foo' },
-        remaining_field
+        Contentful::Management::Field.new.tap { |f| f.id = 'bar' },
       ]
+      fields_from_management_type = [
+        Contentful::Management::Field.new.tap { |f| f.id = 'foo' }
+      ]
+      allow(mock_ct).to receive(:fields) { fields }
       allow(mock_ct).to receive(:id) { 'foo' }
-      allow(mock_ct).to receive(:fields) { mock_fields }
 
-      expect(mock_fields).to receive(:destroy).with('foo')
+      expect(fields).to receive(:destroy).with('foo')
 
       subject = described_class.new(nil, mock_ct)
+      allow(subject).to receive(:fields_from_management_type) { fields_from_management_type }
       subject.remove_field('foo')
 
-      expect(subject.fields).to contain_exactly(remaining_field)
+      expect(subject.fields).to eql fields_from_management_type
     end
 
     describe '#id' do
@@ -164,6 +167,21 @@ describe ContentfulModel::Migrations::ContentType do
         expect(items).to be_a(Contentful::Management::Field)
         expect(items.type).to eq('Link')
         expect(items.link_type).to eq('Asset')
+      end
+
+      it 'symbol array field' do
+        field = subject.field('foo', :symbol_array)
+
+        expect(field.id).to eq('foo')
+        expect(field.name).to eq('foo')
+        expect(field.type).to eq('Array')
+        expect(field.link_type).to eq(nil)
+
+        items = field.items
+
+        expect(items).to be_a(Contentful::Management::Field)
+        expect(items.type).to eq('Symbol')
+        expect(items.link_type).to eq(nil)
       end
 
       it 'rich_text field' do
