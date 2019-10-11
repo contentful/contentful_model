@@ -79,9 +79,7 @@ module ContentfulModel
     private
 
     def management_proxy
-      @management_proxy ||= self.class.management(
-        default_locale: locale
-      ).entries(
+      @management_proxy ||= self.class.management.entries(
         space.id,
         ContentfulModel.configuration.environment
       )
@@ -133,12 +131,7 @@ module ContentfulModel
     module ClassMethods
       def management(options = {})
         @management ||= ContentfulModel::Management.new(
-          options.merge(
-            default_locale: ContentfulModel.configuration.default_locale,
-            raise_errors: true,
-            integration_name: 'contentful_model',
-            integration_version: ::ContentfulModel::VERSION
-          )
+          options.merge(raise_errors: true)
         )
       end
 
