@@ -4,8 +4,8 @@ module ContentfulModel
     def initialize(options = {})
       # Apply management specific options (if any)
       options = ContentfulModel.configuration.to_hash.merge(options)
-      if config[:management_api]
-        options = config.merge(config[:management_api])
+      if options[:management_api]
+        options = options.merge(options[:management_api])
       end
 
       super(ContentfulModel.configuration.management_token, options)
