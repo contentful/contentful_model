@@ -61,7 +61,7 @@ describe ContentfulModel::Migrations::ContentType do
 
         it 'updates it' do
           expect(mock_ct).to receive(:fields=)
-          expect(mock_ct).not_to receive(:displayField=)
+          expect(mock_ct).not_to receive(:display_field=)
           expect(mock_ct).to receive(:save)
 
           described_class.new(nil, mock_ct).save
@@ -69,7 +69,7 @@ describe ContentfulModel::Migrations::ContentType do
 
         it 'updates display field' do
           expect(mock_ct).to receive(:fields=)
-          expect(mock_ct).to receive(:displayField=)
+          expect(mock_ct).to receive(:display_field=)
           expect(mock_ct).to receive(:save)
 
           ct = described_class.new(nil, mock_ct)
