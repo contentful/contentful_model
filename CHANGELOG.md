@@ -2,6 +2,20 @@
 
 ## Master
 
+## 1.2.0
+
+### Added
+
+* Added support for `Symbol Array` on migrations. [#129](https://github.com/contentful/contentful_model/pull/129)
+* Added the ability to set different configurations for CDA and CMA clients. [#135](https://github.com/contentful/contentful_model/pull/135)
+
+### Fixed
+
+* Use default configuration whenever creating a CMA client. [#130](https://github.com/contentful/contentful_model/pull/130)
+* Use `display_field` instead of `displayField` for Content Type migrations. [#132](https://github.com/contentful/contentful_model/pull/132)
+* Refresh fields after calling `#remove_field`, to avoid extra unnecessary calls. [#134](https://github.com/contentful/contentful_model/pull/134)
+
+
 ## 1.1.0
 
 ### Added
