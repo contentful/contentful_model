@@ -16,7 +16,7 @@ Note that this library doesn't allow you to save changes to your models back to 
 
 Configure ContentfulModel with a block. In a Rails app this is best done in an initializer:
 
-```
+```ruby
 ContentfulModel.configure do |config|
   config.access_token = "your access token in here" # Required
   config.preview_access_token = "your preview token in here" # Optional - required if you want to use the preview API
@@ -49,7 +49,7 @@ It is important to set the `default_locale` to match the one set in your Content
 
 Create a class which inherits from `ContentfulModel::Base`.
 
-```
+```ruby
 class Foo < ContentfulModel::Base
    self.content_type_id = "content type id for this model"
 end
@@ -57,7 +57,7 @@ end
 
 ContentfulModel takes care of setting instance variables for each field in your model. You can optionally coerce fields to the right format - for example dates:
 
-```
+```ruby
 class Foo < ContentfulModel::Base
    self.content_type_id = "content type id for this model"
 
@@ -105,14 +105,14 @@ Same as `each_page` but iterates through every entry. It automatically does pagi
 ### `find([id])`
 Returns the entry of the content type you've called, matching the id you passed into the `find()` method. _Does not_ require `load()`.
 
-```
+```ruby
 Foo.find("someidfromcontentful")
 ```
 
 ### `find_by([hash])`
 Accepts a hash of options to include in the search, as similar as possible to ActiveRecord version. __Note__ that this doesn't work (and will throw an error) on fields which need the full-text search. This needs fixing. Requires load() to be called at the end of the chain.
 
-```
+```ruby
 Foo.find_by(someField: [searchquery1, searchquery2], someOtherField: "bar").load
 ```
 
@@ -121,7 +121,7 @@ You'll see from the example above that it accepts an array of search terms which
 ### `params({object})`
 Includes the specified parameters in the Contentful API call.
 
-```
+```ruby
 Foo.all.params({"include" => 3}).load
 ```
 
@@ -131,7 +131,7 @@ Fetches the entries for a specific locale code, or all if `'*'` is sent.
 ### `load_children([integer])`
 Fetches nested links to the specified level.
 
-```
+```ruby
 Foo.load_children(3).load
 ```
 
@@ -157,7 +157,7 @@ Define a `has_one` relationship on a parent model, just like you would for Activ
 
 A simple example:
 
-```
+```ruby
 class Article < ContentfulModel::Base
     has_one :author #author is the name of the field in contentful
 end
@@ -165,7 +165,7 @@ end
 
 A more complex example, with a child model class that doesn't follow the name of the field on the parent.
 
-```
+```ruby
 class Page < ContentfulModel::Base
     has_one :template, class_name: "PageTemplate", inverse_of: :page #template is the name of the field in contentful
 end
@@ -185,7 +185,7 @@ Our Article class above has a child called Author. The author will probably belo
 
 (note: you could model this particular example the other way around)
 
-```
+```ruby
 class Author < ContentfulModel::Base
     belongs_to_many :articles
 end
@@ -203,7 +203,7 @@ In this example let's assume you have a Page content type, which has a field cal
 
 Here's how you'd set it up:
 
-```
+```ruby
 class Page < ContentfulModel::Base
     has_many_nested :child_pages
 end
@@ -230,7 +230,7 @@ From this, you can:
 #### Defining a root page
 You can pass an optional second parameter into `has_many_nested` which means the class knows how to find its root:
 
-```
+```ruby
 class Page < ContentfulModel::Base
     has_many_nested :child_pages, root: -> { Page.find("some_id").first }
 end
@@ -390,13 +390,13 @@ my_model.publish
 
 Assets are wrapped in a `ContentfulModel::Asset` class, which has shorthand methods for all of the Image API options.
 
-```
+```ruby
 url = my_asset.resize(10, 20).rounded_corners(30).png_8bit.thumbnail_focused_on('face').load
 ```
 
 You can also perform searches on assets.
 
-```
+```ruby
 assets = Asset.all('sys.updatedAt[gte]' => 2.days.ago)
 
 asset = Asset.find('asset_id')
