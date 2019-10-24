@@ -22,6 +22,10 @@ module ContentfulModel
         all.load
       end
 
+      def load!
+        all.load!
+      end
+
       def first
         query.first
       end

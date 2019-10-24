@@ -93,6 +93,22 @@ describe ContentfulModel::Query do
       end
     end
 
+    describe '#load!' do
+      it 'raises an error when response is empty' do
+        vcr('query/empty') {
+          expect { subject.load! }.to raise_error ContentfulModel::NotFoundError
+        }
+      end
+
+      it 'returns items when response is not empty' do
+        query = described_class.new(Cat, 'sys.id' => 'nyancat')
+        vcr('nyancat') {
+          entries = query.load!
+          expect(entries.first.id).to eq 'nyancat'
+        }
+      end
+    end
+
     describe '#discover_includes' do
       it 'defaults to 1 for a class without associations' do
         query = described_class.new(Cat)

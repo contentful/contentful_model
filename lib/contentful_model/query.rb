@@ -159,6 +159,10 @@ module ContentfulModel
     end
     alias load execute
 
+    def load!
+      load.presence || raise(NotFoundError)
+    end
+
     def client
       @client ||= @referenced_class.client
     end
