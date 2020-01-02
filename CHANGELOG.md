@@ -2,6 +2,12 @@
 
 ## Master
 
+## 1.3.0
+
+### Added
+
+* Added `#load!` method, which raises `ContentfulModel::NotFoundError` if result is empty or `nil`. [#138](https://github.com/contentful/contentful_model/pull/138)
+
 ## 1.2.0
 
 ### Added
