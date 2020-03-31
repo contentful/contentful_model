@@ -75,6 +75,8 @@ module ContentfulModel
         query.find_by(find_query)
       end
 
+      alias where find_by
+
       def search(parameters)
         query.search(parameters)
       end
