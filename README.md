@@ -259,7 +259,7 @@ end
 [<Contentful::Entry[article] id='1YyNsj0FcYuLEaxkvSW5s'>]
 ```
 
-You should eager-load the class ( in this example, `Article` ) by writing `add_entry_mapping`.
+You should eager-load the class (in this example, `Article`) by writing `add_entry_mapping`.
 
 ```ruby
 class Article < ContentfulModel::Base
@@ -273,7 +273,7 @@ If you prefer to do this automatically, just call `add_entry_mapping` for all de
 (This is what contentful_rails is doing under the hood.)
 
 ```ruby
-# Required if you are using contentful_model from Rails ( typically inside initializers )
+# Required if you are using contentful_model from Rails (typically inside initializers)
 # Remember calling this so that ContentfulModel::Base.descendents will not be empty
 Rails.application.eager_load!
 
