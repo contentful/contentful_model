@@ -175,7 +175,7 @@ end
 
 Provided you've properly set up `belongs_to_many` on the other end of the relationship, you'll have a utility method on the child model called `page()`. This is the entity *which loaded the child*. In most cases this is pretty useful.
 
-### `has_many`
+### `has_many`
 Using `has_many` is conceptually identical to `has_one`, instead of a single entity you'll receive an array.
 
 ### `belongs_to_many`
@@ -237,6 +237,50 @@ end
 ```
 
 Adding this second parameter defines a method called `root_page` on the class, so you can get the root easily. Your proc needs to return one object.
+
+### `add_entry_mapping` - required for eager-loading referenced classes
+
+(note: If you are using [contentful_rails](https://github.com/errorstudio/contentful_rails), it is automatically done by that gem.)
+
+You may find that your entries are not mapped to your class when using `has_one` / `has_many`.
+
+```ruby
+class Article < ContentfulModel::Base
+  self.content_type_id = 'article'
+end
+
+class Author < ContentfulModel::Base
+  self.content_type_id = 'author'
+  
+  has_many :articles, class_name: 'Article'
+end
+
+[1] pry(main)> Author.first.articles
+[<Contentful::Entry[article] id='1YyNsj0FcYuLEaxkvSW5s'>]
+```
+
+You should eager-load the class (in this example, `Article`) by writing `add_entry_mapping`.
+
+```ruby
+class Article < ContentfulModel::Base
+  self.content_type_id = 'article'
+end
+
+Article.add_entry_mapping
+```
+
+If you prefer to do this automatically, just call `add_entry_mapping` for all descendents of `ContentfulModel::Base`.
+(This is what contentful_rails is doing under the hood.)
+
+```ruby
+# Required if you are using contentful_model from Rails (typically inside initializers)
+# Remember calling this so that ContentfulModel::Base.descendents will not be empty
+Rails.application.eager_load!
+
+ContentfulModel::Base.descendents.each do |klass|
+  klass.send(:add_entry_mapping)
+end
+```
 
 ## Preview mode
 You might want to hit the preview API. Our [contentful_rails](https://github.com/errorstudio/contentful_rails) gem uses it, for example.
@@ -342,7 +386,7 @@ end
 
 If you've defined this in a class, any queries to the API will filter out entities which aren't valid. This applies to both relations (where you might get a collection), or searches.
 
-## Returning nil for fields which aren't defined
+## Returning nil for fields which aren't defined
 
 If an object is valid, but has content missing from a field, the Contentful API doesn't return the field. That means that you have to check manually for its existence to avoid raising a `NoMethodError`.
 
