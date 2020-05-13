@@ -58,17 +58,29 @@ module ContentfulModel
         self.class.return_nil_for_empty_attribute_fields.include?(name)
     end
 
+    def field_getter(name)
+      result = filter_invalids(
+        self.class.coerce_value(name, fields[name])
+      )
+
+      return nil if nillable?(name, result)
+
+      result
+    end
+
     def define_fields_methods
       fields.keys.each do |name|
         define_singleton_method name do
-          result = filter_invalids(
-            self.class.coerce_value(name, fields[name])
-          )
-
-          return nil if nillable?(name, result)
-
-          result
+          field_getter(name)
         end
+      end
+    end
+
+    def method_missing(name, *args, &block)
+      if content_type_field?(name) && fields.key?(name)
+        field_getter(name)
+      else
+        super
       end
     end
 

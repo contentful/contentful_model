@@ -106,11 +106,31 @@ module ContentfulModel
       end
     end
 
+    def field_setter(name, value)
+      @dirty = true
+      @changed_fields << name
+      fields[name] = value
+    end
+
     def define_setter(name)
       define_singleton_method "#{name.to_s.underscore}=" do |value|
-        @dirty = true
-        @changed_fields << name
-        fields[name] = value
+        field_setter(name, value)
+      end
+    end
+
+    def method_missing(name, *args, &block)
+      if (matches = name.match(/^(?<field>.*)=$/)) && content_type_field?(matches[:field].to_sym)
+        field_setter(matches[:field].to_sym, args[0])
+      else
+        super
+      end
+    end
+
+    def respond_to_missing?(name, include_private = false)
+      if matches = name.match(/^(?<field>.*)=$/)
+        content_type_field?(matches[:field].to_sym) || super
+      else
+        super
       end
     end
 
