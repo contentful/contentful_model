@@ -199,8 +199,8 @@ Using `belongs_to_many` gives you a couple of useful methods on the child. Using
 `belongs_to_many` utilizes a couple of parameters you can overwrite: `class_name`, and `page_size`.
 To pass additional query params you might otherwise use when calling the parent directly, you can pass them to the defined parent method provided with `belongs_to_many`
 
-As an example using the `Author` class above, you can call `author.articles(locale: 'fr')` to return the aticles in French, even if the author was not originally fetch in French.
-The default locale for returning parents is the locale the child was fetched in.
+As an example using the `Author` class above, you can call `author.articles(locale: 'fr')` to return the aticles in French, even if the author was not originally fetched in French.
+*Note - The default locale for returning parents is the locale the child was fetched in.*
 
 ### `has_many_nested` - using self-referential content types to create a tree
 This is a departure from the classic ActiveRecord syntax here, but pretty useful. There are probably situations where you want to have a content type which has children of the same type. For example, a [Error](http://www.errorstudio.co.uk) we often has a tree of pages for a website.
