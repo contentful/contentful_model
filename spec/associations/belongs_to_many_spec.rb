@@ -35,4 +35,13 @@ describe ContentfulModel::Associations::BelongsToMany do
       expect(child.parents.first.name).to eq 'BelongsToMany - Parent 1'
     }
   end
+
+  it 'accepts additional query parameters' do
+    vcr('association/belongs_to_many') {
+      child = BelongsToManyChild.locale('fr').first
+
+      expect(child.parents.locale).to eq 'fr'
+      expect(child.parents(locale: 'en-US').locale).to eq 'en-US'
+    }
+  end
 end

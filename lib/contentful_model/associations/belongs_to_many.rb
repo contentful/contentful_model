@@ -23,11 +23,10 @@ module ContentfulModel
         # @param association_names [Symbol] plural name of the class we need to search through, to find this class
         # @param opts [true, Hash] options
         def belongs_to_many(association_names, opts = {})
-          default_options = {
-            class_name: association_names.to_s.singularize.classify,
-            page_size: 100
+          query_args = {
+            class_name: opts.fetch(:class_name, association_names.to_s.singularize.classify),
+            page_size: opts.fetch(:page_size, 100),
           }
-          options = default_options.merge(opts)
 
           # Set up the association name for the instance which loaded this object
           # This is useful in situations where, primarily, it's a 1:* relationship (i.e. belongs_to)
@@ -51,11 +50,17 @@ module ContentfulModel
             instance_variable_get(:@loaded_with_parent) ? true : false
           end
 
-          define_method association_names do
+          define_method association_names do |additional_options = {}|
             parents = instance_variable_get(:"@#{association_names}")
+
             if parents.nil?
+              additional_query_options = {
+                links_to_entry: id,
+                locale: additional_options.fetch(:locale, locale),
+              }.merge(additional_options)
+
               parents = []
-              options[:class_name].constantize.send(:each_entry, options[:page_size], 'sys.updatedAt', links_to_entry: id) do |parent|
+              query_args[:class_name].constantize.send(:each_entry, query_args[:page_size], 'sys.updatedAt', additional_query_options) do |parent|
                 parents << parent
               end
 
