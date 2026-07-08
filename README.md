@@ -118,6 +118,9 @@ Foo.find_by(someField: [searchquery1, searchquery2], someOtherField: "bar").load
 
 You'll see from the example above that it accepts an array of search terms which will invoke an 'in' query.
 
+### `where([hash])`
+An alias for `find_by`.
+
 ### `params({object})`
 Includes the specified parameters in the Contentful API call.
 
