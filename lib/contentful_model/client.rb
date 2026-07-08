@@ -6,9 +6,9 @@ module ContentfulModel
     PREVIEW_API_URL = 'preview.contentful.com'.freeze
 
     def initialize(configuration)
-      configuration[:resource_mapping] = configuration.fetch(:resource_mapping, {}).merge(
+      configuration[:resource_mapping] = ({
         'Asset' => ContentfulModel::Asset
-      )
+      }).merge(configuration.fetch(:resource_mapping, {}))
 
       if ContentfulModel.use_preview_api
         configuration[:api_url] = PREVIEW_API_URL
