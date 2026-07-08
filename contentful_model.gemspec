@@ -18,7 +18,7 @@ Gem::Specification.new do |s|
   s.test_files = Dir['spec/**/*']
 
   s.add_dependency 'contentful', '~> 2.7'
-  s.add_dependency 'contentful-management', '~> 2.0'
+  s.add_dependency 'contentful-management', '~> 3.8'
 
   s.add_dependency 'redcarpet'
   s.add_dependency 'activesupport'
