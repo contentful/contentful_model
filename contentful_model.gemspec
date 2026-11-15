@@ -37,5 +37,5 @@ Gem::Specification.new do |s|
   s.add_development_dependency 'rubocop', '~> 0.49.0'
   # listen v3 requires ruby >= 2.2.7 which fails on travis with 2.2.0
   # so we need to stay on v2
-  s.add_development_dependency 'listen', '~> 2'
+  s.add_development_dependency 'listen', '~> 3'
 end
