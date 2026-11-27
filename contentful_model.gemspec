@@ -34,7 +34,7 @@ Gem::Specification.new do |s|
   s.add_development_dependency 'webmock', '>= 3.7.6'
   s.add_development_dependency 'tins', '~> 1.6.0'
   s.add_development_dependency 'simplecov'
-  s.add_development_dependency 'rubocop', '~> 0.49.0'
+  s.add_development_dependency 'rubocop', '~> 1.93.0'
   # listen v3 requires ruby >= 2.2.7 which fails on travis with 2.2.0
   # so we need to stay on v2
   s.add_development_dependency 'listen', '~> 2'
